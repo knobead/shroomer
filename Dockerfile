@@ -38,7 +38,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ###> recipes ###
 ###> doctrine/doctrine-bundle ###
-RUN install-php-extensions pdo_pgsql
+RUN install-php-extensions pdo pdo_mysql
 ###< doctrine/doctrine-bundle ###
 ###< recipes ###
 

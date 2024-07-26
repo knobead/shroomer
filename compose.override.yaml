@@ -19,12 +19,13 @@ services:
       # Ensure that host.docker.internal is correctly defined on Linux
       - host.docker.internal:host-gateway
     tty: true
-
+    depends_on:
+      - database
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
 
 ###> doctrine/doctrine-bundle ###
   database:
     ports:
-      - "5432"
+      - "3306"
 ###< doctrine/doctrine-bundle ###
