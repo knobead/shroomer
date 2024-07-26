@@ -47,7 +47,6 @@ jobs:
         run: curl -vk --fail-with-body https://localhost
       -
         name: Create test database
-        if: false # Remove this line if Doctrine ORM is installed
         run: docker compose exec -T php bin/console -e test doctrine:database:create
       -
         name: Run migrations
