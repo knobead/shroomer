@@ -47,18 +47,18 @@ jobs:
         run: curl -vk --fail-with-body https://localhost
       -
         name: Create test database
-        run: docker compose exec -T php bin/console -e test doctrine:database:create
+        run: |
+          docker compose exec -T php bin/console -e test doctrine:database:create
+          docker compose exec -T php bin/console -e test d:s:u -f
       -
         name: Run migrations
         if: false # Remove this line if Doctrine Migrations is installed
         run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
       -
         name: Run PHPUnit
-        if: false # Remove this line if PHPUnit is installed
         run: docker compose exec -T php bin/phpunit
       -
         name: Doctrine Schema Validator
-        if: false # Remove this line if Doctrine ORM is installed
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate
   lint:
     name: Docker Lint
