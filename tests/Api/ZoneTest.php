@@ -26,15 +26,45 @@ class ZoneTest extends WebTestCase
     public function testItDetailsAZone(): void
     {
         /** @var Zone $zone */
-        $zone = $this->fixturesRepository->getReference(ZoneFixtures::FIRST_GARDEN_REFERENCE, Zone::class);
+        $zone = $this->fixturesRepository->getReference(ZoneFixtures::FIRST_ZONE_REFERENCE, Zone::class);
         $this->client->xmlHttpRequest(Request::METHOD_GET, sprintf('/api/zones/%d', $zone->getId()));
 
         $response = $this->client->getResponse();
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
 
         $jsonResponse = json_decode($response->getContent(), true);
+
         self::assertArrayHasKey('name', $jsonResponse);
-        self::assertSame(ZoneFixtures::FIRST_GARDEN_REFERENCE, $jsonResponse['name']);
+        self::assertSame(ZoneFixtures::FIRST_ZONE_REFERENCE, $jsonResponse['name']);
+
+        self::assertArrayNotHasKey('myceliums', $jsonResponse, 'it must not exposed where mycelium is!');
+        self::assertArrayHasKey('sporocarps', $jsonResponse, 'it must not exposed where mycelium is!');
+
+        $sporocarps = $jsonResponse['sporocarps'];
+        self::assertCount(2, $sporocarps);
+
+        $firstSporocarp = $sporocarps[0];
+        $secondSporocarp = $sporocarps[1];
+        self::assertCount(9, $firstSporocarp);
+        self::assertArrayHasKey('id', $firstSporocarp);
+        self::assertArrayHasKey('name', $firstSporocarp);
+        self::assertArrayHasKey('age', $firstSporocarp);
+        self::assertArrayHasKey('size', $firstSporocarp);
+        self::assertArrayHasKey('wormy', $firstSporocarp);
+        self::assertArrayHasKey('eaten', $firstSporocarp);
+        self::assertArrayHasKey('rotten', $firstSporocarp);
+        self::assertSame(ZoneFixtures::FIRST_SPOROCARP_REFERENCE, $firstSporocarp['name']);
+        self::assertSame(15, $firstSporocarp['size']);
+        self::assertSame(10, $firstSporocarp['age']);
+        self::assertSame(false, $firstSporocarp['wormy']);
+        self::assertSame(false, $firstSporocarp['eaten']);
+        self::assertSame(false, $firstSporocarp['rotten']);
+        self::assertSame(ZoneFixtures::SECOND_SPOROCARP_REFERENCE, $secondSporocarp['name']);
+        self::assertSame(25, $secondSporocarp['size']);
+        self::assertSame(20, $secondSporocarp['age']);
+        self::assertSame(true, $secondSporocarp['wormy']);
+        self::assertSame(true, $secondSporocarp['eaten']);
+        self::assertSame(true, $secondSporocarp['rotten']);
     }
 
     public function testItListsZones(): void
