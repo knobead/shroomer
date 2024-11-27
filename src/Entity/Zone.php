@@ -30,10 +30,12 @@ class Zone
     #[Groups(Zone::class)]
     private string $name;
 
+    // all the sporocarp that can be found in the zone
     #[OneToMany(targetEntity: Sporocarp::class, mappedBy: 'zone')]
     #[Groups(Zone::class)]
     private Collection $sporocarps;
 
+    // all the mycelium that can be found in the zone
     #[OneToMany(targetEntity: Mycelium::class, mappedBy: 'zone')]
     private Collection $myceliums;
 
