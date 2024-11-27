@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -49,10 +50,17 @@ class Sporocarp
     #[Groups(Zone::class)]
     private bool $rotten = false;
 
+    // this is the specific species of the sporocarp
+    #[Column(name: "dikarya", type: Types::STRING, length: 20, nullable: false)]
+    #[Groups(Zone::class)]
+    private string $dikarya;
+
     #[ManyToOne(targetEntity: Zone::class, inversedBy: 'sporocarps')]
+    #[JoinColumn(nullable: false)]
     private Zone $zone;
 
     #[ManyToOne(targetEntity: Mycelium::class, inversedBy: 'sporocarps')]
+    #[JoinColumn(nullable: false)]
     private Mycelium $mycelium;
 
     /**
@@ -192,5 +200,15 @@ class Sporocarp
     public function setRotten(bool $rotten): void
     {
         $this->rotten = $rotten;
+    }
+
+    public function getDikarya(): string
+    {
+        return $this->dikarya;
+    }
+
+    public function setDikarya(string $dikarya): void
+    {
+        $this->dikarya = $dikarya;
     }
 }

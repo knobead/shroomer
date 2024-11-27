@@ -11,19 +11,20 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 
 #[Entity(repositoryClass: MyceliumRepository::class)]
 class Mycelium
 {
-    public const GENUS_AMANITA      ='amanita';
-    public const GENUS_BOLETUS      ='boletus';
-    public const GENUS_CANTHARELLUS ='cantharellus';
-    public const GENUS_LACTARIUS    ='lactarius';
-    public const GENUS_PLEUROTUS    ='pleurotus';
-    public const GENUS_RUSSULA      ='russula';
-    public const GENUS_XEROCOMUS    ='xerocomus';
+    public const string GENUS_AMANITA      ='amanita';
+    public const string GENUS_BOLETUS      ='boletus';
+    public const string GENUS_CANTHARELLUS ='cantharellus';
+    public const string GENUS_LACTARIUS    ='lactarius';
+    public const string GENUS_PLEUROTUS    ='pleurotus';
+    public const string GENUS_RUSSULA      ='russula';
+    public const string GENUS_XEROCOMUS    ='xerocomus';
 
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
@@ -33,7 +34,11 @@ class Mycelium
     #[Column(name: "name", type: Types::STRING, length: 255, nullable: false)]
     private string $name;
 
+    #[Column(name: "genus", type: Types::STRING, length: 20, nullable: false)]
+    private string $genus;
+
     #[ManyToOne(targetEntity: Zone::class, inversedBy: "myceliums")]
+    #[JoinColumn(nullable: false)]
     private Zone $zone;
 
     #[OneToMany(targetEntity: Sporocarp::class, mappedBy: 'mycelium')]
@@ -120,5 +125,15 @@ class Mycelium
         }
 
         $this->sporocarps[] = $sporocarp;
+    }
+
+    public function getGenus(): string
+    {
+        return $this->genus;
+    }
+
+    public function setGenus(string $genus): void
+    {
+        $this->genus = $genus;
     }
 }
