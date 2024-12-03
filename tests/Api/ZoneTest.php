@@ -23,6 +23,16 @@ class ZoneTest extends WebTestCase
         $this->loadFixture(new ZoneFixtures());
     }
 
+    public function testItDoesNotDelete()
+    {
+        /** @var Zone $zone */
+        $zone = $this->fixturesRepository->getReference(ZoneFixtures::FIRST_ZONE_REFERENCE, Zone::class);
+        $this->client->xmlHttpRequest(Request::METHOD_DELETE, sprintf('/api/zones/%d', $zone->getId()));
+
+        $response = $this->client->getResponse();
+        self::assertSame(Response::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
+    }
+
     public function testItDetailsAZone(): void
     {
         /** @var Zone $zone */
