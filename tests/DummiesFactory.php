@@ -6,10 +6,28 @@ namespace App\Tests;
 
 use App\Entity\Mycelium;
 use App\Entity\Sporocarp;
+use App\Entity\Weather;
 use App\Entity\Zone;
 
 final class DummiesFactory
 {
+    /**
+     * @param int $iteration
+     *
+     * @return Weather
+     */
+    public static function newWeather(int $iteration): Weather
+    {
+        $weather = new Weather();
+        $weather->setIteration($iteration);
+        $weather->setHumidity(0);
+        $weather->setMinTemperature(10);
+        $weather->setMaxTemperature(30);
+        $weather->setState(Weather::STATE_SUNNY);
+
+        return $weather;
+    }
+
     /**
      * @param string|null $name
      *
