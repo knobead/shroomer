@@ -43,15 +43,13 @@ final class DummiesFactory
 
     /**
      * @param Zone        $zone
-     * @param string|null $name
      *
      * @return Mycelium
      */
-    public static function newMycelium(Zone $zone, ?string $name): Mycelium
+    public static function newMycelium(Zone $zone): Mycelium
     {
         $mycelium = new Mycelium();
         $mycelium->setZone($zone);
-        $mycelium->setName($name ?? 'mycelium');
         $mycelium->setGenus(Mycelium::GENUS_BOLETUS);
 
         return $mycelium;

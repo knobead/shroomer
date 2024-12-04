@@ -12,14 +12,21 @@ use Symfony\Component\Messenger\MessageBusInterface;
 #[AsMessageHandler]
 class GenerateWeatherHandler
 {
-
     private ChainWeatherGenerator $generator;
 
+    /**
+     * @param ChainWeatherGenerator $generator
+     */
     public function __construct(ChainWeatherGenerator $generator)
     {
         $this->generator = $generator;
     }
 
+    /**
+     * @param GenerateWeatherMessage $generateWeatherMessage
+     *
+     * @return void
+     */
     public function __invoke(GenerateWeatherMessage $generateWeatherMessage): void
     {
         $state = Weather::STATES[rand(0, count(Weather::STATES)-1)];

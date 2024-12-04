@@ -28,13 +28,20 @@ class Mycelium
     public const string GENUS_RUSSULA      ='russula';
     public const string GENUS_XEROCOMUS    ='xerocomus';
 
+    public const array GENUSES =[
+        self::GENUS_AMANITA,
+        self::GENUS_BOLETUS,
+        self::GENUS_CANTHARELLUS,
+        self::GENUS_LACTARIUS,
+        self::GENUS_PLEUROTUS,
+        self::GENUS_RUSSULA,
+        self::GENUS_XEROCOMUS,
+    ];
+
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
     private ?int $id = null;
-
-    #[Column(name: "name", type: Types::STRING, length: 255, nullable: false)]
-    private string $name;
 
     #[Column(name: "genus", type: Types::STRING, length: 20, nullable: false)]
     private string $genus;
@@ -67,24 +74,6 @@ class Mycelium
     public function setId(?int $id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return void
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
     }
 
     /**

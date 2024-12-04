@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Generator\Message\GenerateEveryZonesMessage;
 use App\Generator\Message\GenerateWeatherMessage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -29,6 +30,8 @@ class GenerateIterationCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->messageBus->dispatch(new GenerateWeatherMessage());
+        $this->messageBus->dispatch(new GenerateEveryZonesMessage());
+
         return 0;
     }
 }
