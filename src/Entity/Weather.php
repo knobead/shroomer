@@ -28,6 +28,8 @@ class Weather
     public const string STATE_RAIN = 'rain';
     public const string STATE_STORM = 'storm';
 
+    public const array STATES = [self::STATE_SUNNY, self::STATE_CLOUDY, self::STATE_RAIN, self::STATE_STORM];
+
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
