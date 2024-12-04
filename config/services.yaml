@@ -19,3 +19,11 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    _instanceof:
+        App\Generator\Weather\WeatherGeneratorInterface:
+            tags: ['app.generator.weather_generator']
+
+
+    App\Generator\Weather\ChainWeatherGenerator:
+        arguments:
+            $generators: !tagged app.generator.weather_generator
