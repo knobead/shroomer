@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[Entity(repositoryClass: WeatherRepository::class)]
 #[ApiResource(
-    operations: [new GetCollection()],
+    operations: [new GetCollection(uriTemplate: 'weathers')],
     normalizationContext: ['groups' => [Weather::class]],
     provider: WeatherProvider::class
 )]

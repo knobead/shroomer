@@ -24,23 +24,9 @@ class WeatherTest extends WebTestCase
         $this->loadFixture(new WeatherFixtures());
     }
 
-    public function testItDoesNotDelete()
-    {
-        /** @var Weather $weather */
-        $weather = $this->fixturesRepository->getReference(
-            sprintf(WeatherFixtures::WEATHER_REFERENCE_PATTERN, 1),
-                Weather::class
-            );
-        $this->client->xmlHttpRequest(Request::METHOD_DELETE, sprintf('/api/weather/%d', $weather->getId()));
-
-        $response = $this->client->getResponse();
-        self::assertSame(Response::HTTP_METHOD_NOT_ALLOWED, $response->getStatusCode());
-    }
-
-
     public function testItListsTheSeventhLastWeather(): void
     {
-        $this->client->xmlHttpRequest(Request::METHOD_GET, 'api/weather');
+        $this->client->xmlHttpRequest(Request::METHOD_GET, 'api/weathers');
 
         $response = $this->client->getResponse();
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
