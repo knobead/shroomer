@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: ZoneRepository::class)]
 #[ApiResource(
-    operations: [new Get(), new GetCollection()],
+    operations: [new Get(uriTemplate: 'zone/{id}'), new GetCollection(uriTemplate: 'zones')],
     normalizationContext: ['groups' => [Zone::class]]
 )]
 class Zone
