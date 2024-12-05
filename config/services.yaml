@@ -24,8 +24,8 @@ services:
             tags: ['app.generator.weather_generator']
         App\Generator\Mycelium\ConditionBag\ConditionBagBuilderInterface:
             tags: ['app.generator.mycelium_condition_bag_builder']
-        App\Generator\Mycelium\ConditionResolver\ConditionResolverInterface:
-            tags: ['app.generator.condition_resolver']
+        App\ConditionResolver\ConditionResolverInterface:
+            tags: ['app.condition.condition_resolver']
 
     App\Generator\Weather\ChainWeatherGenerator:
         arguments:
@@ -35,6 +35,6 @@ services:
         arguments:
             $conditionBagBuilders: !tagged app.generator.mycelium_condition_bag_builder
             
-    App\Generator\Mycelium\ConditionResolver\ConditionResolver:
+    App\ConditionResolver\ConditionResolver:
         arguments:
-            $conditionResolvers: !tagged app.generator.condition_resolver
+            $conditionResolvers: !tagged app.condition.condition_resolver

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Generator\Handler;
 
+use App\ConditionResolver\ConditionResolver;
 use App\Entity\Mycelium;
 use App\Entity\Sporocarp;
 use App\Generator\Message\GenerateMyceliumMessage;
 use App\Generator\Mycelium\ConditionBag\ConditionBagBuilder;
-use App\Generator\Mycelium\ConditionResolver\ConditionResolver;
 use App\Repository\MyceliumRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;

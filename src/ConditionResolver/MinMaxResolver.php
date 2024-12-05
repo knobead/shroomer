@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Generator\Mycelium\ConditionResolver;
+namespace App\ConditionResolver;
 
+use App\Condition\AbstractCondition;
+use App\Condition\MinMaxTemperature;
 use App\Entity\Weather;
-use App\Generator\Mycelium\Condition\AbstractCondition;
-use App\Generator\Mycelium\Condition\MinMaxTemperature;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 

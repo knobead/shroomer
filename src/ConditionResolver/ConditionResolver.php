@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Generator\Mycelium\ConditionResolver;
+namespace App\ConditionResolver;
 
-use App\Generator\Mycelium\Condition\AbstractCondition;
+use App\Condition\AbstractCondition;
 use RuntimeException;
 
 class ConditionResolver

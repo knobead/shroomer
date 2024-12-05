@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Generator\Mycelium\ConditionBag;
 
+use App\Condition\MinMaxTemperature;
 use App\Entity\Mycelium;
-use App\Generator\Mycelium\Condition\MinMaxTemperature;
 
 class AmanitaConditionBagBuilder implements ConditionBagBuilderInterface
 {
