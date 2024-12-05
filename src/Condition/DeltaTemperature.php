@@ -5,21 +5,21 @@ namespace App\Condition;
 
 class DeltaTemperature extends AbstractCondition
 {
-    private int $delta;
+    private int $minimumDelta;
 
     /**
-     * @param int $delta
+     * @param int $minimumDelta Any minimum temperature of the iteration bellow this value will be refused
      */
-    public function __construct(int $delta)
+    public function __construct(int $minimumDelta)
     {
-        $this->delta = $delta;
+        $this->minimumDelta = $minimumDelta;
     }
 
     /**
      * @return int
      */
-    public function getDelta(): int
+    public function getMinimumDelta(): int
     {
-        return $this->delta;
+        return $this->minimumDelta;
     }
 }

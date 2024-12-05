@@ -11,8 +11,8 @@ class MinMaxTemperature extends AbstractCondition
     private ?int $maximumTemperature;
 
     /**
-     * @param int|null $minimumTemperature
-     * @param int|null $maximumTemperature
+     * @param int|null $minimumTemperature Any minimum temperature of the iteration bellow this value will be refused
+     * @param int|null $maximumTemperature Any maximum temperature of the iteration above this value will be refused
      */
     public function __construct(?int $minimumTemperature = null, ?int $maximumTemperature = null)
     {

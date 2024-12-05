@@ -6,11 +6,10 @@ namespace App\ConditionResolver;
 
 use App\Condition\AbstractCondition;
 use App\Condition\MinMaxTemperature;
-use App\Entity\Weather;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class MinMaxResolver implements ConditionResolverInterface
+class MinMaxTemperatureResolver implements ConditionResolverInterface
 {
     private WeatherRepository $weatherRepository;
 
@@ -37,25 +36,23 @@ class MinMaxResolver implements ConditionResolverInterface
      */
     public function resolve(AbstractCondition $abstractCondition): bool
     {
-        $currentWeather = $this->weatherRepository->findLastWeathers(1);
+        $weathers = $this->weatherRepository->findLastWeathers(1);
 
-        if (1 !== count($currentWeather)) {
+        if (1 !== count($weathers)) {
             throw new RuntimeException('no weather found');
         }
 
-        /** @var Weather $currentWeather */
-        $currentWeather = $currentWeather[0];
-
+        $weather = $weathers[0];
         $min = $abstractCondition->getMinimumTemperature();
         $max = $abstractCondition->getMaximumTemperature();
 
         if (null === $max) {
-            return $min <= $currentWeather->getMinTemperature();
+            return $min <= $weather->getMinTemperature();
         }
         if (null === $min) {
-            return $max >= $currentWeather->getMaxTemperature();
+            return $max >= $weather->getMaxTemperature();
         }
 
-        return $min <= $currentWeather->getMinTemperature() && $max >= $currentWeather->getMaxTemperature();
+        return $min <= $weather->getMinTemperature() && $max >= $weather->getMaxTemperature();
     }
 }
