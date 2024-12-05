@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Generator\Weather;
 
+use App\Generator\Mycelium\Condition\DeltaTemperature;
+use App\Generator\Mycelium\Condition\MinMaxTemperature;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 
@@ -12,6 +14,10 @@ class ChainWeatherGenerator
     private iterable $generators;
     private EntityManagerInterface $entityManager;
 
+    /**
+     * @param iterable               $generators
+     * @param EntityManagerInterface $entityManager
+     */
     public function __construct(iterable $generators, EntityManagerInterface $entityManager)
     {
         $this->generators = $generators;

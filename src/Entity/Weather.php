@@ -66,22 +66,6 @@ class Weather
     /**
      * @return mixed
      */
-    public function getIteration()
-    {
-        return $this->iteration;
-    }
-
-    /**
-     * @param mixed $iteration
-     */
-    public function setIteration($iteration): void
-    {
-        $this->iteration = $iteration;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getHumidity()
     {
         return $this->humidity;

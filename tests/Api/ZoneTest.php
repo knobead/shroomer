@@ -45,23 +45,20 @@ class ZoneTest extends WebTestCase
 
         $firstSporocarp = $sporocarps[0];
         $secondSporocarp = $sporocarps[1];
-        self::assertCount(10, $firstSporocarp);
+        self::assertCount(9, $firstSporocarp);
         self::assertArrayHasKey('id', $firstSporocarp);
-        self::assertArrayHasKey('name', $firstSporocarp);
         self::assertArrayHasKey('age', $firstSporocarp);
         self::assertArrayHasKey('size', $firstSporocarp);
         self::assertArrayHasKey('wormy', $firstSporocarp);
         self::assertArrayHasKey('eaten', $firstSporocarp);
         self::assertArrayHasKey('rotten', $firstSporocarp);
         self::assertArrayHasKey('dikarya', $firstSporocarp);
-        self::assertSame(ZoneFixtures::FIRST_SPOROCARP_REFERENCE, $firstSporocarp['name']);
         self::assertSame(15, $firstSporocarp['size']);
         self::assertSame(10, $firstSporocarp['age']);
         self::assertSame(false, $firstSporocarp['wormy']);
         self::assertSame(false, $firstSporocarp['eaten']);
         self::assertSame(false, $firstSporocarp['rotten']);
         self::assertSame('boletus edulis', $firstSporocarp['dikarya']);
-        self::assertSame(ZoneFixtures::SECOND_SPOROCARP_REFERENCE, $secondSporocarp['name']);
         self::assertSame(25, $secondSporocarp['size']);
         self::assertSame(20, $secondSporocarp['age']);
         self::assertSame(true, $secondSporocarp['wormy']);

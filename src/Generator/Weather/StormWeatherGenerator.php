@@ -8,11 +8,21 @@ use App\Entity\Weather;
 
 class StormWeatherGenerator implements WeatherGeneratorInterface
 {
+    /**
+     * @param string $type
+     *
+     * @return bool
+     */
     public function supports(string $type): bool
     {
         return Weather::STATE_STORM === $type;
     }
 
+    /**
+     * @param string $type
+     *
+     * @return Weather
+     */
     public function generate(string $type): Weather
     {
         $weather = new Weather();

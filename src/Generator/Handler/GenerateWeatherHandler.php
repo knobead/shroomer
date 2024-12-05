@@ -29,7 +29,32 @@ class GenerateWeatherHandler
      */
     public function __invoke(GenerateWeatherMessage $generateWeatherMessage): void
     {
-        $state = Weather::STATES[rand(0, count(Weather::STATES)-1)];
-        $this->generator->generate($state);
+        $this->generator->generate($this->generateState());
+    }
+
+    /**
+     * It generates a random weather state.
+     *
+     * Todo: This could be part of a seasonal behaviour.
+     *
+     * @return string
+     */
+    private function generateState(): string
+    {
+        $rand = rand(0, 100);
+
+        if ($rand >= 90) {
+            return Weather::STATE_STORM;
+        }
+
+        if ($rand >= 60) {
+            return Weather::STATE_RAIN;
+        }
+
+        if ($rand >= 40) {
+            return Weather::STATE_CLOUDY;
+        }
+
+        return Weather::STATE_SUNNY;
     }
 }

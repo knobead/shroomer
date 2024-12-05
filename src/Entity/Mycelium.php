@@ -23,18 +23,14 @@ class Mycelium
     public const string GENUS_AMANITA      ='amanita';
     public const string GENUS_BOLETUS      ='boletus';
     public const string GENUS_CANTHARELLUS ='cantharellus';
-    public const string GENUS_LACTARIUS    ='lactarius';
     public const string GENUS_PLEUROTUS    ='pleurotus';
-    public const string GENUS_RUSSULA      ='russula';
     public const string GENUS_XEROCOMUS    ='xerocomus';
 
     public const array GENUSES =[
         self::GENUS_AMANITA,
         self::GENUS_BOLETUS,
         self::GENUS_CANTHARELLUS,
-        self::GENUS_LACTARIUS,
         self::GENUS_PLEUROTUS,
-        self::GENUS_RUSSULA,
         self::GENUS_XEROCOMUS,
     ];
 
