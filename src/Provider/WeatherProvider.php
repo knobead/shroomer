@@ -35,6 +35,6 @@ class WeatherProvider implements ProviderInterface
             throw new NotExposedHttpException();
         }
 
-        return $this->weatherRepository->findLastSevenWeathers();
+        return $this->weatherRepository->findLastWeathers(7);
     }
 }

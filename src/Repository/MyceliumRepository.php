@@ -20,4 +20,17 @@ class MyceliumRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Mycelium::class);
     }
+
+    /**
+     * @param int $zoneId
+     *
+     * @return array
+     */
+    public function findByZoneId(int $zoneId): array
+    {
+        return $this->createQueryBuilder('mycelium')
+        ->where('mycelium.zone = :zoneId')
+        ->setParameter('zoneId', $zoneId)
+        ->getQuery()->getResult();
+    }
 }

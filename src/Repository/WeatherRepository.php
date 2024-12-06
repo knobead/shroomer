@@ -24,11 +24,11 @@ class WeatherRepository extends ServiceEntityRepository
     /**
      * @return Weather[]
      */
-    public function findLastSevenWeathers(): array
+    public function findLastWeathers(int $count): array
     {
         return $this->createQueryBuilder('weather')
-            ->orderBy('weather.iteration', 'desc')
-            ->setMaxResults(7)
+            ->orderBy('weather.id', 'desc')
+            ->setMaxResults($count)
             ->getQuery()
             ->getResult();
     }

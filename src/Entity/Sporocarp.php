@@ -23,10 +23,6 @@ class Sporocarp
     #[Groups(Zone::class)]
     private ?int $id = null;
 
-    #[Column(name: 'name', type: Types::STRING, length: 255, nullable: false)]
-    #[Groups(Zone::class)]
-    private string $name;
-
     // size in cm
     #[Column(name: 'size', type: Types::INTEGER, nullable: false)]
     #[Groups(Zone::class)]
@@ -81,25 +77,6 @@ class Sporocarp
     public function setId(?int $id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return string
-     *
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return void
-     */
-    public function setName(string $name): void
-    {
-        $this->name = $name;
     }
 
     /**

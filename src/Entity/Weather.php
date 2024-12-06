@@ -14,6 +14,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[Entity(repositoryClass: WeatherRepository::class)]
 #[ApiResource(
@@ -28,15 +29,14 @@ class Weather
     public const string STATE_RAIN = 'rain';
     public const string STATE_STORM = 'storm';
 
+    public const array STATES = [self::STATE_SUNNY, self::STATE_CLOUDY, self::STATE_RAIN, self::STATE_STORM];
+
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
-    private ?int $id = null;
-
-    // the iteration date as integer
-    #[Column(type: Types::INTEGER, nullable: false)]
     #[Groups(Weather::class)]
-    private int $iteration;
+    #[SerializedName('iteration')]
+    private ?int $id = null;
 
     // humidity percentage
     #[Column(type: Types::INTEGER, nullable: false)]
@@ -61,22 +61,6 @@ class Weather
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIteration()
-    {
-        return $this->iteration;
-    }
-
-    /**
-     * @param mixed $iteration
-     */
-    public function setIteration($iteration): void
-    {
-        $this->iteration = $iteration;
     }
 
     /**
