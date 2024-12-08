@@ -19,6 +19,22 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    _instanceof:
+        App\Generator\Weather\WeatherGeneratorInterface:
+            tags: ['app.generator.weather_generator']
+        App\Generator\Mycelium\ConditionBag\ConditionBagBuilderInterface:
+            tags: ['app.generator.mycelium_condition_bag_builder']
+        App\ConditionResolver\ConditionResolverInterface:
+            tags: ['app.condition.condition_resolver']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Generator\Weather\ChainWeatherGenerator:
+        arguments:
+            $generators: !tagged app.generator.weather_generator
+            
+    App\Generator\Mycelium\ConditionBag\ConditionBagBuilder:
+        arguments:
+            $conditionBagBuilders: !tagged app.generator.mycelium_condition_bag_builder
+            
+    App\ConditionResolver\ConditionResolver:
+        arguments:
+            $conditionResolvers: !tagged app.condition.condition_resolver

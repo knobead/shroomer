@@ -12,14 +12,11 @@ use App\Entity\Zone;
 final class DummiesFactory
 {
     /**
-     * @param int $iteration
-     *
      * @return Weather
      */
-    public static function newWeather(int $iteration): Weather
+    public static function newWeather(): Weather
     {
         $weather = new Weather();
-        $weather->setIteration($iteration);
         $weather->setHumidity(0);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
@@ -43,15 +40,13 @@ final class DummiesFactory
 
     /**
      * @param Zone        $zone
-     * @param string|null $name
      *
      * @return Mycelium
      */
-    public static function newMycelium(Zone $zone, ?string $name): Mycelium
+    public static function newMycelium(Zone $zone): Mycelium
     {
         $mycelium = new Mycelium();
         $mycelium->setZone($zone);
-        $mycelium->setName($name ?? 'mycelium');
         $mycelium->setGenus(Mycelium::GENUS_BOLETUS);
 
         return $mycelium;
@@ -68,7 +63,6 @@ final class DummiesFactory
         $sporocarp = new Sporocarp();
         $sporocarp->setMycelium($mycelium);
         $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus(), 'edulis'));
-        $sporocarp->setName($name ?? 'sporocarp');
         $sporocarp->setAge(1);
         $sporocarp->setSize(5);
         $sporocarp->setRotten(false);

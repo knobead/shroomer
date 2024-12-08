@@ -19,7 +19,7 @@ class WeatherFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         for ($i = 0; $i < 15; $i++) {
-            $weather = DummiesFactory::newWeather($i);
+            $weather = DummiesFactory::newWeather();
             $this->addReference(sprintf(self::WEATHER_REFERENCE_PATTERN, $i), $weather);
             $manager->persist($weather);
         }

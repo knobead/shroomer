@@ -44,7 +44,7 @@ class WeatherTest extends WebTestCase
         self::assertArrayHasKey('maxTemperature', $firstWeather);
         self::assertArrayHasKey('state', $firstWeather);
 
-        self::assertSame(14, $firstWeather['iteration']);
+        self::assertIsInt($firstWeather['iteration']);
         self::assertSame(100, $firstWeather['humidity']);
         self::assertSame(-10, $firstWeather['minTemperature']);
         self::assertSame(10, $firstWeather['maxTemperature']);
@@ -58,7 +58,7 @@ class WeatherTest extends WebTestCase
         self::assertArrayHasKey('maxTemperature', $lastWeather);
         self::assertArrayHasKey('state', $lastWeather);
 
-        self::assertSame(8, $lastWeather['iteration']);
+        self::assertIsInt($lastWeather['iteration']);
         self::assertSame(0, $lastWeather['humidity']);
         self::assertSame(10, $lastWeather['minTemperature']);
         self::assertSame(30, $lastWeather['maxTemperature']);
