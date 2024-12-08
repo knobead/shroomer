@@ -20,16 +20,19 @@ class WeatherResolverFixtures extends Fixture
         for ($i = 0; $i < 10; ++$i) {
             $weather = DummiesFactory::newWeather();
             $weather->setState(Weather::STATE_RAIN);
+            $weather->setHumidity(100);
             $manager->persist($weather);
         }
 
         $lastWeather = DummiesFactory::newWeather();
-        $lastWeather->setState(Weather::STATE_STORM);
+        $lastWeather->setState(Weather::STATE_CLOUDY);
+        $lastWeather->setHumidity(50);
         $manager->persist($lastWeather);
         $this->addReference(self::LAST_WEATHER_REFERENCE, $lastWeather);
 
         $currentWeather = DummiesFactory::newWeather();
         $currentWeather->setState(Weather::STATE_SUNNY);
+        $currentWeather->setHumidity(0);
         $manager->persist($currentWeather);
         $this->addReference(self::CURRENT_WEATHER_REFERENCE, $currentWeather);
 
