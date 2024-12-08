@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Condition;
 
-class CurrentWeather extends AbstractCondition
+class LastWeather extends AbstractCondition
 {
     private string $weather;
 

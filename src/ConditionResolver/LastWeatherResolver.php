@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\ConditionResolver;
 
 use App\Condition\AbstractCondition;
-use App\Condition\DeltaTemperature;
+use App\Condition\CurrentWeather;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class DeltaTemperatureResolver implements ConditionResolverInterface
+class LastWeatherResolver implements ConditionResolverInterface
 {
     private WeatherRepository $weatherRepository;
 
@@ -22,29 +22,30 @@ class DeltaTemperatureResolver implements ConditionResolverInterface
     }
 
     /**
-     * @inheritDoc
+     * @param AbstractCondition $abstractCondition
+     *
+     * @return bool
      */
     public function supports(AbstractCondition $abstractCondition): bool
     {
-        return $abstractCondition instanceof DeltaTemperature;
+        return $abstractCondition instanceof CurrentWeather;
     }
 
     /**
-     * @param DeltaTemperature $abstractCondition
+     * @param CurrentWeather $abstractCondition
      *
      * @return bool
      */
     public function resolve(AbstractCondition $abstractCondition): bool
     {
-        $weathers = $this->weatherRepository->findLastWeathers(1);
+        $weathers = $this->weatherRepository->findLastWeathers(count: 1, offset: 1);
 
         if (1 !== count($weathers)) {
             throw new RuntimeException('no weather found');
         }
 
         $weather = $weathers[0];
-        $currentDelta = $weather->getMaxTemperature() - $weather->getMinTemperature();
 
-        return $abstractCondition->getMinimumDelta() <= $currentDelta;
+        return $abstractCondition->getWeather() === $weather->getState();
     }
 }
