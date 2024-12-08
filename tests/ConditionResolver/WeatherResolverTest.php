@@ -70,6 +70,13 @@ class WeatherResolverTest extends KernelTestCase
         self::assertTrue($resolver->resolve($conditionOne), "it fail to validate average humidity");
     }
 
+    /**
+     * 20 humidity 2 iteration
+     * 40 humidity 3 iteration
+     * 70 humidity 7 iteration
+     *
+     * @return array[]
+     */
     public function provideItAcceptsValidAverageHumidity(): array
     {
         return [
@@ -94,6 +101,13 @@ class WeatherResolverTest extends KernelTestCase
         self::assertFalse($resolver->resolve($conditionOne), 'it fail to invalidate average humidity');
     }
 
+    /**
+     * 30 humidity 2 iteration
+     * 60 humidity 3 iteration
+     * 80 humidity 7 iteration
+     *
+     * @return array[]
+     */
     public function provideItRefusesInvalidAverageHumidity(): array
     {
         return [

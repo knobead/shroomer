@@ -61,15 +61,11 @@ class GenerateMyceliumHandler
 
         $conditions = $this->conditionBagBuilder->build($mycelium->getGenus());
 
-        var_dump('testing mycelium '.$mycelium->getGenus());
-
         foreach ($conditions as $condition) {
             if (!$this->conditionResolver->resolve($condition)) {
                 return;
             }
         }
-
-        var_dump('mushromm generation yea');
 
         $generatedSporocarpCount = rand(2, 4);
 
@@ -88,6 +84,5 @@ class GenerateMyceliumHandler
         }
 
         $this->entityManager->flush();
-        var_dump('mushroom flushed');
     }
 }

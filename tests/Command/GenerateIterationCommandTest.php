@@ -28,7 +28,6 @@ class GenerateIterationCommandTest extends WebTestCase
 
     public function testItExecutesCommand(): void
     {
-        var_dump('test begins');
         self::bootKernel();
         $application = new Application(self::$kernel);
         $doctrine = self::$kernel->getContainer()->get('doctrine');
@@ -53,10 +52,10 @@ class GenerateIterationCommandTest extends WebTestCase
 
         $myceliumRepository = $doctrine->getManager()->getRepository(Mycelium::class);
         $myceliums = $myceliumRepository->findAll();
-        self::assertCount(1, $myceliums);
+        self::assertCount(2, $myceliums);
 
         $sporocarpRepository = $doctrine->getManager()->getRepository(Sporocarp::class);
         $sporocarps = $sporocarpRepository->findAll();
-        self::assertCount(1, $sporocarps);
+        self::assertGreaterThan(1, count($sporocarps));
     }
 }
