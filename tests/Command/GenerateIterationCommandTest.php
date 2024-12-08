@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Entity\Mycelium;
+use App\Entity\Sporocarp;
 use App\Entity\Weather;
 use App\Entity\Zone;
 use App\Tests\FixtureLoaderCapableTrait;
@@ -27,6 +28,7 @@ class GenerateIterationCommandTest extends WebTestCase
 
     public function testItExecutesCommand(): void
     {
+        var_dump('test begins');
         self::bootKernel();
         $application = new Application(self::$kernel);
         $doctrine = self::$kernel->getContainer()->get('doctrine');
@@ -52,5 +54,9 @@ class GenerateIterationCommandTest extends WebTestCase
         $myceliumRepository = $doctrine->getManager()->getRepository(Mycelium::class);
         $myceliums = $myceliumRepository->findAll();
         self::assertCount(1, $myceliums);
+
+        $sporocarpRepository = $doctrine->getManager()->getRepository(Sporocarp::class);
+        $sporocarps = $sporocarpRepository->findAll();
+        self::assertCount(1, $sporocarps);
     }
 }

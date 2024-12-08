@@ -6,6 +6,7 @@ namespace App\ConditionResolver;
 
 use App\Condition\AbstractCondition;
 use App\Condition\CurrentWeather;
+use App\Condition\LastWeather;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
@@ -28,7 +29,7 @@ class LastWeatherResolver implements ConditionResolverInterface
      */
     public function supports(AbstractCondition $abstractCondition): bool
     {
-        return $abstractCondition instanceof CurrentWeather;
+        return $abstractCondition instanceof LastWeather;
     }
 
     /**
@@ -41,7 +42,7 @@ class LastWeatherResolver implements ConditionResolverInterface
         $weathers = $this->weatherRepository->findLastWeathers(count: 1, offset: 1);
 
         if (1 !== count($weathers)) {
-            throw new RuntimeException('no weather found');
+            return false;
         }
 
         $weather = $weathers[0];

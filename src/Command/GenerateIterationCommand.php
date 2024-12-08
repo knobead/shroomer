@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Generator\Message\GenerateEveryMyceliumsMessage;
 use App\Generator\Message\GenerateEveryZonesMessage;
 use App\Generator\Message\GenerateWeatherMessage;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -42,6 +43,7 @@ class GenerateIterationCommand extends Command
     {
         $this->messageBus->dispatch(new GenerateWeatherMessage());
         $this->messageBus->dispatch(new GenerateEveryZonesMessage());
+        $this->messageBus->dispatch(new GenerateEveryMyceliumsMessage());
 
         return 0;
     }
