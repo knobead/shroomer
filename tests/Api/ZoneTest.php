@@ -37,8 +37,9 @@ class ZoneTest extends WebTestCase
         self::assertArrayHasKey('name', $jsonResponse);
         self::assertSame(ZoneFixtures::FIRST_ZONE_REFERENCE, $jsonResponse['name']);
 
-        self::assertArrayNotHasKey('myceliums', $jsonResponse, 'it must not exposed where mycelium is!');
-        self::assertArrayHasKey('sporocarps', $jsonResponse, 'it must not exposed where mycelium is!');
+        self::assertArrayNotHasKey('myceliums', $jsonResponse, 'it must not exposed mycelium!');
+        self::assertArrayHasKey('sporocarps', $jsonResponse, 'it must exposed sporocarp');
+        self::assertArrayHasKey('trees', $jsonResponse, 'it must exposed tree');
 
         $sporocarps = $jsonResponse['sporocarps'];
         self::assertCount(2, $sporocarps);
@@ -65,6 +66,16 @@ class ZoneTest extends WebTestCase
         self::assertSame(true, $secondSporocarp['eaten']);
         self::assertSame(true, $secondSporocarp['rotten']);
         self::assertSame('boletus erythropus', $secondSporocarp['dikarya']);
+
+        $trees = $jsonResponse['trees'];
+        self::assertCount(1, $trees);
+
+        $firstTree = $trees[0];
+        self::assertCount(6, $firstTree);
+        self::assertArrayHasKey('id', $firstTree);
+        self::assertArrayHasKey('age', $firstTree);
+        self::assertArrayHasKey('size', $firstTree);
+        self::assertArrayHasKey('genus', $firstTree);
     }
 
     public function testItListsZones(): void
