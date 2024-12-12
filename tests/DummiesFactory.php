@@ -7,6 +7,7 @@ namespace App\Tests;
 use App\Entity\Mycelium;
 use App\Entity\Sporocarp;
 use App\Entity\Tree;
+use App\Entity\TreeGenusesEnum;
 use App\Entity\Weather;
 use App\Entity\Zone;
 
@@ -47,7 +48,7 @@ final class DummiesFactory
     public static function newTree(Zone $zone): Tree
     {
         $tree = new Tree();
-        $tree->setGenus(Tree::GENUS_FRAXINUS);
+        $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $tree->setAge(0);
         $tree->setSize(0);
         $tree->setZone($zone);

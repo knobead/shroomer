@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Post;
 use App\Repository\TreeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
@@ -13,22 +15,12 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\EqualTo;
 
 #[Entity(repositoryClass: TreeRepository::class)]
+#[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
 class Tree
 {
-    public const string GENUS_FRAXINUS      ='fraxinus';
-    public const string GENUS_CASTANEA      ='castanera';
-    public const string GENUS_QUERCUS      ='quercus';
-    public const string GENUS_PINUS      ='pinus';
-
-    public const array GENUSES =[
-        self::GENUS_FRAXINUS,
-        self::GENUS_CASTANEA,
-        self::GENUS_QUERCUS,
-        self::GENUS_PINUS,
-    ];
-
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
@@ -38,16 +30,18 @@ class Tree
     // size in cm
     #[Column(name: 'size', type: Types::INTEGER, nullable: false)]
     #[Groups(Zone::class)]
+    #[EqualTo(value: 0)]
     private int $size = 0;
 
     // age in day / iteration
     #[Column(name: 'age', type: Types::INTEGER, nullable: false)]
     #[Groups(Zone::class)]
+    #[EqualTo(value: 0)]
     private int $age = 0;
 
-    #[Column(name: "genus", type: Types::STRING, length: 20, nullable: false)]
+    #[Column(name: "genus", type: Types::STRING, nullable: false, enumType: TreeGenusesEnum::class)]
     #[Groups(Zone::class)]
-    private string $genus;
+    private TreeGenusesEnum $genus;
 
     #[ManyToOne(targetEntity: Zone::class, inversedBy: "trees")]
     #[JoinColumn(nullable: false)]
@@ -108,19 +102,19 @@ class Tree
     }
 
     /**
-     * @return string
+     * @return TreeGenusesEnum
      */
-    public function getGenus(): string
+    public function getGenus(): TreeGenusesEnum
     {
         return $this->genus;
     }
 
     /**
-     * @param string $genus
+     * @param TreeGenusesEnum $genus
      *
      * @return void
      */
-    public function setGenus(string $genus): void
+    public function setGenus(TreeGenusesEnum $genus): void
     {
         $this->genus = $genus;
     }
