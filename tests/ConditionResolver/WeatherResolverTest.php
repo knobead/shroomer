@@ -10,12 +10,8 @@ use App\Condition\LastWeather;
 use App\ConditionResolver\AverageHumidityResolver;
 use App\ConditionResolver\CurrentWeatherResolver;
 use App\ConditionResolver\LastWeatherResolver;
-use App\Entity\Weather;
 use App\Entity\WeatherStateEnum;
-use App\Repository\WeatherRepository;
-use App\Tests\DummiesFactory;
 use App\Tests\FixtureLoaderCapableTrait;
-use PHPUnit\Framework\TestCase;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class WeatherResolverTest extends KernelTestCase
