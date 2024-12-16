@@ -7,7 +7,7 @@ namespace App\Generator\Mycelium\ConditionBag;
 use App\Condition\CurrentWeather;
 use App\Condition\MinMaxTemperature;
 use App\Entity\MyceliumGenusEnum;
-use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 
 class XerocomusConditionBagBuilder implements ConditionBagBuilderInterface
 {
@@ -26,7 +26,7 @@ class XerocomusConditionBagBuilder implements ConditionBagBuilderInterface
     {
         return [
             new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 30),
-            new CurrentWeather(Weather::STATE_SUNNY),
+            new CurrentWeather(WeatherStateEnum::STATE_SUNNY),
         ];
     }
 }

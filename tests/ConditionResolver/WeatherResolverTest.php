@@ -11,6 +11,7 @@ use App\ConditionResolver\AverageHumidityResolver;
 use App\ConditionResolver\CurrentWeatherResolver;
 use App\ConditionResolver\LastWeatherResolver;
 use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use App\Repository\WeatherRepository;
 use App\Tests\DummiesFactory;
 use App\Tests\FixtureLoaderCapableTrait;
@@ -30,28 +31,28 @@ class WeatherResolverTest extends KernelTestCase
     public function testItAcceptsCurrentValidWeather(): void
     {
         $resolver = self::getContainer()->get(CurrentWeatherResolver::class);
-        $conditionOne = new CurrentWeather(Weather::STATE_SUNNY);
+        $conditionOne = new CurrentWeather(WeatherStateEnum::STATE_SUNNY);
         self::assertTrue($resolver->resolve($conditionOne), 'it fail to validate current weather');
     }
 
     public function testItRefusesInvalidCurrentWeather(): void
     {
         $resolver = self::getContainer()->get(CurrentWeatherResolver::class);
-        $conditionOne = new CurrentWeather(Weather::STATE_RAIN);
+        $conditionOne = new CurrentWeather(WeatherStateEnum::STATE_RAIN);
         self::assertFalse($resolver->resolve($conditionOne), 'it fail to invalidate current weather');
     }
 
     public function testItAcceptsLastValidWeather(): void
     {
         $resolver = self::getContainer()->get(LastWeatherResolver::class);
-        $conditionOne = new LastWeather(Weather::STATE_CLOUDY);
+        $conditionOne = new LastWeather(WeatherStateEnum::STATE_CLOUDY);
         self::assertTrue($resolver->resolve($conditionOne), 'it fail to validate last weather');
     }
 
     public function testItRefusesInvalidLastWeather(): void
     {
         $resolver = self::getContainer()->get(LastWeatherResolver::class);
-        $conditionOne = new LastWeather(Weather::STATE_STORM);
+        $conditionOne = new LastWeather(WeatherStateEnum::STATE_STORM);
         self::assertFalse($resolver->resolve($conditionOne), 'it fail to invalidate last weather');
     }
 

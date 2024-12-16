@@ -5,28 +5,29 @@ declare(strict_types=1);
 namespace App\Generator\Weather;
 
 use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 
 class SunnyWeatherGenerator implements WeatherGeneratorInterface
 {
     /**
-     * @param string $type
+     * @param WeatherStateEnum $state
      *
      * @return bool
      */
-    public function supports(string $type): bool
+    public function supports(WeatherStateEnum $state): bool
     {
-        return Weather::STATE_SUNNY === $type;
+        return WeatherStateEnum::STATE_SUNNY === $state;
     }
 
     /**
-     * @param string $type
+     * @param WeatherStateEnum $state
      *
      * @return Weather
      */
-    public function generate(string $type): Weather
+    public function generate(WeatherStateEnum $state): Weather
     {
         $weather = new Weather();
-        $weather->setState(Weather::STATE_SUNNY);
+        $weather->setState(WeatherStateEnum::STATE_SUNNY);
         $weather->setHumidity(0);
         $weather->setMaxTemperature(rand(15,25));
         $weather->setMinTemperature(rand(0,10));

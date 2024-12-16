@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
-use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -47,7 +47,7 @@ class WeatherTest extends WebTestCase
         self::assertSame(100, $firstWeather['humidity']);
         self::assertSame(-10, $firstWeather['minTemperature']);
         self::assertSame(10, $firstWeather['maxTemperature']);
-        self::assertSame(Weather::STATE_STORM, $firstWeather['state']);
+        self::assertSame(WeatherStateEnum::STATE_STORM->value, $firstWeather['state']);
 
         $lastWeather = $weather[6];
         self::assertCount(7, $lastWeather);
@@ -61,6 +61,6 @@ class WeatherTest extends WebTestCase
         self::assertSame(0, $lastWeather['humidity']);
         self::assertSame(10, $lastWeather['minTemperature']);
         self::assertSame(30, $lastWeather['maxTemperature']);
-        self::assertSame(Weather::STATE_SUNNY, $lastWeather['state']);
+        self::assertSame(WeatherStateEnum::STATE_SUNNY->value, $lastWeather['state']);
     }
 }

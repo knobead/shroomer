@@ -8,7 +8,7 @@ use App\Condition\CurrentWeather;
 use App\Condition\DeltaTemperature;
 use App\Condition\LastWeather;
 use App\Entity\MyceliumGenusEnum;
-use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 
 class BoletusConditionBagBuilder implements ConditionBagBuilderInterface
 {
@@ -26,8 +26,8 @@ class BoletusConditionBagBuilder implements ConditionBagBuilderInterface
     public function builds(): array
     {
         return [
-            new LastWeather(Weather::STATE_RAIN),
-            new CurrentWeather(Weather::STATE_SUNNY),
+            new LastWeather(WeatherStateEnum::STATE_RAIN),
+            new CurrentWeather(WeatherStateEnum::STATE_SUNNY),
             new DeltaTemperature(10),
         ];
     }

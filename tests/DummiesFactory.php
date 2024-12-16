@@ -10,6 +10,7 @@ use App\Entity\Sporocarp;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
 use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use App\Entity\Zone;
 
 final class DummiesFactory
@@ -23,7 +24,7 @@ final class DummiesFactory
         $weather->setHumidity(0);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
-        $weather->setState(Weather::STATE_SUNNY);
+        $weather->setState(WeatherStateEnum::STATE_SUNNY);
 
         return $weather;
     }
