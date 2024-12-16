@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Api;
+namespace App\Tests\Api;
 
 use App\Entity\Weather;
-use App\Tests\Api\WeatherFixtures;
 use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

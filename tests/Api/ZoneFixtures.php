@@ -16,6 +16,9 @@ class ZoneFixtures extends Fixture
     public const string FIRST_MYCELIUM_REFERENCE  = 'first_mycelium';
     public const string SECOND_MYCELIUM_REFERENCE = 'second_mycelium';
 
+    public const string FIRST_TREE_REFERENCE  = 'first_tree';
+    public const string SECOND_TREE_REFERENCE = 'second_tree';
+
     public const string FIRST_SPOROCARP_REFERENCE  = 'first_sporocarp';
     public const string SECOND_SPOROCARP_REFERENCE = 'second_sporocarp';
     public const string THIRD_SPOROCARP_REFERENCE  = 'third_sporocarp';
@@ -33,11 +36,19 @@ class ZoneFixtures extends Fixture
         $this->addReference(self::SECOND_ZONE_REFERENCE, $secondZone);
         $manager->persist($secondZone);
 
-        $firstMycelium = DummiesFactory::newMycelium($firstZone, self::FIRST_MYCELIUM_REFERENCE);
+        $firstTree = DummiesFactory::newTree($firstZone);
+        $this->addReference(self::FIRST_TREE_REFERENCE, $firstTree);
+        $manager->persist($firstTree);
+
+        $secondTree = DummiesFactory::newTree($secondZone);
+        $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
+        $manager->persist($secondTree);
+
+        $firstMycelium = DummiesFactory::newMycelium($firstZone);
         $this->addReference(self::FIRST_MYCELIUM_REFERENCE, $firstMycelium);
         $manager->persist($firstMycelium);
 
-        $secondMycelium = DummiesFactory::newMycelium($secondZone, self::SECOND_MYCELIUM_REFERENCE);
+        $secondMycelium = DummiesFactory::newMycelium($secondZone);
         $this->addReference(self::SECOND_MYCELIUM_REFERENCE, $secondMycelium);
         $manager->persist($secondMycelium);
 

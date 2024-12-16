@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: ZoneRepository::class)]
 #[ApiResource(
-    operations: [new Get(uriTemplate: 'zone/{id}'), new GetCollection(uriTemplate: 'zones')],
+    operations: [new Get(uriTemplate: 'zone/{id}', name: 'api_zone_get'), new GetCollection(uriTemplate: 'zones')],
     normalizationContext: ['groups' => [Zone::class]]
 )]
 class Zone
@@ -44,10 +44,16 @@ class Zone
     #[OneToMany(targetEntity: Mycelium::class, mappedBy: 'zone')]
     private Collection $myceliums;
 
+    // all the trees that can be found in the zone
+    #[OneToMany(targetEntity: Tree::class, mappedBy: 'zone')]
+    #[Groups(Zone::class)]
+    private Collection $trees;
+
     public function __construct()
     {
         $this->sporocarps = new ArrayCollection();
         $this->myceliums = new ArrayCollection();
+        $this->trees = new ArrayCollection();
     }
 
     /**
@@ -122,5 +128,29 @@ class Zone
         }
 
         $this->myceliums[] = $mycelium;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getTrees(): Collection
+    {
+        return $this->trees;
+    }
+
+    /**
+     * @param Tree $tree
+     *
+     * @return void
+     */
+    public function addTree(Tree $tree): void
+    {
+        foreach ($this->trees as $mycel) {
+            if ($mycel->getId() == $tree->getId()) {
+                return;
+            }
+        }
+
+        $this->trees[] = $tree;
     }
 }
