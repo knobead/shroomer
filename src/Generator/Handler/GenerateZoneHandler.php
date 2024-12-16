@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Generator\Handler;
 
 use App\Entity\Mycelium;
+use App\Entity\MyceliumGenusEnum;
 use App\Entity\Zone;
 use App\Generator\Message\GenerateZoneMessage;
 use App\Repository\MyceliumRepository;
 use App\Repository\ZoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Validator\DataCollector\ValidatorDataCollector;
 
 #[AsMessageHandler]
 class GenerateZoneHandler
@@ -53,8 +53,9 @@ class GenerateZoneHandler
         }
 
         $mycelium = new Mycelium();
+        $genuses = MyceliumGenusEnum::cases();
         $mycelium->setZone($zone);
-        $mycelium->setGenus(Mycelium::GENUSES[array_rand(Mycelium::GENUSES)]);
+        $mycelium->setGenus($genuses[array_rand($genuses)]);
         $this->entityManager->persist($mycelium);
         $this->entityManager->flush();
     }

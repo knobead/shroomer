@@ -20,27 +20,13 @@ use Doctrine\ORM\Mapping\OneToMany;
 #[Entity(repositoryClass: MyceliumRepository::class)]
 class Mycelium
 {
-    public const string GENUS_AMANITA      ='amanita';
-    public const string GENUS_BOLETUS      ='boletus';
-    public const string GENUS_CANTHARELLUS ='cantharellus';
-    public const string GENUS_PLEUROTUS    ='pleurotus';
-    public const string GENUS_XEROCOMUS    ='xerocomus';
-
-    public const array GENUSES =[
-        self::GENUS_AMANITA,
-        self::GENUS_BOLETUS,
-        self::GENUS_CANTHARELLUS,
-        self::GENUS_PLEUROTUS,
-        self::GENUS_XEROCOMUS,
-    ];
-
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
     private ?int $id = null;
 
-    #[Column(name: "genus", type: Types::STRING, length: 20, nullable: false)]
-    private string $genus;
+    #[Column(name: "genus", type: Types::STRING, nullable: false, enumType: MyceliumGenusEnum::class)]
+    private MyceliumGenusEnum $genus;
 
     #[ManyToOne(targetEntity: Zone::class, inversedBy: "myceliums")]
     #[JoinColumn(nullable: false)]
@@ -114,12 +100,20 @@ class Mycelium
         $this->sporocarps[] = $sporocarp;
     }
 
-    public function getGenus(): string
+    /**
+     * @return MyceliumGenusEnum
+     */
+    public function getGenus(): MyceliumGenusEnum
     {
         return $this->genus;
     }
 
-    public function setGenus(string $genus): void
+    /**
+     * @param MyceliumGenusEnum $genus
+     *
+     * @return void
+     */
+    public function setGenus(MyceliumGenusEnum $genus): void
     {
         $this->genus = $genus;
     }

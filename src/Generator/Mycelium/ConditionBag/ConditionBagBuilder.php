@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Generator\Mycelium\ConditionBag;
 
 use App\Condition\AbstractCondition;
+use App\Entity\MyceliumGenusEnum;
 use RuntimeException;
 
 class ConditionBagBuilder
@@ -17,11 +18,11 @@ class ConditionBagBuilder
 }
 
     /**
-     * @param string $type
+     * @param MyceliumGenusEnum $genus
      *
      * @return AbstractCondition[]
      */
-    public function build(string $type): array
+    public function build(MyceliumGenusEnum $genus): array
     {
         foreach ($this->conditionBagBuilders as $conditionBagBuilder) {
             if (!$conditionBagBuilder instanceof ConditionBagBuilderInterface) {
@@ -32,7 +33,7 @@ class ConditionBagBuilder
                 ));
             }
 
-            if ($conditionBagBuilder->supports($type)) {
+            if ($conditionBagBuilder->supports($genus)) {
                 return $conditionBagBuilder->builds();
             }
         }
@@ -40,7 +41,7 @@ class ConditionBagBuilder
         throw new RuntimeException(sprintf(
             'no %s found to support %s',
             ConditionBagBuilderInterface::class,
-            $type
+            $genus
         ));
     }
 }

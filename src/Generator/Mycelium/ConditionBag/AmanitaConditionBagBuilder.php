@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Generator\Mycelium\ConditionBag;
 
 use App\Condition\MinMaxTemperature;
-use App\Entity\Mycelium;
+use App\Entity\MyceliumGenusEnum;
 
 class AmanitaConditionBagBuilder implements ConditionBagBuilderInterface
 {
     /**
      * @inheritDoc
      */
-    public function supports(string $type): bool
+    public function supports(MyceliumGenusEnum $genus): bool
     {
-        return Mycelium::GENUS_AMANITA === $type;
+        return MyceliumGenusEnum::GENUS_AMANITA === $genus;
     }
 
     /**

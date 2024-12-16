@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Entity\Mycelium;
+use App\Entity\MyceliumGenusEnum;
 use App\Entity\Sporocarp;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
@@ -65,7 +66,7 @@ final class DummiesFactory
     {
         $mycelium = new Mycelium();
         $mycelium->setZone($zone);
-        $mycelium->setGenus(Mycelium::GENUS_BOLETUS);
+        $mycelium->setGenus(MyceliumGenusEnum::GENUS_BOLETUS);
 
         return $mycelium;
     }
@@ -80,7 +81,7 @@ final class DummiesFactory
     {
         $sporocarp = new Sporocarp();
         $sporocarp->setMycelium($mycelium);
-        $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus(), 'edulis'));
+        $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus()->value, 'edulis'));
         $sporocarp->setAge(1);
         $sporocarp->setSize(5);
         $sporocarp->setRotten(false);
