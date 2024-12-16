@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
-use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
 use App\Tests\DummiesFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;

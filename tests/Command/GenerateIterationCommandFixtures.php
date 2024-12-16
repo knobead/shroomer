@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
-use App\Entity\Mycelium;
-use App\Entity\Weather;
+use App\Entity\MyceliumGenusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Tests\DummiesFactory;
@@ -24,7 +23,7 @@ class GenerateIterationCommandFixtures extends Fixture
         $manager->persist($zone);
 
         $mycelium = DummiesFactory::newMycelium($zone);
-        $mycelium->setGenus(Mycelium::GENUS_PLEUROTUS);
+        $mycelium->setGenus(MyceliumGenusEnum::GENUS_PLEUROTUS);
         $manager->persist($mycelium);
 
         $manager->flush();

@@ -2,12 +2,10 @@
 
 namespace App\Generator\Handler;
 
-use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use App\Generator\Message\GenerateWeatherMessage;
 use App\Generator\Weather\ChainWeatherGenerator;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
 class GenerateWeatherHandler
@@ -37,24 +35,24 @@ class GenerateWeatherHandler
      *
      * Todo: This could be part of a seasonal behaviour.
      *
-     * @return string
+     * @return WeatherStateEnum
      */
-    private function generateState(): string
+    private function generateState(): WeatherStateEnum
     {
         $rand = rand(0, 100);
 
         if ($rand >= 90) {
-            return Weather::STATE_STORM;
+            return WeatherStateEnum::STATE_STORM;
         }
 
         if ($rand >= 60) {
-            return Weather::STATE_RAIN;
+            return WeatherStateEnum::STATE_RAIN;
         }
 
         if ($rand >= 40) {
-            return Weather::STATE_CLOUDY;
+            return WeatherStateEnum::STATE_CLOUDY;
         }
 
-        return Weather::STATE_SUNNY;
+        return WeatherStateEnum::STATE_SUNNY;
     }
 }

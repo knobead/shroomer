@@ -73,7 +73,7 @@ class GenerateMyceliumHandler
             $sporocarp = new Sporocarp();
             $sporocarp->setMycelium($mycelium);
             $sporocarp->setZone($mycelium->getZone());
-            $sporocarp->setDikarya($mycelium->getGenus());
+            $sporocarp->setDikarya($mycelium->getGenus()->value);
             $sporocarp->setWormy(false);
             $sporocarp->setEaten(false);
             $sporocarp->setRotten(false);

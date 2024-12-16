@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Entity\Mycelium;
+use App\Entity\MyceliumGenusEnum;
 use App\Entity\Sporocarp;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
 use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use App\Entity\Zone;
 
 final class DummiesFactory
@@ -22,7 +24,7 @@ final class DummiesFactory
         $weather->setHumidity(0);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
-        $weather->setState(Weather::STATE_SUNNY);
+        $weather->setState(WeatherStateEnum::STATE_SUNNY);
 
         return $weather;
     }
@@ -65,7 +67,7 @@ final class DummiesFactory
     {
         $mycelium = new Mycelium();
         $mycelium->setZone($zone);
-        $mycelium->setGenus(Mycelium::GENUS_BOLETUS);
+        $mycelium->setGenus(MyceliumGenusEnum::GENUS_BOLETUS);
 
         return $mycelium;
     }
@@ -80,7 +82,7 @@ final class DummiesFactory
     {
         $sporocarp = new Sporocarp();
         $sporocarp->setMycelium($mycelium);
-        $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus(), 'edulis'));
+        $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus()->value, 'edulis'));
         $sporocarp->setAge(1);
         $sporocarp->setSize(5);
         $sporocarp->setRotten(false);

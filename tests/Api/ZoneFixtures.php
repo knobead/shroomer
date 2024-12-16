@@ -61,7 +61,7 @@ class ZoneFixtures extends Fixture
 
         $secondSporocarp = DummiesFactory::newSporocarp($firstMycelium, self::SECOND_SPOROCARP_REFERENCE);
         $secondSporocarp->setZone($firstZone);
-        $secondSporocarp->setDikarya(sprintf('%s %s', $firstMycelium->getGenus(), 'erythropus'));
+        $secondSporocarp->setDikarya(sprintf('%s %s', $firstMycelium->getGenus()->value, 'erythropus'));
         $secondSporocarp->setAge(20);
         $secondSporocarp->setSize(25);
         $secondSporocarp->setEaten(true);
