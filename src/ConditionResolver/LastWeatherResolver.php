@@ -8,7 +8,6 @@ use App\Condition\AbstractCondition;
 use App\Condition\CurrentWeather;
 use App\Condition\LastWeather;
 use App\Repository\WeatherRepository;
-use RuntimeException;
 
 class LastWeatherResolver implements ConditionResolverInterface
 {

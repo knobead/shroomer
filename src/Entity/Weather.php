@@ -24,13 +24,6 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
 )]
 class Weather
 {
-    public const string STATE_SUNNY = 'sunny';
-    public const string STATE_CLOUDY = 'cloudy';
-    public const string STATE_RAIN = 'rain';
-    public const string STATE_STORM = 'storm';
-
-    public const array STATES = [self::STATE_SUNNY, self::STATE_CLOUDY, self::STATE_RAIN, self::STATE_STORM];
-
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
@@ -53,76 +46,86 @@ class Weather
     #[Groups(Weather::class)]
     private int $minTemperature;
 
-    // weather state (sunny, cloudy, rain, storm)
-    #[Column(type: Types::STRING, nullable: false)]
+    #[Column(type: Types::STRING, nullable: false, enumType: WeatherStateEnum::class)]
     #[Groups(Weather::class)]
-    private string $state;
+    private WeatherStateEnum $state;
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getHumidity()
+    public function getHumidity(): int
     {
         return $this->humidity;
     }
 
     /**
-     * @param mixed $humidity
+     * @param int $humidity
+     *
+     * @return void
      */
-    public function setHumidity($humidity): void
+    public function setHumidity(int $humidity): void
     {
         $this->humidity = $humidity;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getMaxTemperature()
+    public function getMaxTemperature(): int
     {
         return $this->maxTemperature;
     }
 
     /**
-     * @param mixed $maxTemperature
+     * @param int $maxTemperature
+     *
+     * @return void
      */
-    public function setMaxTemperature($maxTemperature): void
+    public function setMaxTemperature(int $maxTemperature): void
     {
         $this->maxTemperature = $maxTemperature;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getMinTemperature()
+    public function getMinTemperature(): int
     {
         return $this->minTemperature;
     }
 
     /**
-     * @param mixed $minTemperature
+     * @param int $minTemperature
+     *
+     * @return void
      */
-    public function setMinTemperature($minTemperature): void
+    public function setMinTemperature(int $minTemperature): void
     {
         $this->minTemperature = $minTemperature;
     }
 
     /**
-     * @return mixed
+     * @return WeatherStateEnum
      */
-    public function getState()
+    public function getState(): WeatherStateEnum
     {
         return $this->state;
     }
 
     /**
-     * @param mixed $state
+     * @param WeatherStateEnum $state
+     *
+     * @return void
      */
-    public function setState($state): void
+    public function setState(WeatherStateEnum $state): void
     {
         $this->state = $state;
     }

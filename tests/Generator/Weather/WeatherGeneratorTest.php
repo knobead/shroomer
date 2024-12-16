@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Generator\Weather;
 
-use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use App\Generator\Weather\ChainWeatherGenerator;
 use App\Generator\Weather\WeatherGeneratorInterface;
 use App\Repository\WeatherRepository;
@@ -15,11 +15,12 @@ class WeatherGeneratorTest extends KernelTestCase
     /**
      * @dataProvider provideItGeneratesSunnyWeather
      *
-     * @param string $type
+     * @param WeatherStateEnum $type
+     * @param int    $humidity
      *
      * @return void
      */
-    public function testItGeneratesWeathers(string $type, int $humidity): void
+    public function testItGeneratesWeathers(WeatherStateEnum $type, int $humidity): void
     {
         self::bootKernel();
         /** @var WeatherGeneratorInterface $generator */
@@ -35,8 +36,16 @@ class WeatherGeneratorTest extends KernelTestCase
         self::assertSame($humidity, $weather->getHumidity());
     }
 
+    /**
+     * @return array[]
+     */
     private function provideItGeneratesSunnyWeather(): array
     {
-        return [[Weather::STATE_SUNNY, 0], [Weather::STATE_RAIN, 100], [Weather::STATE_STORM, 100], [Weather::STATE_CLOUDY, 50]];
+        return [
+            [WeatherStateEnum::STATE_SUNNY, 0],
+            [WeatherStateEnum::STATE_RAIN, 100],
+            [WeatherStateEnum::STATE_STORM, 100],
+            [WeatherStateEnum::STATE_CLOUDY, 50]
+        ];
     }
 }

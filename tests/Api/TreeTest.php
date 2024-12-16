@@ -6,7 +6,6 @@ namespace App\Tests\Api;
 
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
-use App\Entity\Weather;
 use App\Entity\Zone;
 use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

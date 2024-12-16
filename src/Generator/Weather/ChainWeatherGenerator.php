@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Generator\Weather;
 
+use App\Entity\WeatherStateEnum;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 
@@ -25,11 +26,11 @@ class ChainWeatherGenerator
     /**
      * It must generate a weather and persist it in database.
      *
-     * @param string $type
+     * @param WeatherStateEnum $type
      *
      * @return void
      */
-    public function generate(string $type): void
+    public function generate(WeatherStateEnum $type): void
     {
         $weather = $this->getGenerator($type)->generate($type);
         $this->entityManager->persist($weather);
@@ -39,11 +40,11 @@ class ChainWeatherGenerator
     /**
      * It returns the correct generator.
      *
-     * @param string $type
+     * @param WeatherStateEnum $type
      *
      * @return WeatherGeneratorInterface
      */
-    private function getGenerator(string $type): WeatherGeneratorInterface
+    private function getGenerator(WeatherStateEnum $type): WeatherGeneratorInterface
     {
         foreach ($this->generators as $generator) {
             if ($generator->supports($type)) {
@@ -54,7 +55,7 @@ class ChainWeatherGenerator
         throw new RuntimeException(sprintf(
             'No %s found to support "%s"',
             WeatherGeneratorInterface::class,
-            $type
+            $type->value
         ));
     }
 }

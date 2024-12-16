@@ -6,17 +6,17 @@ namespace App\Generator\Mycelium\ConditionBag;
 
 use App\Condition\CurrentWeather;
 use App\Condition\MinMaxTemperature;
-use App\Entity\Mycelium;
-use App\Entity\Weather;
+use App\Entity\MyceliumGenusEnum;
+use App\Entity\WeatherStateEnum;
 
 class XerocomusConditionBagBuilder implements ConditionBagBuilderInterface
 {
     /**
      * @inheritDoc
      */
-    public function supports(string $type): bool
+    public function supports(MyceliumGenusEnum $genus): bool
     {
-        return Mycelium::GENUS_XEROCOMUS === $type;
+        return MyceliumGenusEnum::GENUS_XEROCOMUS === $genus;
     }
 
     /**
@@ -26,7 +26,7 @@ class XerocomusConditionBagBuilder implements ConditionBagBuilderInterface
     {
         return [
             new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 30),
-            new CurrentWeather(Weather::STATE_SUNNY),
+            new CurrentWeather(WeatherStateEnum::STATE_SUNNY),
         ];
     }
 }

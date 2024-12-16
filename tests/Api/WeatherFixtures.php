@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
-use App\Entity\Weather;
+use App\Entity\WeatherStateEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Tests\DummiesFactory;
@@ -27,7 +27,7 @@ class WeatherFixtures extends Fixture
         $weather->setHumidity(100);
         $weather->setMinTemperature(-10);
         $weather->setMaxTemperature(10);
-        $weather->setState(Weather::STATE_STORM);
+        $weather->setState(WeatherStateEnum::STATE_STORM);
 
         $manager->flush();
     }
