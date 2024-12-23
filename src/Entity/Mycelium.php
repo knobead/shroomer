@@ -31,6 +31,10 @@ class Mycelium
     #[JoinColumn(nullable: false)]
     private Zone $zone;
 
+    #[ManyToOne(targetEntity: Tree::class, inversedBy: "myceliums")]
+    #[JoinColumn(nullable: false)]
+    private Tree $tree;
+
     #[OneToMany(targetEntity: Sporocarp::class, mappedBy: 'mycelium')]
     private Collection $sporocarps;
 
@@ -115,5 +119,23 @@ class Mycelium
     public function setGenus(MyceliumGenusEnum $genus): void
     {
         $this->genus = $genus;
+    }
+
+    /**
+     * @return Tree
+     */
+    public function getTree(): Tree
+    {
+        return $this->tree;
+    }
+
+    /**
+     * @param Tree $tree
+     *
+     * @return void
+     */
+    public function setTree(Tree $tree): void
+    {
+        $this->tree = $tree;
     }
 }

@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace App\Generator\Handler;
 
-use App\Entity\Weather;
-use App\Generator\Message\GenerateWeatherMessage;
 use App\Generator\Message\GenerateEveryMyceliumsMessage;
 use App\Generator\Message\GenerateMyceliumMessage;
-use App\Generator\Weather\ChainWeatherGenerator;
 use App\Repository\MyceliumRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;

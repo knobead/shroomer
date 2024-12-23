@@ -17,8 +17,9 @@ interface ConditionResolverInterface
 
     /**
      * @param AbstractCondition $abstractCondition
+     * @param array             $context
      *
      * @return bool
      */
-    public function resolve(AbstractCondition $abstractCondition): bool;
+    public function resolve(AbstractCondition $abstractCondition, array $context): bool;
 }

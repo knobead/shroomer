@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints\EqualTo;
 
 #[Entity(repositoryClass: TreeRepository::class)]
 #[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
-class Tree
+class Tree implements DatableInterface
 {
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]

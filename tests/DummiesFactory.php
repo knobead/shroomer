@@ -59,14 +59,16 @@ final class DummiesFactory
     }
 
     /**
-     * @param Zone        $zone
+     *
+     * @param Tree $tree
      *
      * @return Mycelium
      */
-    public static function newMycelium(Zone $zone): Mycelium
+    public static function newMycelium(Tree $tree): Mycelium
     {
         $mycelium = new Mycelium();
-        $mycelium->setZone($zone);
+        $mycelium->setTree($tree);
+        $mycelium->setZone($tree->getZone());
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_BOLETUS);
 
         return $mycelium;

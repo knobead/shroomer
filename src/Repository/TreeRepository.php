@@ -17,22 +17,26 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TreeRepository extends ServiceEntityRepository
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Tree::class);
     }
 
     /**
-     * @param Zone $zone
+     * @param int $zoneId
      *
      * @return Tree[]
      */
-    public function findWithMyceliumsByZone(Zone $zone): array
+    public function findWithMyceliumsByZoneId(int $zoneId): array
     {
         return $this->createQueryBuilder('tree')
-            ->select('tree')
-            ->addSelect('mycelium')
             ->join('tree.myceliums', 'mycelium')
+            ->join('tree.zone', 'zone')
+            ->where('zone.id = :zone')
+            ->setParameter('zone', $zoneId)
             ->getQuery()
             ->getResult();
     }
