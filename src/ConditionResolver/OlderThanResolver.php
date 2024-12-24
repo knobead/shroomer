@@ -29,7 +29,7 @@ class OlderThanResolver implements ConditionResolverInterface
      * @throws InvalidContextException
      * @inheritDoc
      */
-    public function resolve(AbstractCondition $abstractCondition, array $context): bool
+    public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
         if (!array_key_exists($key = 'datable', $context)) {
             throw new InvalidContextException($key, DatableInterface::class);

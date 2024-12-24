@@ -35,7 +35,7 @@ class DeltaTemperatureResolver implements ConditionResolverInterface
      *
      * @return bool
      */
-    public function resolve(AbstractCondition $abstractCondition, array $context): bool
+    public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
         $weathers = $this->weatherRepository->findLastWeathers(1);
 
