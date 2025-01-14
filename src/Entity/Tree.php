@@ -24,6 +24,8 @@ use Symfony\Component\Validator\Constraints\EqualTo;
 #[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
 class Tree implements DatableInterface
 {
+    public const int ITERATION_FOR_ONE_MYCELIUM = 50;
+
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]

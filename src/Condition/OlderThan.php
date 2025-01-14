@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace App\Condition;
 
+/**
+ * unused, may remove
+ */
 class OlderThan extends AbstractCondition
 {
     private int $age;

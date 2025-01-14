@@ -8,8 +8,6 @@ use App\Condition\OlderThan;
 use App\ConditionResolver\OlderThanResolver;
 use App\Entity\Tree;
 use App\Exception\InvalidContextException;
-use PHPUnit\Framework\TestCase;
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class OlderThanResolverTest extends KernelTestCase
