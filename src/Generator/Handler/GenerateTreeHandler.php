@@ -38,7 +38,6 @@ class GenerateTreeHandler
     {
         $tree = $this->treeRepository->find($generateTreeMessage->getTreeId());
 
-
         if (!$tree instanceof Tree) {
             throw new RuntimeException('Tree not found');
         }
@@ -53,12 +52,10 @@ class GenerateTreeHandler
         $myceliumsCount = count($myceliums);
 
         if (0 === count($availableMyceliums)) {
-            echo "return 1";
             return;
         }
 
         if (0 >= $myceliumsSlot - $myceliumsCount) {
-            echo "return 1";
             return;
         }
 

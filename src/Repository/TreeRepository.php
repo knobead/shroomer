@@ -24,20 +24,4 @@ class TreeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Tree::class);
     }
-
-    /**
-     * @param int $zoneId
-     *
-     * @return Tree[]
-     */
-    public function findWithMyceliumsByZoneId(int $zoneId): array
-    {
-        return $this->createQueryBuilder('tree')
-            ->join('tree.myceliums', 'mycelium')
-            ->join('tree.zone', 'zone')
-            ->where('zone.id = :zone')
-            ->setParameter('zone', $zoneId)
-            ->getQuery()
-            ->getResult();
-    }
 }

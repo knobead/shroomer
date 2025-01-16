@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Generator\Tree;
 
+use App\Entity\MyceliumGenusEnum;
 use App\Entity\Tree;
 use App\Generator\Handler\GenerateTreeHandler;
 use App\Generator\Message\GenerateTreeMessage;
@@ -33,5 +34,6 @@ class TreeGeneratorTest extends WebTestCase
 
         self::assertSame(56, $tree->getAge());
         self::assertCount(1, $myceliums);
+        self::assertSame(MyceliumGenusEnum::GENUS_MORCHELLA, $myceliums[0]->getGenus());
     }
 }

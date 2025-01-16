@@ -21,7 +21,7 @@ class ZoneGeneratorFixtures extends Fixture
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
-        // age > 100, genus fraxinus, it must add a morcella mycelium to this tree
+        // age > 50, genus fraxinus, it must add a morcella mycelium to this tree
         $tree = DummiesFactory::newTree($zone);
         $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $tree->setAge(200);

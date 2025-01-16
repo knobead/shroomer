@@ -36,7 +36,7 @@ class GenerateZoneHandler
      */
     public function __invoke(GenerateZoneMessage $generateZoneMessage): void
     {
-        $trees = $this->treeRepository->findWithMyceliumsByZoneId($generateZoneMessage->getZoneId());
+        $trees = $this->treeRepository->findByZone($generateZoneMessage->getZoneId());
 
         foreach ($trees as $tree) {
             $id = $tree->getId();
