@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Generator\Zone;
 
+use App\Entity\MyceliumGenusEnum;
 use App\Entity\TreeGenusesEnum;
 use App\Tests\DummiesFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -21,10 +22,10 @@ class ZoneGeneratorFixtures extends Fixture
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
-        // age > 50, genus fraxinus, it must add a morcella mycelium to this tree
+        // age > 150, 3 mycelium spot genus, it must add a 3 myceliums if exectued 2 times
         $tree = DummiesFactory::newTree($zone);
-        $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
-        $tree->setAge(200);
+        $tree->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $tree->setAge(160);
         $manager->persist($tree);
 
         $secondZone = DummiesFactory::newZone('a second zone');
@@ -32,13 +33,12 @@ class ZoneGeneratorFixtures extends Fixture
         $manager->persist($secondZone);
 
         $secondTree = DummiesFactory::newTree($secondZone);
-        $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
+        $secondTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
+        $secondTree->setAge(40);
         $manager->persist($secondTree);
-
-        for ($i = 0; $i < 10; $i++) {
-            $mycelium = DummiesFactory::newMycelium($secondTree);
-            $manager->persist($mycelium);
-        }
+        $mycelium = DummiesFactory::newMycelium($secondTree);
+        $mycelium->setGenus(MyceliumGenusEnum::GENUS_MORCHELLA);
+        $manager->persist($mycelium);
 
         $otherZone = DummiesFactory::newZone('an other zone');
         $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);

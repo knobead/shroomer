@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\ConditionResolver;
@@ -7,7 +8,6 @@ use App\Condition\AbstractCondition;
 use App\Condition\OlderThan;
 use App\Entity\DatableInterface;
 use App\Exception\InvalidContextException;
-use RuntimeException;
 
 class OlderThanResolver implements ConditionResolverInterface
 {

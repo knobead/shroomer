@@ -28,32 +28,25 @@ class ZoneGeneratorTest extends WebTestCase
         $generator = self::getContainer()->get(GenerateZoneHandler::class);
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference(ZoneGeneratorFixtures::ZONE_REFERENCE, Zone::class);
-        /** @var Zone $otherZone */
-        $otherZone = $this->fixturesRepository->getReference(ZoneGeneratorFixtures::OTHER_ZONE_REFERENCE, Zone::class);
 
         $generator->__invoke(new GenerateZoneMessage($zone->getId()));
-
         $myceliumRepository = self::getContainer()->get('doctrine')->getManager()->getRepository(Mycelium::class);
-        $myceliums = $myceliumRepository->findBy(['zone' => $zone->getId()]);
-        self::assertCount(1, $myceliums);
+        $myceliums = $myceliumRepository->findByZoneId($zone->getId());
+        self::assertCount(1, $myceliums, 'It should add one mycelium at first exec');
 
-        $otherMyceliums = $myceliumRepository->findBy(['zone' => $otherZone->getId()]);
-        self::assertCount(0, $otherMyceliums);
-    }
-
-    public function testItDoesNotGenerateUpToTenMyceliums(): void
-    {
-        self::bootKernel();
-        /** @var GenerateZoneHandler $generator */
-        $generator = self::getContainer()->get(GenerateZoneHandler::class);
-        /** @var Zone $zone */
-        $zone = $this->fixturesRepository->getReference(ZoneGeneratorFixtures::ZONE_MANY_MYCELIUM_REFERENCE, Zone::class);
         $generator->__invoke(new GenerateZoneMessage($zone->getId()));
-        $generator->__invoke(new GenerateZoneMessage($zone->getId()));
-        $generator->__invoke(new GenerateZoneMessage($zone->getId()));
-
         $myceliumRepository = self::getContainer()->get('doctrine')->getManager()->getRepository(Mycelium::class);
-        $myceliums = $myceliumRepository->findBy(['zone' => $zone->getId()]);
-        self::assertCount(10, $myceliums);
+        $myceliums = $myceliumRepository->findByZoneId($zone->getId());
+        self::assertCount(2, $myceliums, 'It should add one mycelium at second exec');
+
+        $generator->__invoke(new GenerateZoneMessage($zone->getId()));
+        $myceliumRepository = self::getContainer()->get('doctrine')->getManager()->getRepository(Mycelium::class);
+        $myceliums = $myceliumRepository->findByZoneId($zone->getId());
+        self::assertCount(3, $myceliums, 'It should add one mycelium at third exec');
+
+        $generator->__invoke(new GenerateZoneMessage($zone->getId()));
+        $myceliumRepository = self::getContainer()->get('doctrine')->getManager()->getRepository(Mycelium::class);
+        $myceliums = $myceliumRepository->findByZoneId($zone->getId());
+        self::assertCount(3, $myceliums, 'it should not add a last mycelium at fourth exec');
     }
 }

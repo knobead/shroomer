@@ -68,7 +68,6 @@ final class DummiesFactory
     {
         $mycelium = new Mycelium();
         $mycelium->setTree($tree);
-        $mycelium->setZone($tree->getZone());
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_BOLETUS);
 
         return $mycelium;

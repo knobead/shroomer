@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Generator\Handler;
 
 use App\Entity\Mycelium;
-use App\Entity\MyceliumGenusEnum;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
 use App\Generator\Message\GenerateTreeMessage;
+use App\Repository\MyceliumRepository;
 use App\Repository\TreeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
@@ -18,15 +18,23 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 class GenerateTreeHandler
 {
     private TreeRepository $treeRepository;
+    private MyceliumRepository $myceliumRepository;
     private EntityManagerInterface $entityManager;
 
     /**
-     * @param TreeRepository $treeRepository
+     * @param TreeRepository         $treeRepository
+     * @param MyceliumRepository     $myceliumRepository
+     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(TreeRepository $treeRepository, EntityManagerInterface $entityManager)
+    public function __construct(
+        TreeRepository $treeRepository,
+        MyceliumRepository $myceliumRepository,
+        EntityManagerInterface $entityManager
+    )
     {
         $this->treeRepository = $treeRepository;
         $this->entityManager = $entityManager;
+        $this->myceliumRepository = $myceliumRepository;
     }
 
     /**
@@ -47,7 +55,7 @@ class GenerateTreeHandler
         $this->entityManager->flush();
 
         $availableMyceliums = TreeGenusesEnum::getMyceliums($tree->getGenus());
-        $myceliums = $tree->getMyceliums();
+        $myceliums = $this->myceliumRepository->findBy(['tree' => $tree]);
         $myceliumsSlot = floor($age / Tree::ITERATION_FOR_ONE_MYCELIUM);
         $myceliumsCount = count($myceliums);
 
@@ -61,7 +69,6 @@ class GenerateTreeHandler
 
         $mycelium = new Mycelium();
         $mycelium->setTree($tree);
-        $mycelium->setZone($tree->getZone());
         $mycelium->setGenus($availableMyceliums[array_rand($availableMyceliums)]);
 
         $this->entityManager->persist($mycelium);
