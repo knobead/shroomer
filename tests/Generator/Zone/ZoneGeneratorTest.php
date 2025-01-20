@@ -9,11 +9,14 @@ use App\Entity\Zone;
 use App\Generator\Handler\GenerateZoneHandler;
 use App\Generator\Message\GenerateZoneMessage;
 use App\Tests\FixtureLoaderCapableTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ZoneGeneratorTest extends WebTestCase
 {
     use FixtureLoaderCapableTrait;
+
+    private KernelBrowser $client;
 
     public function setUp():void
     {

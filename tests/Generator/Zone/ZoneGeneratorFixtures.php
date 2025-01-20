@@ -18,6 +18,9 @@ class ZoneGeneratorFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        $weather = DummiesFactory::newWeather();
+        $manager->persist($weather);
+
         $zone = DummiesFactory::newZone('a first zone');
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);

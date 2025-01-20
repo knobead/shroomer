@@ -40,10 +40,6 @@ class Zone
     #[Groups(Zone::class)]
     private Collection $sporocarps;
 
-    // all the mycelium that can be found in the zone
-    #[OneToMany(targetEntity: Mycelium::class, mappedBy: 'zone')]
-    private Collection $myceliums;
-
     // all the trees that can be found in the zone
     #[OneToMany(targetEntity: Tree::class, mappedBy: 'zone')]
     #[Groups(Zone::class)]
@@ -52,7 +48,6 @@ class Zone
     public function __construct()
     {
         $this->sporocarps = new ArrayCollection();
-        $this->myceliums = new ArrayCollection();
         $this->trees = new ArrayCollection();
     }
 
@@ -104,30 +99,6 @@ class Zone
         }
 
         $this->sporocarps[] = $sporocarp;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getMyceliums(): Collection
-    {
-        return $this->myceliums;
-    }
-
-    /**
-     * @param Mycelium $mycelium
-     *
-     * @return void
-     */
-    public function addMycelium(Mycelium $mycelium): void
-    {
-        foreach ($this->myceliums as $mycel) {
-            if ($mycel->getId() == $mycelium->getId()) {
-                return;
-            }
-        }
-
-        $this->myceliums[] = $mycelium;
     }
 
     /**

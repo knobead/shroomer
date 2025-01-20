@@ -10,11 +10,14 @@ use App\Generator\Handler\GenerateTreeHandler;
 use App\Generator\Message\GenerateTreeMessage;
 use App\Repository\MyceliumRepository;
 use App\Tests\FixtureLoaderCapableTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TreeGeneratorTest extends WebTestCase
 {
     use FixtureLoaderCapableTrait;
+
+    private KernelBrowser $client;
 
     public function setUp():void
     {

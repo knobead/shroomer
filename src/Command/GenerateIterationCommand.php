@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Generator\Message\GenerateEveryMyceliumsMessage;
-use App\Generator\Message\GenerateEveryZonesMessage;
 use App\Generator\Message\GenerateWeatherMessage;
+use App\Generator\Message\GenerateZoneMessage;
+use App\Repository\ZoneRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,14 +22,17 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class GenerateIterationCommand extends Command
 {
     private MessageBusInterface $messageBus;
+    private ZoneRepository $zoneRepository;
 
     /**
      * @param MessageBusInterface $generationBus
+     * @param ZoneRepository      $zoneRepository
      */
-    public function __construct(MessageBusInterface $generationBus)
+    public function __construct(MessageBusInterface $generationBus, ZoneRepository $zoneRepository)
     {
         parent::__construct();
         $this->messageBus = $generationBus;
+        $this->zoneRepository = $zoneRepository;
     }
 
     /**
@@ -41,9 +44,14 @@ class GenerateIterationCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $zones = $this->zoneRepository->findAll();
         $this->messageBus->dispatch(new GenerateWeatherMessage());
-        $this->messageBus->dispatch(new GenerateEveryZonesMessage());
-        $this->messageBus->dispatch(new GenerateEveryMyceliumsMessage());
+
+        foreach ($zones as $zone) {
+            /** @var int $zoneId */
+            $zoneId = $zone->getId();
+            $this->messageBus->dispatch(new GenerateZoneMessage($zoneId));
+        }
 
         return 0;
     }

@@ -75,11 +75,10 @@ final class DummiesFactory
 
     /**
      * @param Mycelium    $mycelium
-     * @param string|null $name
      *
      * @return Sporocarp
      */
-    public static function newSporocarp(Mycelium $mycelium, ?string $name): Sporocarp
+    public static function newSporocarp(Mycelium $mycelium): Sporocarp
     {
         $sporocarp = new Sporocarp();
         $sporocarp->setMycelium($mycelium);
