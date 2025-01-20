@@ -18,10 +18,11 @@ class ConditionResolver
 
     /**
      * @param AbstractCondition $abstractCondition
+     * @param array             $context
      *
      * @return bool
      */
-    public function resolve(AbstractCondition $abstractCondition): bool
+    public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
         foreach ($this->conditionResolvers as $conditionResolver) {
             if (!$conditionResolver instanceof ConditionResolverInterface) {
@@ -33,7 +34,7 @@ class ConditionResolver
             }
 
             if ($conditionResolver->supports($abstractCondition)) {
-                return $conditionResolver->resolve($abstractCondition);
+                return $conditionResolver->resolve($abstractCondition, $context);
             }
         }
 

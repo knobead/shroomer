@@ -32,11 +32,12 @@ class LastWeatherResolver implements ConditionResolverInterface
     }
 
     /**
-     * @param CurrentWeather $abstractCondition
+     * @param LastWeather $abstractCondition
+     * @param array       $context
      *
      * @return bool
      */
-    public function resolve(AbstractCondition $abstractCondition): bool
+    public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
         $weathers = $this->weatherRepository->findLastWeathers(count: 1, offset: 1);
 

@@ -72,8 +72,7 @@ class GenerateMyceliumHandler
         for($i = 0; $i < $generatedSporocarpCount; $i++) {
             $sporocarp = new Sporocarp();
             $sporocarp->setMycelium($mycelium);
-            $sporocarp->setZone($mycelium->getZone());
-            $sporocarp->setDikarya($mycelium->getGenus()->value);
+            $sporocarp->setZone($mycelium->getTree()->getZone());
             $sporocarp->setWormy(false);
             $sporocarp->setEaten(false);
             $sporocarp->setRotten(false);

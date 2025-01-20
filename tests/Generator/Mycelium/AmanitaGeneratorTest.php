@@ -10,11 +10,14 @@ use App\Generator\Message\GenerateMyceliumMessage;
 use App\Repository\SporocarpRepository;
 use App\Tests\DummiesFactory;
 use App\Tests\FixtureLoaderCapableTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AmanitaGeneratorTest extends WebTestCase
 {
     use FixtureLoaderCapableTrait;
+
+    private KernelBrowser $client;
 
     public function setUp():void
     {

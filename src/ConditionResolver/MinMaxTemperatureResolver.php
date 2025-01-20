@@ -30,11 +30,13 @@ class MinMaxTemperatureResolver implements ConditionResolverInterface
     }
 
     /**
+     *
      * @param MinMaxTemperature $abstractCondition
+     * @param array             $context
      *
      * @return bool
      */
-    public function resolve(AbstractCondition $abstractCondition): bool
+    public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
         $weathers = $this->weatherRepository->findLastWeathers(1);
 

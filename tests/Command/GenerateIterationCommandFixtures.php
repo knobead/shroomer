@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Command;
 
 use App\Entity\MyceliumGenusEnum;
+use App\Entity\TreeGenusesEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Tests\DummiesFactory;
@@ -22,7 +23,12 @@ class GenerateIterationCommandFixtures extends Fixture
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
-        $mycelium = DummiesFactory::newMycelium($zone);
+        $treeWithPleurotus = DummiesFactory::newTree($zone);
+        $treeWithPleurotus->setAge(250);
+        $treeWithPleurotus->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $manager->persist($treeWithPleurotus);
+
+        $mycelium = DummiesFactory::newMycelium($treeWithPleurotus);
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_PLEUROTUS);
         $manager->persist($mycelium);
 

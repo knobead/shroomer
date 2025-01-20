@@ -59,14 +59,15 @@ final class DummiesFactory
     }
 
     /**
-     * @param Zone        $zone
+     *
+     * @param Tree $tree
      *
      * @return Mycelium
      */
-    public static function newMycelium(Zone $zone): Mycelium
+    public static function newMycelium(Tree $tree): Mycelium
     {
         $mycelium = new Mycelium();
-        $mycelium->setZone($zone);
+        $mycelium->setTree($tree);
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_BOLETUS);
 
         return $mycelium;
@@ -74,15 +75,13 @@ final class DummiesFactory
 
     /**
      * @param Mycelium    $mycelium
-     * @param string|null $name
      *
      * @return Sporocarp
      */
-    public static function newSporocarp(Mycelium $mycelium, ?string $name): Sporocarp
+    public static function newSporocarp(Mycelium $mycelium): Sporocarp
     {
         $sporocarp = new Sporocarp();
         $sporocarp->setMycelium($mycelium);
-        $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus()->value, 'edulis'));
         $sporocarp->setAge(1);
         $sporocarp->setSize(5);
         $sporocarp->setRotten(false);

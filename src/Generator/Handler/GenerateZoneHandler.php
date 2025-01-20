@@ -4,59 +4,58 @@ declare(strict_types=1);
 
 namespace App\Generator\Handler;
 
-use App\Entity\Mycelium;
-use App\Entity\MyceliumGenusEnum;
-use App\Entity\Zone;
+use App\Generator\Message\GenerateMyceliumMessage;
+use App\Generator\Message\GenerateTreeMessage;
 use App\Generator\Message\GenerateZoneMessage;
 use App\Repository\MyceliumRepository;
-use App\Repository\ZoneRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TreeRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use Symfony\Component\Messenger\Exception\ExceptionInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
 class GenerateZoneHandler
 {
+    private TreeRepository $treeRepository;
+    private MessageBusInterface $messageBus;
     private MyceliumRepository $myceliumRepository;
-    private ZoneRepository $zoneRepository;
-    private EntityManagerInterface $entityManager;
 
     /**
-     * @param EntityManagerInterface $entityManager
-     * @param MyceliumRepository     $myceliumRepository
-     * @param ZoneRepository         $zoneRepository
+     * @param MessageBusInterface $messageBus
+     * @param TreeRepository      $treeRepository
+     * @param MyceliumRepository  $myceliumRepository
      */
     public function __construct(
-        EntityManagerInterface $entityManager,
-        MyceliumRepository $myceliumRepository,
-        ZoneRepository $zoneRepository
+        MessageBusInterface $messageBus,
+        TreeRepository $treeRepository,
+        MyceliumRepository $myceliumRepository
     ) {
-        $this->entityManager = $entityManager;
+        $this->treeRepository = $treeRepository;
+        $this->messageBus = $messageBus;
         $this->myceliumRepository = $myceliumRepository;
-        $this->zoneRepository = $zoneRepository;
     }
 
     /**
      * @param GenerateZoneMessage $generateZoneMessage
      *
      * @return void
+     * @throws ExceptionInterface
      */
     public function __invoke(GenerateZoneMessage $generateZoneMessage): void
     {
-        /** @var Zone $zone */
-        $zone = $this->zoneRepository->find($generateZoneMessage->getZoneId());
-        // todo this must be adapted according to a tree system
-
+        $trees = $this->treeRepository->findByZone($generateZoneMessage->getZoneId());
         $myceliums = $this->myceliumRepository->findByZoneId($generateZoneMessage->getZoneId());
 
-        if (count($myceliums) >= 10) {
-            return;
+        foreach ($trees as $tree) {
+            /** @var int $id */
+            $id = $tree->getId();
+            $this->messageBus->dispatch(new GenerateTreeMessage($id));
         }
 
-        $mycelium = new Mycelium();
-        $genuses = MyceliumGenusEnum::cases();
-        $mycelium->setZone($zone);
-        $mycelium->setGenus($genuses[array_rand($genuses)]);
-        $this->entityManager->persist($mycelium);
-        $this->entityManager->flush();
+        foreach ($myceliums as $mycelium) {
+            /** @var int $id */
+            $id = $mycelium->getId();
+            $this->messageBus->dispatch(new GenerateMyceliumMessage($id));
+        }
     }
 }

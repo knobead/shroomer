@@ -44,11 +44,11 @@ class ZoneFixtures extends Fixture
         $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
         $manager->persist($secondTree);
 
-        $firstMycelium = DummiesFactory::newMycelium($firstZone);
+        $firstMycelium = DummiesFactory::newMycelium($firstTree);
         $this->addReference(self::FIRST_MYCELIUM_REFERENCE, $firstMycelium);
         $manager->persist($firstMycelium);
 
-        $secondMycelium = DummiesFactory::newMycelium($secondZone);
+        $secondMycelium = DummiesFactory::newMycelium($secondTree);
         $this->addReference(self::SECOND_MYCELIUM_REFERENCE, $secondMycelium);
         $manager->persist($secondMycelium);
 
@@ -61,7 +61,6 @@ class ZoneFixtures extends Fixture
 
         $secondSporocarp = DummiesFactory::newSporocarp($firstMycelium, self::SECOND_SPOROCARP_REFERENCE);
         $secondSporocarp->setZone($firstZone);
-        $secondSporocarp->setDikarya(sprintf('%s %s', $firstMycelium->getGenus()->value, 'erythropus'));
         $secondSporocarp->setAge(20);
         $secondSporocarp->setSize(25);
         $secondSporocarp->setEaten(true);
