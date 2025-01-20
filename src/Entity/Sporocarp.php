@@ -48,11 +48,6 @@ class Sporocarp
     #[Groups(Zone::class)]
     private bool $rotten = false;
 
-    // this is the specific species of the sporocarp
-    #[Column(name: "dikarya", type: Types::STRING, length: 20, nullable: false)]
-    #[Groups(Zone::class)]
-    private string $dikarya;
-
     #[ManyToOne(targetEntity: Zone::class, inversedBy: 'sporocarps')]
     #[JoinColumn(nullable: false)]
     private Zone $zone;
@@ -179,15 +174,5 @@ class Sporocarp
     public function setRotten(bool $rotten): void
     {
         $this->rotten = $rotten;
-    }
-
-    public function getDikarya(): string
-    {
-        return $this->dikarya;
-    }
-
-    public function setDikarya(string $dikarya): void
-    {
-        $this->dikarya = $dikarya;
     }
 }

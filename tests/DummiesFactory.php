@@ -82,7 +82,6 @@ final class DummiesFactory
     {
         $sporocarp = new Sporocarp();
         $sporocarp->setMycelium($mycelium);
-        $sporocarp->setDikarya(sprintf('%s %s', $mycelium->getGenus()->value, 'edulis'));
         $sporocarp->setAge(1);
         $sporocarp->setSize(5);
         $sporocarp->setRotten(false);
