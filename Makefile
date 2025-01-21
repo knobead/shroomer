@@ -3,6 +3,7 @@ DOCKER_COMP = docker compose
 
 # Docker containers
 PHP_CONT = $(DOCKER_COMP) exec php
+NODE_CONT = $(DOCKER_COMP) exec node
 
 # Executables
 PHP      = $(PHP_CONT) php
@@ -37,6 +38,9 @@ sh: ## Connect to the FrankenPHP container
 
 bash: ## Connect to the FrankenPHP container via bash so up and down arrows go to previous commands
 	@$(PHP_CONT) bash
+
+node-bash: ## Connect to the node container via sh
+	@$(NODE_CONT) sh
 
 test-database-schema: test-database-create
 	@$(DOCKER_COMP) exec -e APP_ENV=test php bin/console d:s:u -e test -f
