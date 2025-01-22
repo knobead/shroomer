@@ -1,0 +1,83 @@
+<script setup lang="ts">
+defineProps({
+  genus: String,
+})
+</script>
+
+<template>
+<pre v-if="genus=='fraxinus'">
+
+
+
+
+    .ffFFfFF.
+  #FFfFFfffFfFF
+ FFFF\FF.FFffF#ff
+  FfFFfFfFYFF/FFF
+   fFf\ \/`/FfF
+    FF\  /FF
+      | ;|
+      |  |
+      | ;|
+      |  |
+      |. |
+_/_\_/ .  \;_.\_
+</pre>
+  <pre v-else-if="genus=='castanea'">
+
+
+    .CccCcCC.
+  CCCCcCCcCCCCC
+ CCCC\CC.CccCCCcC
+ CCCCcCC.CccCcCCC
+  CCcCCcCcYCC/CCC
+   CcC\ \/`/CCC
+    CC\   /CC
+      |  ;|
+      |   |
+      |  ;|
+      |   |
+      |   |
+      |.  |
+_/_\_/ .   \;_.\_
+</pre>
+  <pre v-else-if="genus=='quercus'">
+
+
+
+
+
+    .CccGcCC.
+  CCGCcCCcGGcCC
+ CCCC\CC.CggCCCcC
+ CCC\ \C.\c/ /Ccc
+  CGc\ \CcY  /CcC
+   CcC\ \/`/GCG
+    CC\   /CC
+      |   |
+      |   |
+      |.  |
+_/_\_/ .   \;_.\_
+</pre>
+<pre v-else-if="genus=='pinus'">
+
+
+       PP
+      ppGP
+      p/Gp
+    .PppGpP
+    GP;P;pGG
+   pGPpPP/P;
+   P;P| |GG;
+  PPGP|.|ppp
+  ppGP| |GGpp
+ PPPP\P\  \gPPPpP
+ pp   | . |    ``P
+      | | |
+      |. ;|
+_/_\_/ .   \;_.\_
+</pre>
+</template>
+
+<style>
+</style>

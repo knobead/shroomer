@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router";
-import {onMounted, ref, watchEffect} from "vue";
+import {onMounted, ref} from "vue";
+import Tree from "@/components/Tree.vue";
 
 const route = useRoute()
 let zone = ref({})
@@ -16,8 +17,8 @@ onMounted(async () => {
 <template>
   <div v-if="zone">
     <p>{{zone.name}}</p>
-    <div v-for="tree in zone.trees">
-      {{tree.genus}}
+    <div class="trees">
+      <tree v-for="tree in zone.trees" :genus="tree.genus"/>
     </div>
   </div>
   <div v-else>
@@ -26,4 +27,9 @@ onMounted(async () => {
 </template>
 
 <style>
+.trees {
+  > pre {
+    display: inline-block;
+  }
+}
 </style>
