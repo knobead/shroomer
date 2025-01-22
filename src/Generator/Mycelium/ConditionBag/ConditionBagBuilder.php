@@ -41,7 +41,7 @@ class ConditionBagBuilder
         throw new RuntimeException(sprintf(
             'no %s found to support %s',
             ConditionBagBuilderInterface::class,
-            $genus
+            $genus->value
         ));
     }
 }
