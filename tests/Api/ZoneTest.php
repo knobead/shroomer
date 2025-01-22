@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
+use App\Entity\MyceliumGenusEnum;
 use App\Entity\Zone;
 use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -46,23 +47,26 @@ class ZoneTest extends WebTestCase
 
         $firstSporocarp = $sporocarps[0];
         $secondSporocarp = $sporocarps[1];
-        self::assertCount(8, $firstSporocarp);
+        self::assertCount(9, $firstSporocarp);
         self::assertArrayHasKey('id', $firstSporocarp);
         self::assertArrayHasKey('age', $firstSporocarp);
         self::assertArrayHasKey('size', $firstSporocarp);
         self::assertArrayHasKey('wormy', $firstSporocarp);
         self::assertArrayHasKey('eaten', $firstSporocarp);
         self::assertArrayHasKey('rotten', $firstSporocarp);
+        self::assertArrayHasKey('genus', $firstSporocarp);
         self::assertSame(15, $firstSporocarp['size']);
         self::assertSame(10, $firstSporocarp['age']);
         self::assertSame(false, $firstSporocarp['wormy']);
         self::assertSame(false, $firstSporocarp['eaten']);
         self::assertSame(false, $firstSporocarp['rotten']);
+        self::assertSame(MyceliumGenusEnum::GENUS_MORCHELLA->value, $firstSporocarp['genus']);
         self::assertSame(25, $secondSporocarp['size']);
         self::assertSame(20, $secondSporocarp['age']);
         self::assertSame(true, $secondSporocarp['wormy']);
         self::assertSame(true, $secondSporocarp['eaten']);
         self::assertSame(true, $secondSporocarp['rotten']);
+        self::assertSame(MyceliumGenusEnum::GENUS_MORCHELLA->value, $secondSporocarp['genus']);
 
         $trees = $jsonResponse['trees'];
         self::assertCount(1, $trees);

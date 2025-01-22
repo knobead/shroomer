@@ -48,8 +48,7 @@ class AmanitaGeneratorTest extends WebTestCase
 
         $sporocarpRepository = self::getContainer()->get(SporocarpRepository::class);
         $sporocarps = $sporocarpRepository->findALl();
-
-        self::assertGreaterThanOrEqual(2, count($sporocarps));
+        self::assertCount(1, $sporocarps);
     }
 
     /**

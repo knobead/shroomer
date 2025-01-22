@@ -64,6 +64,12 @@ class Sporocarp
         return $this->id;
     }
 
+    #[Groups(Zone::class)]
+    public function getGenus(): string
+    {
+        return $this->mycelium->getGenus()->value;
+    }
+
     /**
      * @param int|null $id
      *
