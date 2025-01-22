@@ -2,6 +2,7 @@
 import {useRoute} from "vue-router";
 import {onMounted, ref} from "vue";
 import Tree from "@/components/Tree.vue";
+import Sporocarp from "@/components/Sporocarp.vue";
 
 const route = useRoute()
 const zone = ref({})
@@ -18,6 +19,7 @@ onMounted(async () => {
     <h1>{{zone.name}}</h1>
     <div class="zone">
       <tree v-for="tree in zone.trees" :genus="tree.genus" :key="tree.id"/>
+      <sporocarp v-for="sporocarp in zone.sporocarps" :genus="sporocarp.genus" :key="sporocarp.id"/>
     </div>
   </div>
   <div v-else>
