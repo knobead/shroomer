@@ -4,10 +4,9 @@ import {onMounted, ref} from "vue";
 import Tree from "@/components/Tree.vue";
 
 const route = useRoute()
-let zone = ref({})
+const zone = ref({})
 
 onMounted(async () => {
-
   zone.value = await fetch('https://localhost:443/api/zone/'+route.params.id)
     .then(response => response.json())
     .then(data => {return data})
@@ -16,20 +15,22 @@ onMounted(async () => {
 
 <template>
   <div v-if="zone">
-    <p>{{zone.name}}</p>
-    <div class="trees">
-      <tree v-for="tree in zone.trees" :genus="tree.genus"/>
+    <h1>{{zone.name}}</h1>
+    <div class="zone">
+      <tree v-for="tree in zone.trees" :genus="tree.genus" :key="tree.id"/>
     </div>
   </div>
   <div v-else>
-    Loading
+    <h1>Loading ...</h1>
   </div>
 </template>
 
 <style>
-.trees {
+.zone {
   > pre {
     display: inline-block;
+    margin-bottom: 40px;
+    margin-top: 100px;
   }
 }
 </style>

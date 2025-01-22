@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import ViewShroomerHome from '../views/ShroomerHome.vue'
-import ViewZones from '../views/Zones.vue'
+import Home from '../views/Home.vue'
 import ViewZone from '../views/Zone.vue'
 
 const router = createRouter({
@@ -9,12 +8,7 @@ const router = createRouter({
     {
       path: '/shroomer',
       name: 'shroomer',
-      component: ViewShroomerHome,
-    },
-    {
-      path: '/zones',
-      name: 'zones',
-      component: ViewZones,
+      component: Home,
     },
     {
       path: '/zone/:id',

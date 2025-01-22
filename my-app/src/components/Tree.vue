@@ -23,7 +23,7 @@ defineProps({
       |. |
 _/_\_/ .  \;_.\_
 </pre>
-  <pre v-else-if="genus=='castanea'">
+<pre v-else-if="genus=='castanea'">
 
 
     .CccCcCC.
@@ -41,7 +41,7 @@ _/_\_/ .  \;_.\_
       |.  |
 _/_\_/ .   \;_.\_
 </pre>
-  <pre v-else-if="genus=='quercus'">
+<pre v-else-if="genus=='quercus'">
 
 
 

@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import MenuZones from "@/components/MenuZones.vue";
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/shroomer">Shroomer HomePage</RouterLink>
-        <RouterLink to="/zones">Zones HomePage</RouterLink>
+        <RouterLink to="/shroomer">Shroomer</RouterLink>
+        <menu-zones/>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <RouterView :key="$route.fullPath"/>
 </template>
 
 <style scoped>
