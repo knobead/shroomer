@@ -56,6 +56,6 @@ class GenerateIterationCommandTest extends WebTestCase
 
         $sporocarpRepository = $doctrine->getManager()->getRepository(Sporocarp::class);
         $sporocarps = $sporocarpRepository->findAll();
-        self::assertGreaterThan(1, count($sporocarps));
+        self::assertCount(1, $sporocarps);
     }
 }

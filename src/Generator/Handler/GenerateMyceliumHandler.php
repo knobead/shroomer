@@ -67,20 +67,16 @@ class GenerateMyceliumHandler
             }
         }
 
-        $generatedSporocarpCount = rand(2, 4);
+        $sporocarp = new Sporocarp();
+        $sporocarp->setMycelium($mycelium);
+        $sporocarp->setZone($mycelium->getTree()->getZone());
+        $sporocarp->setWormy(false);
+        $sporocarp->setEaten(false);
+        $sporocarp->setRotten(false);
+        $sporocarp->setSize(1);
+        $sporocarp->setAge(1);
 
-        for($i = 0; $i < $generatedSporocarpCount; $i++) {
-            $sporocarp = new Sporocarp();
-            $sporocarp->setMycelium($mycelium);
-            $sporocarp->setZone($mycelium->getTree()->getZone());
-            $sporocarp->setWormy(false);
-            $sporocarp->setEaten(false);
-            $sporocarp->setRotten(false);
-            $sporocarp->setSize(1);
-            $sporocarp->setAge(1);
-
-            $this->entityManager->persist($sporocarp);
-        }
+        $this->entityManager->persist($sporocarp);
 
         $this->entityManager->flush();
     }

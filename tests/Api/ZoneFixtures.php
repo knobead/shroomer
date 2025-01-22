@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
+use App\Entity\MyceliumGenusEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Tests\DummiesFactory;
@@ -45,21 +46,23 @@ class ZoneFixtures extends Fixture
         $manager->persist($secondTree);
 
         $firstMycelium = DummiesFactory::newMycelium($firstTree);
+        $firstMycelium->setGenus(MyceliumGenusEnum::GENUS_MORCHELLA);
         $this->addReference(self::FIRST_MYCELIUM_REFERENCE, $firstMycelium);
         $manager->persist($firstMycelium);
 
         $secondMycelium = DummiesFactory::newMycelium($secondTree);
+        $secondMycelium->setGenus(MyceliumGenusEnum::GENUS_BOLETUS);
         $this->addReference(self::SECOND_MYCELIUM_REFERENCE, $secondMycelium);
         $manager->persist($secondMycelium);
 
-        $firstSporocarp = DummiesFactory::newSporocarp($firstMycelium, self::FIRST_SPOROCARP_REFERENCE);
+        $firstSporocarp = DummiesFactory::newSporocarp($firstMycelium);
         $firstSporocarp->setZone($firstZone);
         $firstSporocarp->setAge(10);
         $firstSporocarp->setSize(15);
         $this->addReference(self::FIRST_SPOROCARP_REFERENCE, $firstSporocarp);
         $manager->persist($firstSporocarp);
 
-        $secondSporocarp = DummiesFactory::newSporocarp($firstMycelium, self::SECOND_SPOROCARP_REFERENCE);
+        $secondSporocarp = DummiesFactory::newSporocarp($firstMycelium);
         $secondSporocarp->setZone($firstZone);
         $secondSporocarp->setAge(20);
         $secondSporocarp->setSize(25);
@@ -69,7 +72,7 @@ class ZoneFixtures extends Fixture
         $this->addReference(self::SECOND_SPOROCARP_REFERENCE, $secondSporocarp);
         $manager->persist($secondSporocarp);
 
-        $thirdSporocarp = DummiesFactory::newSporocarp($secondMycelium, self::THIRD_SPOROCARP_REFERENCE);
+        $thirdSporocarp = DummiesFactory::newSporocarp($secondMycelium);
         $thirdSporocarp->setZone($secondZone);
         $this->addReference(self::THIRD_SPOROCARP_REFERENCE, $thirdSporocarp);
         $manager->persist($thirdSporocarp);
