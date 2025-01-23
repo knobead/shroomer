@@ -1,15 +1,11 @@
 <script setup lang="ts">
 defineProps({
-  genus: String,
+  tree: Object,
 })
 </script>
 
 <template>
-<pre v-if="genus=='fraxinus'">
-
-
-
-
+<pre v-if="tree.genus=='fraxinus'">
     .ffFFfFF.
   #FFfFFfffFfFF
  FFFF\FF.FFffF#ff
@@ -23,9 +19,7 @@ defineProps({
       |. |
 _/_\_/ .  \;_.\_
 </pre>
-<pre v-else-if="genus=='castanea'">
-
-
+<pre v-else-if="tree.genus=='castanea'">
     .CccCcCC.
   CCCCcCCcCCCCC
  CCCC\CC.CccCCCcC
@@ -41,12 +35,7 @@ _/_\_/ .  \;_.\_
       |.  |
 _/_\_/ .   \;_.\_
 </pre>
-<pre v-else-if="genus=='quercus'">
-
-
-
-
-
+<pre v-else-if="tree.genus=='quercus'">
     .CccGcCC.
   CCGCcCCcGGcCC
  CCCC\CC.CggCCCcC
@@ -59,9 +48,7 @@ _/_\_/ .   \;_.\_
       |.  |
 _/_\_/ .   \;_.\_
 </pre>
-<pre v-else-if="genus=='pinus'">
-
-
+<pre v-else-if="tree.genus=='pinus'">
        PP
       ppGP
       p/Gp

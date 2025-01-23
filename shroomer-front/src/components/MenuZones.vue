@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, inject} from "vue";
 import {RouterLink} from "vue-router";
 
+const host = inject('host')
 const zones = ref([])
 
 onMounted(async () => {
-  zones.value = await fetch('https://localhost:443/api/zones')
+  zones.value = await fetch(host + '/api/zones')
     .then(response => response.json())
     .then(data => {
       return data["hydra:member"]

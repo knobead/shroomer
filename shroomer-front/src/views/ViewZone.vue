@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import {useRoute} from "vue-router";
-import {onMounted, ref} from "vue";
-import Tree from "@/components/Tree.vue";
-import Sporocarp from "@/components/Sporocarp.vue";
+import {onMounted, ref, inject} from "vue";
+import ZoneItem from "@/components/item/ZoneItem.vue";
 
 const route = useRoute()
 const zone = ref({})
+const host = inject('host')
 
 onMounted(async () => {
-  zone.value = await fetch('https://localhost:443/api/zone/'+route.params.id)
+  zone.value = await fetch(host+'/api/zone/'+route.params.id)
     .then(response => response.json())
     .then(data => {return data})
 })
@@ -18,8 +18,7 @@ onMounted(async () => {
   <div v-if="zone">
     <h1>{{zone.name}}</h1>
     <div class="zone">
-      <tree v-for="tree in zone.trees" :genus="tree.genus" :key="tree.id"/>
-      <sporocarp v-for="sporocarp in zone.sporocarps" :genus="sporocarp.genus" :key="sporocarp.id"/>
+      <zone-item v-for="item in zone.items" :item="item" :type="item['@type']" :key="item['@type']+item.id"/>
     </div>
   </div>
   <div v-else>

@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import ViewZone from '../views/Zone.vue'
+import ViewHome from '../views/ViewHome.vue'
+import ViewZone from '../views/ViewZone.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +8,7 @@ const router = createRouter({
     {
       path: '/shroomer',
       name: 'shroomer',
-      component: Home,
+      component: ViewHome,
     },
     {
       path: '/zone/:id',
