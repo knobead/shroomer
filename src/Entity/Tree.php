@@ -24,7 +24,14 @@ use Symfony\Component\Validator\Constraints\EqualTo;
 #[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
 class Tree implements DatableInterface
 {
-    public const int ITERATION_FOR_ONE_MYCELIUM = 50;
+    use DatableTrait;
+
+    public const array MYCELIUM_SLOT_PER_AGES = [
+        0 => 0,
+        50 => 1,
+        150 => 2,
+        400 => 3
+    ];
 
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
@@ -37,12 +44,6 @@ class Tree implements DatableInterface
     #[Groups(Zone::class)]
     #[EqualTo(value: 0)]
     private int $size = 0;
-
-    // age in day / iteration
-    #[Column(name: 'age', type: Types::INTEGER, nullable: false)]
-    #[Groups(Zone::class)]
-    #[EqualTo(value: 0)]
-    private int $age = 0;
 
     #[Column(name: "genus", type: Types::STRING, nullable: false, enumType: TreeGenusesEnum::class)]
     #[Groups(Zone::class)]
@@ -58,6 +59,26 @@ class Tree implements DatableInterface
     public function __construct()
     {
         $this->myceliums = new ArrayCollection();
+    }
+
+    /**
+     * It returns the number of mycelium slot according to the age
+     *
+     * @param int $age
+     *
+     * @return int
+     */
+    public static function getMyceliumSlot(int $age): int
+    {
+        $keys = array_reverse(array_keys(self::MYCELIUM_SLOT_PER_AGES));
+
+        foreach ($keys as $key) {
+            if ($key <= $age) {
+                return self::MYCELIUM_SLOT_PER_AGES[$key];
+            }
+        }
+
+        return 0;
     }
 
     /**
@@ -94,24 +115,6 @@ class Tree implements DatableInterface
     public function setSize(int $size): void
     {
         $this->size = $size;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAge(): int
-    {
-        return $this->age;
-    }
-
-    /**
-     * @param int $age
-     *
-     * @return void
-     */
-    public function setAge(int $age): void
-    {
-        $this->age = $age;
     }
 
     /**

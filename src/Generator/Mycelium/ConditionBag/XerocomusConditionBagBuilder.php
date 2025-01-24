@@ -25,7 +25,7 @@ class XerocomusConditionBagBuilder implements ConditionBagBuilderInterface
     public function builds(): array
     {
         return [
-            new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 30),
+            new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 25),
             new CurrentWeather(WeatherStateEnum::STATE_SUNNY),
         ];
     }

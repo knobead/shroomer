@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class WeatherGeneratorTest extends KernelTestCase
 {
     /**
-     * @dataProvider provideItGeneratesSunnyWeather
+     * @dataProvider provideItGeneratesWeathers
      *
      * @param WeatherStateEnum $type
      * @param int    $humidity
@@ -39,7 +39,7 @@ class WeatherGeneratorTest extends KernelTestCase
     /**
      * @return array[]
      */
-    private function provideItGeneratesSunnyWeather(): array
+    private function provideItGeneratesWeathers(): array
     {
         return [
             [WeatherStateEnum::STATE_SUNNY, 0],

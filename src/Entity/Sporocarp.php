@@ -15,8 +15,10 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: SporocarpRepository::class)]
-class Sporocarp
+class Sporocarp implements DatableInterface
 {
+    use DatableTrait;
+
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
@@ -27,11 +29,6 @@ class Sporocarp
     #[Column(name: 'size', type: Types::INTEGER, nullable: false)]
     #[Groups(Zone::class)]
     private int $size = 0;
-
-    // age in day / iteration
-    #[Column(name: 'age', type: Types::INTEGER, nullable: false)]
-    #[Groups(Zone::class)]
-    private int $age = 0;
 
     // wormy sporocarp ... you may eat it if you want
     #[Column(name: 'wormy', type: Types::BOOLEAN, nullable: false)]
@@ -135,48 +132,54 @@ class Sporocarp
     }
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getAge(): int
-    {
-        return $this->age;
-    }
-
-    /**
-     * @param int $age
-     *
-     * @return void
-     */
-    public function setAge(int $age): void
-    {
-        $this->age = $age;
-    }
-
     public function isWormy(): bool
     {
         return $this->wormy;
     }
 
+    /**
+     * @param bool $wormy
+     *
+     * @return void
+     */
     public function setWormy(bool $wormy): void
     {
         $this->wormy = $wormy;
     }
 
+    /**
+     * @return bool
+     */
     public function isEaten(): bool
     {
         return $this->eaten;
     }
 
+    /**
+     * @param bool $eaten
+     *
+     * @return void
+     */
     public function setEaten(bool $eaten): void
     {
         $this->eaten = $eaten;
     }
 
+    /**
+     * @return bool
+     */
     public function isRotten(): bool
     {
         return $this->rotten;
     }
 
+    /**
+     * @param bool $rotten
+     *
+     * @return void
+     */
     public function setRotten(bool $rotten): void
     {
         $this->rotten = $rotten;

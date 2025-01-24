@@ -23,8 +23,8 @@ class MorchellaConditionBagBuilder implements ConditionBagBuilderInterface
     public function builds(): array
     {
         return [
-            new AverageHumidity(humidity: 25, duration: 7),
-            new MinMaxTemperature(minimumTemperature: 0, maximumTemperature: 30),
+            new AverageHumidity(humidity: 60, duration: 7),
+            new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 30),
         ];
     }
 }

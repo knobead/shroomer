@@ -23,7 +23,7 @@ class PleurotusConditionBagBuilder implements ConditionBagBuilderInterface
     public function builds(): array
     {
         return [
-            new MinMaxTemperature(minimumTemperature: 0, maximumTemperature: 30),
+            new MinMaxTemperature(minimumTemperature: 0, maximumTemperature: 10),
         ];
     }
 }

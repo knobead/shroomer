@@ -7,6 +7,7 @@ namespace App\Tests\Generator\Sporocarp;
 use App\Entity\Sporocarp;
 use App\Generator\Handler\GenerateSporocarpHandler;
 use App\Generator\Message\GenerateSporocarpMessage;
+use App\Repository\SporocarpRepository;
 use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -52,7 +53,7 @@ class SporocarpGeneratorTest extends WebTestCase
         self::assertFalse($sporocarp->isWormy());
     }
 
-    public function testItDoesRottenOldSporocarps(): void
+    public function testItTurnsEatenSporocarpToRotten(): void
     {
         /** @var Sporocarp $sporocarp */
         $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::THIRD_SPOROCARP_REFERENCE);
@@ -60,11 +61,25 @@ class SporocarpGeneratorTest extends WebTestCase
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
 
-        self::assertSame(111, $sporocarp->getAge());
+        self::assertSame(10, $sporocarp->getAge());
         self::assertTrue($sporocarp->isRotten());
+        self::assertTrue($sporocarp->isEaten());
     }
 
-    public function testItDoesNotAgesARottenSporocarp(): void
+    public function testItTurnsWormySporocarpToRotten(): void
+    {
+        /** @var Sporocarp $sporocarp */
+        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::FIFTH_SPOROCARP_REFERENCE);
+
+        $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
+        $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
+
+        self::assertSame(10, $sporocarp->getAge());
+        self::assertTrue($sporocarp->isRotten());
+        self::assertTrue($sporocarp->isWormy());
+    }
+
+    public function testItDeletesARottenSporocarp(): void
     {
         /** @var Sporocarp $sporocarp */
         $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::FOURTH_SPOROCARP_REFERENCE);
@@ -72,10 +87,10 @@ class SporocarpGeneratorTest extends WebTestCase
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
 
-        self::assertSame(13, $sporocarp->getAge());
-        self::assertSame(10, $sporocarp->getSize());
-        self::assertTrue($sporocarp->isRotten());
-        self::assertFalse($sporocarp->isEaten());
-        self::assertFalse($sporocarp->isWormy());
+        /** @var SporocarpRepository $repository */
+        $repository = self::getContainer()->get(SporocarpRepository::class);
+        $sporocarpFromDb = $repository->findBy(['id' => $sporocarp->getId()]);
+
+        self::assertCount(0, $sporocarpFromDb);
     }
 }

@@ -61,6 +61,10 @@ class GenerateMyceliumHandler
 
         $conditions = $this->conditionBagBuilder->build($mycelium->getGenus());
 
+        if (1 < count($mycelium->getSporocarps())) {
+            return;
+        }
+
         foreach ($conditions as $condition) {
             if (!$this->conditionResolver->resolve($condition)) {
                 return;
@@ -77,7 +81,6 @@ class GenerateMyceliumHandler
         $sporocarp->setAge(1);
 
         $this->entityManager->persist($sporocarp);
-
         $this->entityManager->flush();
     }
 }

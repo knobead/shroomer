@@ -25,10 +25,9 @@ class ZoneGeneratorFixtures extends Fixture
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
-        // age > 150, 3 mycelium spot genus, it must add a 3 myceliums if exectued 2 times
         $tree = DummiesFactory::newTree($zone);
         $tree->setGenus(TreeGenusesEnum::GENUS_PINUS);
-        $tree->setAge(160);
+        $tree->setAge(500);
         $manager->persist($tree);
 
         $secondZone = DummiesFactory::newZone('a second zone');
@@ -39,6 +38,7 @@ class ZoneGeneratorFixtures extends Fixture
         $secondTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $secondTree->setAge(40);
         $manager->persist($secondTree);
+
         $mycelium = DummiesFactory::newMycelium($secondTree);
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_MORCHELLA);
         $manager->persist($mycelium);
