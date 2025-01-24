@@ -41,6 +41,16 @@ class GenerateSporocarpHandler
         }
 
         if ($sporocarp->isRotten()) {
+            $this->manager->remove($sporocarp);
+            $this->manager->flush();
+
+            return;
+        }
+
+        if ($sporocarp->isEaten() || $sporocarp->isWormy()) {
+            $sporocarp->setRotten(true);
+            $this->manager->flush();
+
             return;
         }
 
@@ -70,7 +80,7 @@ class GenerateSporocarpHandler
             return;
         }
 
-        $rottenChance = rand(0, 100);
+        $rottenChance = rand(0, 30);
 
         if ($age >= $rottenChance) {
             $sporocarp->setRotten(true);

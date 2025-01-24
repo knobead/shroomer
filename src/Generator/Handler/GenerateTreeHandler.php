@@ -56,8 +56,9 @@ class GenerateTreeHandler
 
         $availableMyceliums = TreeGenusesEnum::getMyceliums($tree->getGenus());
         $myceliums = $this->myceliumRepository->findBy(['tree' => $tree]);
-        $myceliumsSlot = floor($age / Tree::ITERATION_FOR_ONE_MYCELIUM);
+        $myceliumsSlot = Tree::getMyceliumSlot($age);
         $myceliumsCount = count($myceliums);
+
 
         if (0 === count($availableMyceliums)) {
             return;

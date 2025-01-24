@@ -12,6 +12,10 @@ use Doctrine\Persistence\ObjectManager;
 class TreeGeneratorFixtures extends Fixture
 {
     public const FIRST_TREE_REFERENCE = 'first_tree';
+    public const SECOND_TREE_REFERENCE = 'second_tree';
+    public const THIRD_TREE_REFERENCE = 'third_tree';
+    public const FOURTH_TREE_REFERENCE = 'fourth_tree';
+    public const FIFTH_TREE_REFERENCE = 'fifth_tree';
 
     /**
      * @inheritDoc
@@ -21,11 +25,40 @@ class TreeGeneratorFixtures extends Fixture
         $zone = DummiesFactory::newZone('zone');
         $manager->persist($zone);
 
-        $tree = DummiesFactory::newTree($zone);
-        $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
-        $tree->setAge(55);
-        $this->addReference(self::FIRST_TREE_REFERENCE, $tree);
-        $manager->persist($tree);
+        $firstTree = DummiesFactory::newTree($zone);
+        $firstTree->setAge(10);
+        $firstTree->setSize(10);
+        $firstTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
+        $manager->persist($firstTree);
+        $this->addReference(self::FIRST_TREE_REFERENCE, $firstTree);
+
+        $secondTree = DummiesFactory::newTree($zone);
+        $secondTree->setAge(60);
+        $secondTree->setSize(60);
+        $secondTree->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $manager->persist($secondTree);
+        $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
+
+        $thirdTree = DummiesFactory::newTree($zone);
+        $thirdTree->setAge(160);
+        $thirdTree->setSize(160);
+        $thirdTree->setGenus(TreeGenusesEnum::GENUS_CASTANEA);
+        $manager->persist($thirdTree);
+        $this->addReference(self::THIRD_TREE_REFERENCE, $thirdTree);
+
+        $fourthTree = DummiesFactory::newTree($zone);
+        $fourthTree->setAge(300);
+        $fourthTree->setSize(300);
+        $fourthTree->setGenus(TreeGenusesEnum::GENUS_QUERCUS);
+        $manager->persist($fourthTree);
+        $this->addReference(self::FOURTH_TREE_REFERENCE, $fourthTree);
+
+        $fifthTree = DummiesFactory::newTree($zone);
+        $fifthTree->setAge(500);
+        $fifthTree->setSize(500);
+        $fifthTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
+        $manager->persist($fifthTree);
+        $this->addReference(self::FIFTH_TREE_REFERENCE, $fifthTree);
 
         $manager->flush();
     }

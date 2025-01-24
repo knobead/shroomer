@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Generator\Mycelium\ConditionBag;
 
+use App\Condition\CurrentWeather;
+use App\Condition\LastWeather;
 use App\Condition\MinMaxTemperature;
 use App\Entity\MyceliumGenusEnum;
+use App\Entity\WeatherStateEnum;
 
 class AmanitaConditionBagBuilder implements ConditionBagBuilderInterface
 {
@@ -23,7 +26,9 @@ class AmanitaConditionBagBuilder implements ConditionBagBuilderInterface
     public function builds(): array
     {
         return [
-            new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 25),
+            new LastWeather(WeatherStateEnum::STATE_RAIN),
+            new CurrentWeather(WeatherStateEnum::STATE_SUNNY),
+            new MinMaxTemperature(minimumTemperature: 10, maximumTemperature: 20),
         ];
     }
 }

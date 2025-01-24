@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Command;
 
+use App\Command\GenerateIterationCommand;
 use App\Entity\Mycelium;
 use App\Entity\Sporocarp;
 use App\Entity\Weather;
@@ -38,13 +39,13 @@ class GenerateIterationCommandTest extends WebTestCase
 
         $command = $application->find('app:generate:iteration');
         $commandTester = new CommandTester($command);
-        $commandTester->execute([]);
+        $commandTester->execute(['--'.GenerateIterationCommand::COUNT_OPTION => 20]);
 
         $commandTester->assertCommandIsSuccessful();
 
         $weatherRepository = $doctrine->getManager()->getRepository(Weather::class);
         $weathers = $weatherRepository->findAll();
-        self::assertCount(1, $weathers);
+        self::assertCount(20, $weathers);
 
         $zoneRepository = $doctrine->getManager()->getRepository(Zone::class);
         $zones = $zoneRepository->findAll();
@@ -56,6 +57,8 @@ class GenerateIterationCommandTest extends WebTestCase
 
         $sporocarpRepository = $doctrine->getManager()->getRepository(Sporocarp::class);
         $sporocarps = $sporocarpRepository->findAll();
-        self::assertCount(1, $sporocarps);
+        $count = count($sporocarps);
+        self::assertGreaterThanOrEqual(2, $count);
+        self::assertLessThanOrEqual(4, $count);
     }
 }

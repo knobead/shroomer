@@ -51,6 +51,15 @@ class Zone
         $this->trees = new ArrayCollection();
     }
 
+    #[Groups(Zone::class)]
+    public function getItems(): array
+    {
+        $return = array_merge($this->sporocarps->toArray(), $this->trees->toArray());
+        shuffle($return);
+
+        return $return;
+    }
+
     /**
      * @return int|null
      */

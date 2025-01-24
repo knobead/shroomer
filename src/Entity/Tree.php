@@ -24,7 +24,12 @@ use Symfony\Component\Validator\Constraints\EqualTo;
 #[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
 class Tree implements DatableInterface
 {
-    public const int ITERATION_FOR_ONE_MYCELIUM = 50;
+    public const array MYCELIUM_SLOT_PER_AGES = [
+        0 => 0,
+        50 => 1,
+        150 => 2,
+        400 => 3
+    ];
 
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
@@ -58,6 +63,26 @@ class Tree implements DatableInterface
     public function __construct()
     {
         $this->myceliums = new ArrayCollection();
+    }
+
+    /**
+     * It returns the number of mycelium slot according to the age
+     *
+     * @param int $age
+     *
+     * @return int
+     */
+    public static function getMyceliumSlot(int $age): int
+    {
+        $keys = array_reverse(array_keys(self::MYCELIUM_SLOT_PER_AGES));
+
+        foreach ($keys as $key) {
+            if ($key <= $age) {
+                return self::MYCELIUM_SLOT_PER_AGES[$key];
+            }
+        }
+
+        return 0;
     }
 
     /**
