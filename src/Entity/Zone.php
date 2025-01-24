@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: ZoneRepository::class)]
@@ -43,6 +44,7 @@ class Zone
     // all the trees that can be found in the zone
     #[OneToMany(targetEntity: Tree::class, mappedBy: 'zone')]
     #[Groups(Zone::class)]
+    #[OrderBy(['id' => 'ASC'])]
     private Collection $trees;
 
     public function __construct()
@@ -54,8 +56,19 @@ class Zone
     #[Groups(Zone::class)]
     public function getItems(): array
     {
-        $return = array_merge($this->sporocarps->toArray(), $this->trees->toArray());
-        shuffle($return);
+        $return = [];
+
+        /** @var Tree $tree */
+        foreach ($this->trees as $tree) {
+            $return[] = $tree;
+
+            /** @var Mycelium $mycelium */
+            foreach ($tree->getMyceliums() as $mycelium) {
+                foreach ($mycelium->getSporocarps() as $sporocarp) {
+                    $return[] = $sporocarp;
+                }
+            }
+        }
 
         return $return;
     }

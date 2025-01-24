@@ -1,37 +1,15 @@
 <script setup lang="ts">
-import {useRoute} from "vue-router";
-import {onMounted, ref, inject} from "vue";
-import ZoneItem from "@/components/item/ZoneItem.vue";
-
-const route = useRoute()
-const zone = ref({})
-const host = inject('host')
-
-onMounted(async () => {
-  zone.value = await fetch(host+'/api/zone/'+route.params.id)
-    .then(response => response.json())
-    .then(data => {return data})
-})
+import ZoneComponent from "@/components/ZoneComponent.vue";
+import {ref} from "vue";
+const componentKey = ref(0)
+setInterval(function () {
+  componentKey.value++
+}, 5000)
 </script>
 
 <template>
-  <div v-if="zone">
-    <h1>{{zone.name}}</h1>
-    <div class="zone">
-      <zone-item v-for="item in zone.items" :item="item" :type="item['@type']" :key="item['@type']+item.id"/>
-    </div>
-  </div>
-  <div v-else>
-    <h1>Loading ...</h1>
-  </div>
+  <zone-component :key="componentKey"/>
 </template>
 
 <style>
-.zone {
-  > pre {
-    display: inline-block;
-    margin-bottom: 40px;
-    margin-top: 100px;
-  }
-}
 </style>

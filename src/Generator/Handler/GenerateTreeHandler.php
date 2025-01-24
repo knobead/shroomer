@@ -50,29 +50,34 @@ class GenerateTreeHandler
             throw new RuntimeException('Tree not found');
         }
 
-        $age = $tree->getAge();
-        $tree->setAge(++$age);
+        $tree->toNextAge();
+        $this->handlesMyceliumGeneration($tree);
         $this->entityManager->flush();
+    }
 
+    /**
+     * @param Tree $tree
+     *
+     * @return void
+     */
+    private function handlesMyceliumGeneration(Tree $tree): void
+    {
         $availableMyceliums = TreeGenusesEnum::getMyceliums($tree->getGenus());
-        $myceliums = $this->myceliumRepository->findBy(['tree' => $tree]);
-        $myceliumsSlot = Tree::getMyceliumSlot($age);
-        $myceliumsCount = count($myceliums);
-
 
         if (0 === count($availableMyceliums)) {
             return;
         }
 
-        if (0 >= $myceliumsSlot - $myceliumsCount) {
+        $myceliums = $this->myceliumRepository->findBy(['tree' => $tree]);
+        $myceliumsSlot = Tree::getMyceliumSlot($tree->getAge());
+
+        if ($myceliumsSlot <= count($myceliums)) {
             return;
         }
 
         $mycelium = new Mycelium();
         $mycelium->setTree($tree);
         $mycelium->setGenus($availableMyceliums[array_rand($availableMyceliums)]);
-
         $this->entityManager->persist($mycelium);
-        $this->entityManager->flush();
     }
 }

@@ -18,6 +18,7 @@ defineProps({
 \_._.| |__._
 </pre>
 <pre v-else-if="sporocarp.genus=='cantharellus'">
+\ /
 _Y_
 </pre>
   <pre v-else-if="sporocarp.genus=='pleurotus'">

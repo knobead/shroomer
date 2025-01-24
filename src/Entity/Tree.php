@@ -24,6 +24,8 @@ use Symfony\Component\Validator\Constraints\EqualTo;
 #[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
 class Tree implements DatableInterface
 {
+    use DatableTrait;
+
     public const array MYCELIUM_SLOT_PER_AGES = [
         0 => 0,
         50 => 1,
@@ -42,12 +44,6 @@ class Tree implements DatableInterface
     #[Groups(Zone::class)]
     #[EqualTo(value: 0)]
     private int $size = 0;
-
-    // age in day / iteration
-    #[Column(name: 'age', type: Types::INTEGER, nullable: false)]
-    #[Groups(Zone::class)]
-    #[EqualTo(value: 0)]
-    private int $age = 0;
 
     #[Column(name: "genus", type: Types::STRING, nullable: false, enumType: TreeGenusesEnum::class)]
     #[Groups(Zone::class)]
@@ -119,24 +115,6 @@ class Tree implements DatableInterface
     public function setSize(int $size): void
     {
         $this->size = $size;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAge(): int
-    {
-        return $this->age;
-    }
-
-    /**
-     * @param int $age
-     *
-     * @return void
-     */
-    public function setAge(int $age): void
-    {
-        $this->age = $age;
     }
 
     /**
