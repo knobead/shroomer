@@ -11,7 +11,7 @@ use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class MinMaxTemperatureResolver implements ConditionResolverInterface
+final class MinMaxTemperatureResolver extends AbstractConditionResolver
 {
     private WeatherRepository $weatherRepository;
 
@@ -32,20 +32,15 @@ class MinMaxTemperatureResolver implements ConditionResolverInterface
     }
 
     /**
-     *
      * @param MinMaxTemperature $abstractCondition
      * @param array             $context
      *
      * @return bool
+     * @throws InvalidContextException
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        $zone = $context['zone'] ?? null;
-
-        if (!$zone instanceof Zone){
-            throw new InvalidContextException('zone', Zone::class);
-        }
-
+        $zone = $this->getContextKey($context, 'zone', Zone::class);
         $weathers = $this->weatherRepository->findLastWeathers($zone, 1);
 
         if (1 !== count($weathers)) {

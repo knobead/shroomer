@@ -11,7 +11,7 @@ use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class DeltaTemperatureResolver implements ConditionResolverInterface
+final class DeltaTemperatureResolver extends AbstractConditionResolver
 {
     private WeatherRepository $weatherRepository;
 
@@ -40,12 +40,8 @@ class DeltaTemperatureResolver implements ConditionResolverInterface
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        $zone = $context['zone'] ?? null;
-
-        if (!$zone instanceof Zone){
-            throw new InvalidContextException('zone', Zone::class);
-        }
-
+        /** @var Zone $zone */
+        $zone = $this->getContextKey($context, 'zone', Zone::class);
         $weathers = $this->weatherRepository->findLastWeathers($zone, 1);
 
         if (1 !== count($weathers)) {

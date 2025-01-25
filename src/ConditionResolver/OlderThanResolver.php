@@ -9,7 +9,7 @@ use App\Condition\OlderThan;
 use App\Entity\DatableInterface;
 use App\Exception\InvalidContextException;
 
-class OlderThanResolver implements ConditionResolverInterface
+final class OlderThanResolver extends AbstractConditionResolver
 {
     /**
      * @param AbstractCondition $abstractCondition
@@ -31,15 +31,8 @@ class OlderThanResolver implements ConditionResolverInterface
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        if (!array_key_exists($key = 'datable', $context)) {
-            throw new InvalidContextException($key, DatableInterface::class);
-        }
-
-        $datable = $context[$key];
-
-        if(!$datable instanceof DatableInterface) {
-            throw new InvalidContextException($key, DatableInterface::class);
-        }
+        /** @var DatableInterface $datable */
+        $datable = $this->getContextKey($context, 'datable', DatableInterface::class);
 
         return $datable->getAge() > $abstractCondition->getAge();
     }

@@ -11,7 +11,7 @@ use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class AverageHumidityResolver implements ConditionResolverInterface
+final class AverageHumidityResolver extends AbstractConditionResolver
 {
     private WeatherRepository $weatherRepository;
 
@@ -34,20 +34,16 @@ class AverageHumidityResolver implements ConditionResolverInterface
     }
 
     /**
-     *
      * @param AverageHumidity $abstractCondition
-     * @param array             $context *
+     * @param array           $context
      *
      * @return bool
+     * @throws InvalidContextException
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        $zone = $context['zone'] ?? null;
-
-        if (!$zone instanceof Zone){
-            throw new InvalidContextException('zone', Zone::class);
-        }
-
+        /** @var Zone $zone */
+        $zone = $this->getContextKey($context, 'zone', Zone::class);
         $weathers = $this->weatherRepository->findLastWeathers($zone, $abstractCondition->getDuration());
 
         if (0 === $count = count($weathers)) {
