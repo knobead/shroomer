@@ -14,7 +14,7 @@ class DeltaResolverTest extends TestCase
 {
     public function testItAcceptHighestDelta(): void
     {
-        $weather = DummiesFactory::newWeather();
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
 
@@ -27,8 +27,8 @@ class DeltaResolverTest extends TestCase
         $conditionOne = new DeltaTemperature(minimumDelta: 15);
         $conditionTwo = new DeltaTemperature(minimumDelta: 20);
         $conditionTree = new DeltaTemperature(minimumDelta: 25);
-        self::assertTrue($resolver->resolve($conditionOne));
-        self::assertTrue($resolver->resolve($conditionTwo));
-        self::assertFalse($resolver->resolve($conditionTree));
+        self::assertTrue($resolver->resolve($conditionOne, ['zone' => $zone]));
+        self::assertTrue($resolver->resolve($conditionTwo, ['zone' => $zone]));
+        self::assertFalse($resolver->resolve($conditionTree, ['zone' => $zone]));
     }
 }

@@ -4,23 +4,20 @@ declare(strict_types=1);
 
 namespace App\Generator\Weather;
 
+use App\Entity\Weather;
 use App\Entity\WeatherStateEnum;
-use Doctrine\ORM\EntityManagerInterface;
 use RuntimeException;
 
 class ChainWeatherGenerator
 {
     private iterable $generators;
-    private EntityManagerInterface $entityManager;
 
     /**
      * @param iterable               $generators
-     * @param EntityManagerInterface $entityManager
      */
-    public function __construct(iterable $generators, EntityManagerInterface $entityManager)
+    public function __construct(iterable $generators)
     {
         $this->generators = $generators;
-        $this->entityManager = $entityManager;
     }
 
     /**
@@ -28,13 +25,11 @@ class ChainWeatherGenerator
      *
      * @param WeatherStateEnum $type
      *
-     * @return void
+     * @return Weather
      */
-    public function generate(WeatherStateEnum $type): void
+    public function generate(WeatherStateEnum $type): Weather
     {
-        $weather = $this->getGenerator($type)->generate($type);
-        $this->entityManager->persist($weather);
-        $this->entityManager->flush();
+        return $this->getGenerator($type)->generate($type);
     }
 
     /**

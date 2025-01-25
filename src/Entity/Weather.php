@@ -13,42 +13,38 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[Entity(repositoryClass: WeatherRepository::class)]
-#[ApiResource(
-    operations: [new GetCollection(uriTemplate: 'weathers')],
-    normalizationContext: ['groups' => [Weather::class]],
-    provider: WeatherProvider::class
-)]
 class Weather
 {
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
     #[Groups(Weather::class)]
-    #[SerializedName('iteration')]
     private ?int $id = null;
 
     // humidity percentage
     #[Column(type: Types::INTEGER, nullable: false)]
-    #[Groups(Weather::class)]
     private int $humidity;
 
     // max temperature (celsius)
     #[Column(type: Types::INTEGER, nullable: false)]
-    #[Groups(Weather::class)]
     private int $maxTemperature;
 
     // min temperature (celsius)
     #[Column(type: Types::INTEGER, nullable: false)]
-    #[Groups(Weather::class)]
     private int $minTemperature;
 
     #[Column(type: Types::STRING, nullable: false, enumType: WeatherStateEnum::class)]
-    #[Groups(Weather::class)]
     private WeatherStateEnum $state;
+
+    #[ManyToOne(targetEntity: Zone::class, inversedBy: "weathers")]
+    #[JoinColumn(nullable: false)]
+    private Zone $zone;
 
     /**
      * @return int|null
@@ -128,5 +124,23 @@ class Weather
     public function setState(WeatherStateEnum $state): void
     {
         $this->state = $state;
+    }
+
+    /**
+     * @return Zone
+     */
+    public function getZone(): Zone
+    {
+        return $this->zone;
+    }
+
+    /**
+     * @param Zone $zone
+     *
+     * @return void
+     */
+    public function setZone(Zone $zone): void
+    {
+        $this->zone = $zone;
     }
 }

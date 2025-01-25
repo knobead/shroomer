@@ -6,10 +6,12 @@ namespace App\ConditionResolver;
 
 use App\Condition\AbstractCondition;
 use App\Condition\DeltaTemperature;
+use App\Entity\Zone;
+use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class DeltaTemperatureResolver implements ConditionResolverInterface
+final class DeltaTemperatureResolver extends AbstractConditionResolver
 {
     private WeatherRepository $weatherRepository;
 
@@ -30,14 +32,17 @@ class DeltaTemperatureResolver implements ConditionResolverInterface
     }
 
     /**
-     * @param DeltaTemperature  $abstractCondition
-     * @param array             $context
+     * @param DeltaTemperature $abstractCondition
+     * @param array            $context
      *
      * @return bool
+     * @throws InvalidContextException
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        $weathers = $this->weatherRepository->findLastWeathers(1);
+        /** @var Zone $zone */
+        $zone = $this->getContextKey($context, 'zone', Zone::class);
+        $weathers = $this->weatherRepository->findLastWeathers($zone, 1);
 
         if (1 !== count($weathers)) {
             throw new RuntimeException('no weather found');

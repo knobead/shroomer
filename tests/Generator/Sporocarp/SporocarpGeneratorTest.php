@@ -27,7 +27,7 @@ class SporocarpGeneratorTest extends WebTestCase
     public function testItGeneratesASporocarp(): void
     {
         /** @var Sporocarp $sporocarp */
-        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::SPOROCARP_REFERENCE);
+        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::SPOROCARP_REFERENCE, Sporocarp::class);
 
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
@@ -40,7 +40,7 @@ class SporocarpGeneratorTest extends WebTestCase
     public function testItDoesNotAlterAYoungSporocarp(): void
     {
         /** @var Sporocarp $sporocarp */
-        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::SECOND_SPOROCARP_REFERENCE);
+        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::SECOND_SPOROCARP_REFERENCE, Sporocarp::class);
 
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
@@ -56,7 +56,7 @@ class SporocarpGeneratorTest extends WebTestCase
     public function testItTurnsEatenSporocarpToRotten(): void
     {
         /** @var Sporocarp $sporocarp */
-        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::THIRD_SPOROCARP_REFERENCE);
+        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::THIRD_SPOROCARP_REFERENCE, Sporocarp::class);
 
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
@@ -69,7 +69,7 @@ class SporocarpGeneratorTest extends WebTestCase
     public function testItTurnsWormySporocarpToRotten(): void
     {
         /** @var Sporocarp $sporocarp */
-        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::FIFTH_SPOROCARP_REFERENCE);
+        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::FIFTH_SPOROCARP_REFERENCE, Sporocarp::class);
 
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
@@ -82,7 +82,7 @@ class SporocarpGeneratorTest extends WebTestCase
     public function testItDeletesARottenSporocarp(): void
     {
         /** @var Sporocarp $sporocarp */
-        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::FOURTH_SPOROCARP_REFERENCE);
+        $sporocarp = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::FOURTH_SPOROCARP_REFERENCE, Sporocarp::class);
 
         $generator = self::getContainer()->get(GenerateSporocarpHandler::class);
         $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));

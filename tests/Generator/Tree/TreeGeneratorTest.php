@@ -28,7 +28,7 @@ class TreeGeneratorTest extends WebTestCase
     public function testItAgesATree(): void
     {
         /** @var Tree $tree */
-        $tree = $this->fixturesRepository->getReference(TreeGeneratorFixtures::FIRST_TREE_REFERENCE);
+        $tree = $this->fixturesRepository->getReference(TreeGeneratorFixtures::FIRST_TREE_REFERENCE, Tree::class);
 
         $generator = self::getContainer()->get(GenerateTreeHandler::class);
         $generator->__invoke(new GenerateTreeMessage($tree->getId()));
@@ -47,7 +47,7 @@ class TreeGeneratorTest extends WebTestCase
     public function testItAddMyceliums(string $reference, int $count): void
     {
         /** @var Tree $tree */
-        $tree = $this->fixturesRepository->getReference($reference);
+        $tree = $this->fixturesRepository->getReference($reference, Tree::class);
         $myceliumRepository = $this->client->getContainer()->get(MyceliumRepository::class);
 
         $generator = self::getContainer()->get(GenerateTreeHandler::class);

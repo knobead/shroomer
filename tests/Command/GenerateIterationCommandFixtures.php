@@ -13,6 +13,7 @@ use App\Tests\DummiesFactory;
 class GenerateIterationCommandFixtures extends Fixture
 {
     public const string ZONE_REFERENCE = 'zone_reference';
+    public const string OTHER_ZONE_REFERENCE = 'other_zone_reference';
 
     /**
      * Load data fixtures with the passed EntityManager
@@ -23,6 +24,10 @@ class GenerateIterationCommandFixtures extends Fixture
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
+        $otherZone = DummiesFactory::newZone(self::OTHER_ZONE_REFERENCE);
+        $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
+        $manager->persist($otherZone);
+
         $treeWithPleurotus = DummiesFactory::newTree($zone);
         $treeWithPleurotus->setAge(250);
         $treeWithPleurotus->setGenus(TreeGenusesEnum::GENUS_PINUS);
@@ -31,6 +36,10 @@ class GenerateIterationCommandFixtures extends Fixture
         $mycelium = DummiesFactory::newMycelium($treeWithPleurotus);
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_PLEUROTUS);
         $manager->persist($mycelium);
+
+        $treeToPopulate = DummiesFactory::newTree($otherZone);
+        $treeToPopulate->setAge(60);
+        $manager->persist($treeToPopulate);
 
         $manager->flush();
     }

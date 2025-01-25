@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Generator\Weather;
 
 use App\Entity\WeatherStateEnum;
+use App\Generator\Handler\GenerateWeatherHandler;
 use App\Generator\Weather\ChainWeatherGenerator;
 use App\Generator\Weather\WeatherGeneratorInterface;
 use App\Repository\WeatherRepository;
@@ -25,13 +26,7 @@ class WeatherGeneratorTest extends KernelTestCase
         self::bootKernel();
         /** @var WeatherGeneratorInterface $generator */
         $generator = self::getContainer()->get(ChainWeatherGenerator::class);
-        $generator->generate($type);
-
-        $weatherRepository = self::getContainer()->get(WeatherRepository::class);
-        $weathers = $weatherRepository->findLastWeathers(1);
-
-        self::assertCount(1, $weathers);
-        $weather = $weathers[0];
+        $weather = $generator->generate($type);
         self::assertSame($type, $weather->getState());
         self::assertSame($humidity, $weather->getHumidity());
     }

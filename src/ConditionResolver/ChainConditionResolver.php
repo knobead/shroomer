@@ -7,7 +7,7 @@ namespace App\ConditionResolver;
 use App\Condition\AbstractCondition;
 use RuntimeException;
 
-class ConditionResolver
+class ChainConditionResolver
 {
     private iterable $conditionResolvers;
 

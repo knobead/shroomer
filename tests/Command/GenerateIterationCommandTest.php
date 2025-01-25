@@ -34,6 +34,11 @@ class GenerateIterationCommandTest extends WebTestCase
         $doctrine = self::$kernel->getContainer()->get('doctrine');
 
         $weatherRepository = $doctrine->getManager()->getRepository(Weather::class);
+        $zoneRepository = $doctrine->getManager()->getRepository(Zone::class);
+        $myceliumRepository = $doctrine->getManager()->getRepository(Mycelium::class);
+        $sporocarpRepository = $doctrine->getManager()->getRepository(Sporocarp::class);
+
+
         $weathers = $weatherRepository->findAll();
         self::assertCount(0, $weathers);
 
@@ -43,22 +48,18 @@ class GenerateIterationCommandTest extends WebTestCase
 
         $commandTester->assertCommandIsSuccessful();
 
-        $weatherRepository = $doctrine->getManager()->getRepository(Weather::class);
         $weathers = $weatherRepository->findAll();
-        self::assertCount(20, $weathers);
+        self::assertCount(40, $weathers);
 
-        $zoneRepository = $doctrine->getManager()->getRepository(Zone::class);
         $zones = $zoneRepository->findAll();
-        self::assertCount(1, $zones);
+        self::assertCount(2, $zones);
 
-        $myceliumRepository = $doctrine->getManager()->getRepository(Mycelium::class);
         $myceliums = $myceliumRepository->findAll();
-        self::assertCount(2, $myceliums);
+        self::assertCount(3, $myceliums);
 
-        $sporocarpRepository = $doctrine->getManager()->getRepository(Sporocarp::class);
         $sporocarps = $sporocarpRepository->findAll();
         $count = count($sporocarps);
         self::assertGreaterThanOrEqual(0, $count);
-        self::assertLessThanOrEqual(4, $count);
+        self::assertLessThanOrEqual(3, $count);
     }
 }

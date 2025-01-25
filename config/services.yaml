@@ -35,6 +35,6 @@ services:
         arguments:
             $conditionBagBuilders: !tagged app.generator.mycelium_condition_bag_builder
             
-    App\ConditionResolver\ConditionResolver:
+    App\ConditionResolver\ChainConditionResolver:
         arguments:
             $conditionResolvers: !tagged app.condition.condition_resolver

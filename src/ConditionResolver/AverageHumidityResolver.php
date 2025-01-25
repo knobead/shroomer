@@ -6,10 +6,12 @@ namespace App\ConditionResolver;
 
 use App\Condition\AbstractCondition;
 use App\Condition\AverageHumidity;
+use App\Entity\Zone;
+use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
 use RuntimeException;
 
-class AverageHumidityResolver implements ConditionResolverInterface
+final class AverageHumidityResolver extends AbstractConditionResolver
 {
     private WeatherRepository $weatherRepository;
 
@@ -32,15 +34,17 @@ class AverageHumidityResolver implements ConditionResolverInterface
     }
 
     /**
-     *
      * @param AverageHumidity $abstractCondition
-     * @param array             $context *
+     * @param array           $context
      *
      * @return bool
+     * @throws InvalidContextException
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        $weathers = $this->weatherRepository->findLastWeathers(count: $abstractCondition->getDuration());
+        /** @var Zone $zone */
+        $zone = $this->getContextKey($context, 'zone', Zone::class);
+        $weathers = $this->weatherRepository->findLastWeathers($zone, $abstractCondition->getDuration());
 
         if (0 === $count = count($weathers)) {
             throw new RuntimeException('no weather found');

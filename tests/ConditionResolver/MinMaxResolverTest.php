@@ -22,7 +22,7 @@ class MinMaxResolverTest extends TestCase
      */
     public function testItResolvesMinOnlyTemperature(int $min, bool $result): void
     {
-        $weather = DummiesFactory::newWeather();
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
 
@@ -38,7 +38,7 @@ class MinMaxResolverTest extends TestCase
             $weather->getMinTemperature(),
             $min
         );
-        self::assertSame($result, $resolver->resolve($condition), $errorMessage);
+        self::assertSame($result, $resolver->resolve($condition, ['zone' => $zone]), $errorMessage);
     }
 
     /***
@@ -68,7 +68,7 @@ class MinMaxResolverTest extends TestCase
      */
     public function testItResolvesMaxOnlyTemperature(int $max, bool $result): void
     {
-        $weather = DummiesFactory::newWeather();
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
 
@@ -84,7 +84,7 @@ class MinMaxResolverTest extends TestCase
             $weather->getMaxTemperature(),
             $max
         );
-        self::assertSame($result, $resolver->resolve($condition), $errorMessage);
+        self::assertSame($result, $resolver->resolve($condition, ['zone' => $zone]), $errorMessage);
     }
 
     /***
@@ -115,7 +115,7 @@ class MinMaxResolverTest extends TestCase
      */
     public function testItResolvesMinAndMaxTemperature(int $min, int $max, bool $result): void
     {
-        $weather = DummiesFactory::newWeather();
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
 
@@ -135,7 +135,7 @@ class MinMaxResolverTest extends TestCase
             $weather->getMaxTemperature(),
             $max
         );
-        self::assertSame($result, $resolver->resolve($condition), $errorMessage);
+        self::assertSame($result, $resolver->resolve($condition, ['zone' => $zone]), $errorMessage);
     }
 
     /**

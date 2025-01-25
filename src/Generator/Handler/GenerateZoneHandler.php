@@ -7,6 +7,7 @@ namespace App\Generator\Handler;
 use App\Generator\Message\GenerateMyceliumMessage;
 use App\Generator\Message\GenerateSporocarpMessage;
 use App\Generator\Message\GenerateTreeMessage;
+use App\Generator\Message\GenerateWeatherMessage;
 use App\Generator\Message\GenerateZoneMessage;
 use App\Repository\MyceliumRepository;
 use App\Repository\SporocarpRepository;
@@ -49,6 +50,8 @@ class GenerateZoneHandler
      */
     public function __invoke(GenerateZoneMessage $generateZoneMessage): void
     {
+        $this->messageBus->dispatch(new GenerateWeatherMessage($generateZoneMessage->getZoneId()));
+
         $trees = $this->treeRepository->findByZone($generateZoneMessage->getZoneId());
         $myceliums = $this->myceliumRepository->findByZoneId($generateZoneMessage->getZoneId());
         $sporocarps = $this->sporocarpRepository->findByZone($generateZoneMessage->getZoneId());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Weather;
+use App\Entity\Zone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,12 +25,14 @@ class WeatherRepository extends ServiceEntityRepository
     /**
      * @return Weather[]
      */
-    public function findLastWeathers(int $count, int $offset = 0): array
+    public function findLastWeathers(Zone $zone, int $count, int $offset = 0): array
     {
         return $this->createQueryBuilder('weather')
+            ->where('weather.zone = :zone')
             ->orderBy('weather.id', 'desc')
             ->setMaxResults($count)
             ->setFirstResult($offset)
+            ->setParameter('zone', $zone)
             ->getQuery()
             ->getResult();
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Generator\Handler;
 
-use App\ConditionResolver\ConditionResolver;
+use App\ConditionResolver\ChainConditionResolver;
 use App\Entity\Mycelium;
 use App\Entity\Sporocarp;
 use App\Generator\Message\GenerateMyceliumMessage;
@@ -19,20 +19,20 @@ class GenerateMyceliumHandler
 {
     private MyceliumRepository $myceliumRepository;
     private ConditionBagBuilder $conditionBagBuilder;
-    private ConditionResolver $conditionResolver;
+    private ChainConditionResolver $conditionResolver;
     private EntityManagerInterface $entityManager;
 
     /**
      * @param EntityManagerInterface $entityManager
      * @param MyceliumRepository     $myceliumRepository
      * @param ConditionBagBuilder    $conditionBagBuilder
-     * @param ConditionResolver      $conditionResolver
+     * @param ChainConditionResolver $conditionResolver
      */
     public function __construct(
         EntityManagerInterface $entityManager,
         MyceliumRepository $myceliumRepository,
         ConditionBagBuilder $conditionBagBuilder,
-        ConditionResolver $conditionResolver
+        ChainConditionResolver $conditionResolver
     )
     {
         $this->myceliumRepository = $myceliumRepository;
@@ -61,12 +61,12 @@ class GenerateMyceliumHandler
 
         $conditions = $this->conditionBagBuilder->build($mycelium->getGenus());
 
-        if (1 < count($mycelium->getSporocarps())) {
+        if (1 <= count($mycelium->getSporocarps())) {
             return;
         }
 
         foreach ($conditions as $condition) {
-            if (!$this->conditionResolver->resolve($condition)) {
+            if (!$this->conditionResolver->resolve($condition, ['zone' => $mycelium->getTree()->getZone()])) {
                 return;
             }
         }
