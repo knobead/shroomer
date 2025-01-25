@@ -61,12 +61,12 @@ class GenerateMyceliumHandler
 
         $conditions = $this->conditionBagBuilder->build($mycelium->getGenus());
 
-        if (1 < count($mycelium->getSporocarps())) {
+        if (1 <= count($mycelium->getSporocarps())) {
             return;
         }
 
         foreach ($conditions as $condition) {
-            if (!$this->conditionResolver->resolve($condition)) {
+            if (!$this->conditionResolver->resolve($condition, ['zone' => $mycelium->getTree()->getZone()])) {
                 return;
             }
         }

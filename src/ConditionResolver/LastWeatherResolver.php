@@ -7,6 +7,8 @@ namespace App\ConditionResolver;
 use App\Condition\AbstractCondition;
 use App\Condition\CurrentWeather;
 use App\Condition\LastWeather;
+use App\Entity\Zone;
+use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
 
 class LastWeatherResolver implements ConditionResolverInterface
@@ -39,7 +41,13 @@ class LastWeatherResolver implements ConditionResolverInterface
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        $weathers = $this->weatherRepository->findLastWeathers(count: 1, offset: 1);
+        $zone = $context['zone'] ?? null;
+
+        if (!$zone instanceof Zone){
+            throw new InvalidContextException('zone', Zone::class);
+        }
+
+        $weathers = $this->weatherRepository->findLastWeathers($zone, 1, 1);
 
         if (1 !== count($weathers)) {
             return false;

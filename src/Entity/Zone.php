@@ -47,6 +47,12 @@ class Zone
     #[OrderBy(['id' => 'ASC'])]
     private Collection $trees;
 
+    // all the weathers that can be found in the zone
+    #[OneToMany(targetEntity: Weather::class, mappedBy: 'zone')]
+    #[Groups(Zone::class)]
+    #[OrderBy(['id' => 'DESC'])]
+    private Collection $weathers;
+
     public function __construct()
     {
         $this->sporocarps = new ArrayCollection();

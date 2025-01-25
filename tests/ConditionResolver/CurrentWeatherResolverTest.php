@@ -14,7 +14,7 @@ class CurrentWeatherResolverTest extends TestCase
 {
     public function testItAcceptsValidWeather(): void
     {
-        $weather = DummiesFactory::newWeather();
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
         $weather->setState(WeatherStateEnum::STATE_STORM);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
@@ -26,12 +26,12 @@ class CurrentWeatherResolverTest extends TestCase
 
         $resolver = new CurrentWeatherResolver($repositoryMock);
         $conditionOne = new CurrentWeather(WeatherStateEnum::STATE_STORM);
-        self::assertTrue($resolver->resolve($conditionOne), 'it fail to valid current weather');
+        self::assertTrue($resolver->resolve($conditionOne, ['zone' => $zone]), 'it fail to valid current weather');
     }
 
     public function testItRefusesInvalidWeather(): void
     {
-        $weather = DummiesFactory::newWeather();
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
         $weather->setState(WeatherStateEnum::STATE_STORM);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
@@ -43,6 +43,6 @@ class CurrentWeatherResolverTest extends TestCase
 
         $resolver = new CurrentWeatherResolver($repositoryMock);
         $conditionOne = new CurrentWeather(WeatherStateEnum::STATE_RAIN);
-        self::assertFalse($resolver->resolve($conditionOne), 'it fail to invalid current weather');
+        self::assertFalse($resolver->resolve($conditionOne, ['zone' => $zone]), 'it fail to invalid current weather');
     }
 }

@@ -16,11 +16,14 @@ use App\Entity\Zone;
 final class DummiesFactory
 {
     /**
+     * @param Zone $zone
+     *
      * @return Weather
      */
-    public static function newWeather(): Weather
+    public static function newWeather(Zone $zone): Weather
     {
         $weather = new Weather();
+        $weather->setZone($zone);
         $weather->setHumidity(0);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);

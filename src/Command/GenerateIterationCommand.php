@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Generator\Message\GenerateWeatherMessage;
 use App\Generator\Message\GenerateZoneMessage;
 use App\Repository\ZoneRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -41,11 +40,16 @@ class GenerateIterationCommand extends Command
         $this->entityManager = $entityManager;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('it generate iteration of the shroomer simulator')
-            ->addOption(self::COUNT_OPTION, 'c', InputOption::VALUE_REQUIRED, 'Number of iterations to operate');
+            ->addOption(
+                self::COUNT_OPTION,
+                'c',
+                InputOption::VALUE_REQUIRED,
+                'Number of iterations to operate'
+            );
     }
 
     /**
@@ -66,7 +70,6 @@ class GenerateIterationCommand extends Command
         for ($i = 0; $i < $count; $i++) {
             $output->writeln(sprintf('<info>Iteration number:</info> %d', $i));
             $zones = $this->zoneRepository->findAll();
-            $this->messageBus->dispatch(new GenerateWeatherMessage());
 
             foreach ($zones as $zone) {
                 /** @var int $zoneId */
