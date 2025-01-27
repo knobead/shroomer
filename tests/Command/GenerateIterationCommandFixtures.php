@@ -18,7 +18,7 @@ class GenerateIterationCommandFixtures extends Fixture
     /**
      * Load data fixtures with the passed EntityManager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $zone = DummiesFactory::newZone(self::ZONE_REFERENCE);
         $this->addReference(self::ZONE_REFERENCE, $zone);

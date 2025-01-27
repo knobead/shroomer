@@ -17,7 +17,7 @@ class WeatherResolverFixtures extends Fixture
     public const CURRENT_WEATHER_REFERENCE = 'current_weather';
 
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $zone = DummiesFactory::newZone('z1');
         $manager->persist($zone);

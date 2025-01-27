@@ -16,7 +16,7 @@ class SporocarpGeneratorFixtures extends Fixture
     public const string FOURTH_SPOROCARP_REFERENCE = 'fourth_sporocarp';
     public const string FIFTH_SPOROCARP_REFERENCE = 'fifth_sporocarp';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $zone = DummiesFactory::newZone('zone');
         $manager->persist($zone);

@@ -9,12 +9,28 @@ use App\Entity\MyceliumGenusEnum;
 use App\Entity\Sporocarp;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
+use App\Entity\User;
 use App\Entity\Weather;
 use App\Entity\WeatherStateEnum;
 use App\Entity\Zone;
 
 final class DummiesFactory
 {
+    /**
+     * @param string $email
+     *
+     * @return User
+     */
+    public static function newUser(string $email): User
+    {
+        $user = new User();
+        $user->setEmail($email);
+        $user->setRoles(['ROLE_USER']);
+        $user->setPassword('password');
+
+        return $user;
+    }
+
     /**
      * @param Zone $zone
      *

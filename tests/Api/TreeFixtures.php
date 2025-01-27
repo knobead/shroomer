@@ -17,7 +17,7 @@ class TreeFixtures extends Fixture
     /**
      * @inheritDoc
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $zone = DummiesFactory::newZone(self::ZONE_REFERENCE);
         $manager->persist($zone);

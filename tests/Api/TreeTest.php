@@ -28,11 +28,9 @@ class TreeTest extends WebTestCase
 
     public function testItCouldAddATree(): void
     {
-        /** @var RouterInterface $router */
-        $router = self::getContainer()->get('router');
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( TreeFixtures::ZONE_REFERENCE, Zone::class);
-        $zoneUri = $router->generate('api_zone_get', ['id' => $zone->getId()]);
+        $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
             'size' => 0,
             'age' => 0,

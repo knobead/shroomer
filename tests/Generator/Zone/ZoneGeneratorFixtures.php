@@ -17,7 +17,7 @@ class ZoneGeneratorFixtures extends Fixture
     public const OTHER_ZONE_REFERENCE = 'other_zone';
     public const OTHER_MYCELIUM_REFERENCE = 'mycelium';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $zone = DummiesFactory::newZone('a first zone');
         $this->addReference(self::ZONE_REFERENCE, $zone);

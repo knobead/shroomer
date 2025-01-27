@@ -18,7 +18,7 @@ class TreeFixtures extends Fixture implements DependentFixtureInterface
     /**
      * @inheritDoc
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
         $zoneOne = $this->getReference(ZoneFixtures::ZONE_ONE_REFERENCE, Zone::class);

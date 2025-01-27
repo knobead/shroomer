@@ -27,7 +27,7 @@ class ZoneFixtures extends Fixture
     /**
      * Load data fixtures with the passed EntityManager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $firstZone = DummiesFactory::newZone(self::FIRST_ZONE_REFERENCE);
         $this->addReference(self::FIRST_ZONE_REFERENCE, $firstZone);
