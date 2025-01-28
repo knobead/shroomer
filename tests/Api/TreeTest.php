@@ -31,6 +31,31 @@ class TreeTest extends ApiTestCase
         $this->loadFixtureWithContainer(new TreeFixtures(), $this->container);
     }
 
+    public function testItCouldNotATreeToOtherZone()
+    {
+        /** @var Zone $zone */
+        $zone = $this->fixturesRepository->getReference( TreeFixtures::OTHER_ZONE_REFERENCE, Zone::class);
+        $zoneUri = 'api/zone/' . $zone->getId();
+        $jsonTree = [
+            'size' => 0,
+            'age' => 0,
+            'genus' => TreeGenusesEnum::GENUS_QUERCUS,
+            'zone' => $zoneUri
+        ];
+
+        $response = $this->client->request(
+            Request::METHOD_POST,
+            'api/tree',
+            [
+                'headers' => ['content-type' => 'application/ld+json'],
+                'auth_bearer' => $this->token,
+                'json' => $jsonTree
+            ],
+        );
+
+        self::assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+    }
+
     public function testItCouldAddATree(): void
     {
         $user = $this->fixturesRepository->getReference(TreeFixtures::USER_REFERENCE, User::class);

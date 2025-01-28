@@ -23,18 +23,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: ZoneRepository::class)]
 #[ApiResource(normalizationContext: ['groups' => [Zone::class]])]
-#[Get(uriTemplate: 'zone/{id}', security: "is_granted('get_zone', object)")]
-#[GetCollection(uriTemplate: 'zones')]
+#[Get(uriTemplate: 'zone/{id}', security: "is_granted('zone_get', object)")]
+#[GetCollection(
+    uriTemplate: 'zones',
+    normalizationContext: ['groups' => [self::GROUP_ZONES]],
+    security: "is_granted('zone_list', user)"
+)]
 class Zone
 {
+    public const string GROUP_ZONES = 'zones';
+
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
-    #[Groups(Zone::class)]
+    #[Groups([Zone::class, self::GROUP_ZONES])]
     private ?int $id = null;
 
     #[Column(name: 'name', type: Types::STRING, length: 255, nullable: false)]
-    #[Groups(Zone::class)]
+    #[Groups([Zone::class, self::GROUP_ZONES])]
     private string $name;
 
     #[ManyToOne(targetEntity: User::class, inversedBy: 'zones')]

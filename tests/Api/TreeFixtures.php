@@ -15,6 +15,9 @@ class TreeFixtures extends Fixture
     public const string TREE_REFERENCE = 'tree';
     public const string USER_REFERENCE = 'user';
 
+    public const string OTHER_USER_REFERENCE =  'other_user';
+    public const string OTHER_ZONE_REFERENCE =  'other_zone';
+
 
     /**
      * @inheritDoc
@@ -35,6 +38,15 @@ class TreeFixtures extends Fixture
         $tree->setSize(200);
         $manager->persist($tree);
         $this->addReference(self::TREE_REFERENCE, $tree);
+
+
+        $otherUser = DummiesFactory::newUser(email: 'other@other.com');
+        $this->addReference(self::OTHER_USER_REFERENCE, $otherUser);
+        $manager->persist($otherUser);
+
+        $otherZone = DummiesFactory::newZone($otherUser, 'other zone');
+        $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
+        $manager->persist($otherZone);
 
         $manager->flush();
     }

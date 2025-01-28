@@ -11,11 +11,11 @@ use Doctrine\Persistence\ObjectManager;
 
 class TreeGeneratorFixtures extends Fixture
 {
-    public const FIRST_TREE_REFERENCE = 'first_tree';
-    public const SECOND_TREE_REFERENCE = 'second_tree';
-    public const THIRD_TREE_REFERENCE = 'third_tree';
-    public const FOURTH_TREE_REFERENCE = 'fourth_tree';
-    public const FIFTH_TREE_REFERENCE = 'fifth_tree';
+    public const string FIRST_TREE_REFERENCE = 'first_tree';
+    public const string SECOND_TREE_REFERENCE = 'second_tree';
+    public const string THIRD_TREE_REFERENCE = 'third_tree';
+    public const string FOURTH_TREE_REFERENCE = 'fourth_tree';
+    public const string FIFTH_TREE_REFERENCE = 'fifth_tree';
 
     /**
      * @inheritDoc

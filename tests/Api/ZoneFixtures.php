@@ -26,6 +26,9 @@ class ZoneFixtures extends Fixture
     public const string SECOND_SPOROCARP_REFERENCE = 'second_sporocarp';
     public const string THIRD_SPOROCARP_REFERENCE  = 'third_sporocarp';
 
+    public const string OTHER_USER_REFERENCE =  'other_user';
+    public const string OTHER_ZONE_REFERENCE =  'other_zone';
+
     /**
      * Load data fixtures with the passed EntityManager
      */
@@ -82,6 +85,14 @@ class ZoneFixtures extends Fixture
         $thirdSporocarp->setZone($secondZone);
         $this->addReference(self::THIRD_SPOROCARP_REFERENCE, $thirdSporocarp);
         $manager->persist($thirdSporocarp);
+
+        $otherUser = DummiesFactory::newUser(email: 'other@other.com');
+        $this->addReference(self::OTHER_USER_REFERENCE, $otherUser);
+        $manager->persist($otherUser);
+
+        $otherZone = DummiesFactory::newZone($otherUser, 'other zone');
+        $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
+        $manager->persist($otherZone);
 
         $manager->flush();
     }

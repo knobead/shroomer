@@ -4,41 +4,36 @@ declare(strict_types=1);
 namespace App\Security\Voter;
 
 use App\Entity\User;
-use App\Entity\Zone;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
-class ZoneVoter extends Voter
+class UserVoter extends Voter
 {
     public const array ATTRIBUTES =  [
-      self::ZONE_GET_ATTRIBUTE,
+      self::TREE_ADD_ATTRIBUTE,
+      self::ZONE_LIST_ATTRIBUTE,
     ];
 
-    public const string ZONE_GET_ATTRIBUTE = 'zone_get';
+    public const string TREE_ADD_ATTRIBUTE = 'tree_add';
+    public const string ZONE_LIST_ATTRIBUTE = 'zone_list';
 
     /**
      * @inheritDoc
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return $subject instanceof Zone && in_array($attribute, self::ATTRIBUTES);
+        return $subject instanceof User && in_array($attribute, self::ATTRIBUTES);
     }
 
     /**
      * @param string         $attribute
-     * @param Zone           $subject
+     * @param null           $subject
      * @param TokenInterface $token
      *
      * @return bool
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        $user = $token->getUser();
-
-        if (!$user instanceof User) {
-            return false;
-        }
-
-        return $subject->getUser()->getId() === $user->getId();
+        return true;
     }
 }
