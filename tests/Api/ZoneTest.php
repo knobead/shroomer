@@ -10,8 +10,6 @@ use App\Entity\MyceliumGenusEnum;
 use App\Entity\User;
 use App\Entity\Zone;
 use App\Tests\FixtureLoaderCapableTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

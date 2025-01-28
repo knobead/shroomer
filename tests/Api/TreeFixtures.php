@@ -11,9 +11,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class TreeFixtures extends Fixture
 {
-    public const ZONE_REFERENCE = 'zone';
-    public const TREE_REFERENCE = 'tree';
-    public const USER_REFERENCE = 'user';
+    public const string ZONE_REFERENCE = 'zone';
+    public const string TREE_REFERENCE = 'tree';
+    public const string USER_REFERENCE = 'user';
 
 
     /**
