@@ -4,33 +4,41 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
+use App\Entity\User;
 use App\Entity\Zone;
 use App\Tests\FixtureLoaderCapableTrait;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\RouterInterface;
 
-class TreeTest extends WebTestCase
+class TreeTest extends ApiTestCase
 {
     use FixtureLoaderCapableTrait;
+    use PerformAuthenticateRequestTrait;
 
-    private KernelBrowser $client;
+    private Client $client;
+    private Container $container;
 
     public function setUp():void
     {
         $this->client = self::createClient();
-        $this->loadFixture(new TreeFixtures());
+        $this->container = self::getContainer();
+        $this->token = '';
+        $this->loadFixtureWithContainer(new TreeFixtures(), $this->container);
     }
 
     public function testItCouldAddATree(): void
     {
+        $user = $this->fixturesRepository->getReference(TreeFixtures::USER_REFERENCE, User::class);
+        $this->authenticateRequest($user);
+
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( TreeFixtures::ZONE_REFERENCE, Zone::class);
-        $zoneUri = 'api/zones/' . $zone->getId();
+        $zoneUri = 'api/zone/' . $zone->getId();
         $jsonTree = [
             'size' => 0,
             'age' => 0,
@@ -38,14 +46,16 @@ class TreeTest extends WebTestCase
             'zone' => $zoneUri
         ];
 
-        $this->client->xmlHttpRequest(
-            method:Request::METHOD_POST,
-            uri: 'api/tree',
-            server: ['CONTENT_TYPE'=> 'application/ld+json'],
-            content: json_encode($jsonTree)
+        $response = $this->client->request(
+            Request::METHOD_POST,
+            'api/tree',
+            [
+                'headers' => ['content-type' => 'application/ld+json'],
+                'auth_bearer' => $this->token,
+                'json' => $jsonTree
+            ],
         );
 
-        $response = $this->client->getResponse();
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
 
         $treeRepository = self::getContainer()->get('doctrine')->getRepository(Tree::class);

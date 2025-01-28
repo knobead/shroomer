@@ -17,15 +17,20 @@ use App\Entity\Zone;
 final class DummiesFactory
 {
     /**
-     * @param string $email
+     * @param string      $role
+     * @param string|null $email
      *
      * @return User
      */
-    public static function newUser(string $email): User
+    public static function newUser(string $role = User::ROLE_USER, ?string $email = null): User
     {
+        if (User::ROLE_USER === $role) {
+            $email = $email ?? 'user@user.com';
+        }
+
         $user = new User();
         $user->setEmail($email);
-        $user->setRoles(['ROLE_USER']);
+        $user->setRoles([$role]);
         $user->setPassword('password');
 
         return $user;

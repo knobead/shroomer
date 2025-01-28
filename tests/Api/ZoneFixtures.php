@@ -11,6 +11,8 @@ use App\Tests\DummiesFactory;
 
 class ZoneFixtures extends Fixture
 {
+    public const string USER_REFERENCE = 'user';
+
     public const string FIRST_ZONE_REFERENCE  = 'first_zone';
     public const string SECOND_ZONE_REFERENCE = 'second_zone';
 
@@ -29,6 +31,10 @@ class ZoneFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
+        $user = DummiesFactory::newUser();
+        $this->addReference(self::USER_REFERENCE, $user);
+        $manager->persist($user);
+
         $firstZone = DummiesFactory::newZone(self::FIRST_ZONE_REFERENCE);
         $this->addReference(self::FIRST_ZONE_REFERENCE, $firstZone);
         $manager->persist($firstZone);

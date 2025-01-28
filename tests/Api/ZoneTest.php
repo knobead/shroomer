@@ -4,37 +4,53 @@ declare(strict_types=1);
 
 namespace App\Tests\Api;
 
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use App\Entity\MyceliumGenusEnum;
+use App\Entity\User;
 use App\Entity\Zone;
 use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ZoneTest extends WebTestCase
+class ZoneTest extends ApiTestCase
 {
     use FixtureLoaderCapableTrait;
+    use PerformAuthenticateRequestTrait;
 
-    private KernelBrowser $client;
+    private Client $client;
+    private Container $container;
 
     public function setUp():void
     {
         $this->client = self::createClient();
-        $this->loadFixture(new ZoneFixtures());
+        $this->container = self::getContainer();
+        $this->token = '';
+        $this->loadFixtureWithContainer(new ZoneFixtures(), $this->container);
     }
 
     public function testItDetailsAZone(): void
     {
+        $user = $this->fixturesRepository->getReference(ZoneFixtures::USER_REFERENCE, User::class);
+        $this->authenticateRequest($user);
+
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference(ZoneFixtures::FIRST_ZONE_REFERENCE, Zone::class);
-        $this->client->xmlHttpRequest(Request::METHOD_GET, sprintf('/api/zone/%d', $zone->getId()));
+        $response = $this->client->request(
+            Request::METHOD_GET,
+            sprintf('/api/zone/%d', $zone->getId()),
+            [
+                'headers' => ['content-type' => 'application/ld+json'],
+                'auth_bearer' => $this->token,
+            ]
+        );
 
-        $response = $this->client->getResponse();
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
 
-        $jsonResponse = json_decode($response->getContent(), true);
-
+        $jsonResponse = $response->toArray();
         self::assertArrayHasKey('name', $jsonResponse);
         self::assertSame(ZoneFixtures::FIRST_ZONE_REFERENCE, $jsonResponse['name']);
 
@@ -81,12 +97,20 @@ class ZoneTest extends WebTestCase
 
     public function testItListsZones(): void
     {
-        $this->client->xmlHttpRequest(Request::METHOD_GET, 'api/zones');
+        $user = $this->fixturesRepository->getReference(ZoneFixtures::USER_REFERENCE, User::class);
+        $this->authenticateRequest($user);
 
-        $response = $this->client->getResponse();
+        $response = $this->client->request(
+            Request::METHOD_GET,
+            '/api/zones',
+            [
+                'headers' => ['content-type' => 'application/ld+json'],
+                'auth_bearer' => $this->token,
+            ]
+        );
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
 
-        $jsonResponse = json_decode($response->getContent(), true);
+        $jsonResponse = $response->toArray();
         self::assertArrayHasKey('hydra:member', $jsonResponse);
         $jsonZones = $jsonResponse['hydra:member'];
         self::assertCount(2, $jsonZones);

@@ -17,7 +17,8 @@ class AuthenticationFixtures extends Fixture
      */
     public function load(ObjectManager $manager): void
     {
-        $user = DummiesFactory::newUser('user@user.com');
+        $user = DummiesFactory::newUser(email: 'user@user.com');
+        $user->setPassword('pass');
         $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
 

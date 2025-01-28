@@ -40,7 +40,7 @@ class AuthenticationTest extends ApiTestCase
             'headers' => ['Content-Type' => 'application/json'],
             'json' => [
                 'email' => 'user@user.com',
-                'password' => 'password',
+                'password' => 'pass',
             ],
         ]);
         $json = $response->toArray();

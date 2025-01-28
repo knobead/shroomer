@@ -12,13 +12,19 @@ use Doctrine\Persistence\ObjectManager;
 class TreeFixtures extends Fixture
 {
     public const ZONE_REFERENCE = 'zone';
-    public const EXISTING_TREE = 'tree';
+    public const TREE_REFERENCE = 'tree';
+    public const USER_REFERENCE = 'user';
+
 
     /**
      * @inheritDoc
      */
     public function load(ObjectManager $manager): void
     {
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+        $this->addReference(self::USER_REFERENCE, $user);
+
         $zone = DummiesFactory::newZone(self::ZONE_REFERENCE);
         $manager->persist($zone);
         $this->addReference(self::ZONE_REFERENCE, $zone);
@@ -28,7 +34,7 @@ class TreeFixtures extends Fixture
         $tree->setAge(150);
         $tree->setSize(200);
         $manager->persist($tree);
-        $this->addReference(self::EXISTING_TREE, $tree);
+        $this->addReference(self::TREE_REFERENCE, $tree);
 
         $manager->flush();
     }
