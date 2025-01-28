@@ -35,11 +35,11 @@ class ZoneFixtures extends Fixture
         $this->addReference(self::USER_REFERENCE, $user);
         $manager->persist($user);
 
-        $firstZone = DummiesFactory::newZone(self::FIRST_ZONE_REFERENCE);
+        $firstZone = DummiesFactory::newZone($user, self::FIRST_ZONE_REFERENCE);
         $this->addReference(self::FIRST_ZONE_REFERENCE, $firstZone);
         $manager->persist($firstZone);
 
-        $secondZone = DummiesFactory::newZone(self::SECOND_ZONE_REFERENCE);
+        $secondZone = DummiesFactory::newZone($user, self::SECOND_ZONE_REFERENCE);
         $this->addReference(self::SECOND_ZONE_REFERENCE, $secondZone);
         $manager->persist($secondZone);
 

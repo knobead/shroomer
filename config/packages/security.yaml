@@ -1,12 +1,17 @@
 security:
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
+        
     providers:
         # used to reload user from session & other features (e.g. switch_user)
         users:
             entity:
                 class: App\Entity\User
                 property: email
+                
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -32,7 +37,7 @@ security:
         - { path: ^/$, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/api/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI docs
         - { path: ^/auth, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/, roles: [IS_AUTHENTICATED_FULLY, ROLE_USER] }
 
 when@test:
     security:

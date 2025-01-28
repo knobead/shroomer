@@ -15,15 +15,16 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: ZoneRepository::class)]
-#[ApiResource(
-    operations: [new Get(uriTemplate: 'zone/{id}', name: 'api_zone_get'), new GetCollection(uriTemplate: 'zones')],
-    normalizationContext: ['groups' => [Zone::class]]
-)]
+#[ApiResource(normalizationContext: ['groups' => [Zone::class]])]
+#[Get(uriTemplate: 'zone/{id}', security: "is_granted('get_zone', object)")]
+#[GetCollection(uriTemplate: 'zones')]
 class Zone
 {
     #[Id]
@@ -36,18 +37,19 @@ class Zone
     #[Groups(Zone::class)]
     private string $name;
 
-    // all the sporocarp that can be found in the zone
+    #[ManyToOne(targetEntity: User::class, inversedBy: 'zones')]
+    #[JoinColumn(nullable: false)]
+    private User $user;
+
     #[OneToMany(targetEntity: Sporocarp::class, mappedBy: 'zone')]
     #[Groups(Zone::class)]
     private Collection $sporocarps;
 
-    // all the trees that can be found in the zone
     #[OneToMany(targetEntity: Tree::class, mappedBy: 'zone')]
     #[Groups(Zone::class)]
     #[OrderBy(['id' => 'ASC'])]
     private Collection $trees;
 
-    // all the weathers that can be found in the zone
     #[OneToMany(targetEntity: Weather::class, mappedBy: 'zone')]
     #[Groups(Zone::class)]
     #[OrderBy(['id' => 'DESC'])]
@@ -151,5 +153,23 @@ class Zone
         }
 
         $this->trees[] = $tree;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return void
+     */
+    public function setUser(User $user): void
+    {
+        $this->user = $user;
     }
 }

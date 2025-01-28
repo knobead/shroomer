@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'app_user')]
@@ -34,8 +39,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(type: Types::STRING, length: 255, nullable: false)]
     private ?string $password = null;
 
+    #[OneToMany(targetEntity: Zone::class, mappedBy: 'user')]
+    #[OrderBy(['id' => 'DESC'])]
+    private Collection $zones;
+
     #[Column(type: Types::JSON)]
     private array $roles = [];
+
+    public function __construct()
+    {
+        $this->zones = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -125,5 +139,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getZones(): Collection
+    {
+        return $this->zones;
+    }
+
+    /**
+     * @param Zone $zone
+     *
+     * @return void
+     */
+    public function addZone(Zone $zone): void
+    {
+        foreach ($this->zones as $z) {
+            if ($z->getId() == $zone->getId()) {
+                return;
+            }
+        }
+
+        $this->zones[] = $zone;
     }
 }

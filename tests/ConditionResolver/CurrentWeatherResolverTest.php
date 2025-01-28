@@ -14,7 +14,7 @@ class CurrentWeatherResolverTest extends TestCase
 {
     public function testItAcceptsValidWeather(): void
     {
-        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone(DummiesFactory::newUser(), 'zone'));
         $weather->setState(WeatherStateEnum::STATE_STORM);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
@@ -31,7 +31,7 @@ class CurrentWeatherResolverTest extends TestCase
 
     public function testItRefusesInvalidWeather(): void
     {
-        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone(DummiesFactory::newUser(), 'zone'));
         $weather->setState(WeatherStateEnum::STATE_STORM);
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);

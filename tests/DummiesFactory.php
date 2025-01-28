@@ -54,13 +54,15 @@ final class DummiesFactory
     }
 
     /**
+     * @param User        $user
      * @param string|null $name
      *
      * @return Zone
      */
-    public static function newZone(?string $name): Zone
+    public static function newZone(User $user, ?string $name): Zone
     {
         $zone = new Zone();
+        $zone->setUser($user);
         $zone->setName($name ?? 'zone');
 
         return $zone;

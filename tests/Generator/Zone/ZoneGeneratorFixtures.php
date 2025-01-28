@@ -19,7 +19,10 @@ class ZoneGeneratorFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $zone = DummiesFactory::newZone('a first zone');
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+
+        $zone = DummiesFactory::newZone($user, 'a first zone');
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
@@ -28,7 +31,7 @@ class ZoneGeneratorFixtures extends Fixture
         $tree->setAge(500);
         $manager->persist($tree);
 
-        $secondZone = DummiesFactory::newZone('a second zone');
+        $secondZone = DummiesFactory::newZone($user, 'a second zone');
         $this->addReference(self::ZONE_MANY_MYCELIUM_REFERENCE, $secondZone);
         $manager->persist($secondZone);
 
@@ -41,7 +44,7 @@ class ZoneGeneratorFixtures extends Fixture
         $mycelium->setGenus(MyceliumGenusEnum::GENUS_MORCHELLA);
         $manager->persist($mycelium);
 
-        $otherZone = DummiesFactory::newZone('an other zone');
+        $otherZone = DummiesFactory::newZone($user, 'an other zone');
         $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
         $manager->persist($otherZone);
 

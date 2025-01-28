@@ -23,7 +23,7 @@ class AuthenticationFixtures extends Fixture
         $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
 
-        $zone = DummiesFactory::newZone('zone');
+        $zone = DummiesFactory::newZone($user, 'zone');
         $manager->persist($zone);
         $this->addReference(self::ZONE_REFERENCE, $zone);
 

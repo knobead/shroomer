@@ -25,7 +25,7 @@ class TreeFixtures extends Fixture
         $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
 
-        $zone = DummiesFactory::newZone(self::ZONE_REFERENCE);
+        $zone = DummiesFactory::newZone($user, self::ZONE_REFERENCE);
         $manager->persist($zone);
         $this->addReference(self::ZONE_REFERENCE, $zone);
 

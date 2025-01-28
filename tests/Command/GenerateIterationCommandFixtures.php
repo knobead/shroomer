@@ -14,17 +14,22 @@ class GenerateIterationCommandFixtures extends Fixture
 {
     public const string ZONE_REFERENCE = 'zone_reference';
     public const string OTHER_ZONE_REFERENCE = 'other_zone_reference';
+    public const string USER_REFERENCE = 'user';
 
     /**
      * Load data fixtures with the passed EntityManager
      */
     public function load(ObjectManager $manager): void
     {
-        $zone = DummiesFactory::newZone(self::ZONE_REFERENCE);
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+        $this->addReference(self::USER_REFERENCE, $user);
+
+        $zone = DummiesFactory::newZone($user, self::ZONE_REFERENCE);
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
-        $otherZone = DummiesFactory::newZone(self::OTHER_ZONE_REFERENCE);
+        $otherZone = DummiesFactory::newZone($user, self::OTHER_ZONE_REFERENCE);
         $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
         $manager->persist($otherZone);
 

@@ -18,7 +18,10 @@ class SporocarpGeneratorFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
-        $zone = DummiesFactory::newZone('zone');
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+
+        $zone = DummiesFactory::newZone($user, 'zone');
         $manager->persist($zone);
         $tree = DummiesFactory::newTree($zone);
         $manager->persist($tree);
