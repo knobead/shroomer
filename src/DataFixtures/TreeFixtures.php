@@ -38,7 +38,6 @@ class TreeFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($zoneOne);
 
         $manager->flush();
-
     }
 
     /**

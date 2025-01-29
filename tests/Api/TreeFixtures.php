@@ -39,7 +39,6 @@ class TreeFixtures extends Fixture
         $manager->persist($tree);
         $this->addReference(self::TREE_REFERENCE, $tree);
 
-
         $otherUser = DummiesFactory::newUser(email: 'other@other.com');
         $this->addReference(self::OTHER_USER_REFERENCE, $otherUser);
         $manager->persist($otherUser);

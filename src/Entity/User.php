@@ -18,15 +18,14 @@ use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'app_user')]
 #[UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    public const ROLE_USER = 'ROLE_USER';
-    public const ROLE_ADMIN = 'ROLE_ADMIN';
+    public const string ROLE_USER = 'ROLE_USER';
+    public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
