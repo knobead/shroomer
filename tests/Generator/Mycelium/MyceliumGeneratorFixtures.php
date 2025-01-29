@@ -20,9 +20,12 @@ class MyceliumGeneratorFixtures extends Fixture
     /**
      * @inheritDoc
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $zone = DummiesFactory::newZone('valid weather for pleurotus');
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+
+        $zone = DummiesFactory::newZone($user, 'zone with valid weather for pleurotus');
         $manager->persist($zone);
 
         $weather = DummiesFactory::newWeather($zone);

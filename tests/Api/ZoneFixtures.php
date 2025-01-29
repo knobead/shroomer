@@ -11,6 +11,8 @@ use App\Tests\DummiesFactory;
 
 class ZoneFixtures extends Fixture
 {
+    public const string USER_REFERENCE = 'user';
+
     public const string FIRST_ZONE_REFERENCE  = 'first_zone';
     public const string SECOND_ZONE_REFERENCE = 'second_zone';
 
@@ -24,16 +26,23 @@ class ZoneFixtures extends Fixture
     public const string SECOND_SPOROCARP_REFERENCE = 'second_sporocarp';
     public const string THIRD_SPOROCARP_REFERENCE  = 'third_sporocarp';
 
+    public const string OTHER_USER_REFERENCE =  'other_user';
+    public const string OTHER_ZONE_REFERENCE =  'other_zone';
+
     /**
      * Load data fixtures with the passed EntityManager
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $firstZone = DummiesFactory::newZone(self::FIRST_ZONE_REFERENCE);
+        $user = DummiesFactory::newUser();
+        $this->addReference(self::USER_REFERENCE, $user);
+        $manager->persist($user);
+
+        $firstZone = DummiesFactory::newZone($user, self::FIRST_ZONE_REFERENCE);
         $this->addReference(self::FIRST_ZONE_REFERENCE, $firstZone);
         $manager->persist($firstZone);
 
-        $secondZone = DummiesFactory::newZone(self::SECOND_ZONE_REFERENCE);
+        $secondZone = DummiesFactory::newZone($user, self::SECOND_ZONE_REFERENCE);
         $this->addReference(self::SECOND_ZONE_REFERENCE, $secondZone);
         $manager->persist($secondZone);
 
@@ -76,6 +85,14 @@ class ZoneFixtures extends Fixture
         $thirdSporocarp->setZone($secondZone);
         $this->addReference(self::THIRD_SPOROCARP_REFERENCE, $thirdSporocarp);
         $manager->persist($thirdSporocarp);
+
+        $otherUser = DummiesFactory::newUser(email: 'other@other.com');
+        $this->addReference(self::OTHER_USER_REFERENCE, $otherUser);
+        $manager->persist($otherUser);
+
+        $otherZone = DummiesFactory::newZone($otherUser, 'other zone');
+        $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
+        $manager->persist($otherZone);
 
         $manager->flush();
     }

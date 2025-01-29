@@ -17,13 +17,16 @@ class WeatherResolverFixtures extends Fixture
     public const CURRENT_WEATHER_REFERENCE = 'current_weather';
 
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $zone = DummiesFactory::newZone('z1');
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+
+        $zone = DummiesFactory::newZone($user, 'z1');
         $manager->persist($zone);
         $this->addReference(self::ZONE_REFERENCE, $zone);
 
-        $otherZone = DummiesFactory::newZone('z2');
+        $otherZone = DummiesFactory::newZone($user, 'z2');
         $manager->persist($otherZone);
         $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
 

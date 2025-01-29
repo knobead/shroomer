@@ -14,7 +14,7 @@ class DeltaResolverTest extends TestCase
 {
     public function testItAcceptHighestDelta(): void
     {
-        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone('zone'));
+        $weather = DummiesFactory::newWeather($zone = DummiesFactory::newZone(DummiesFactory::newUser(), 'zone'));
         $weather->setMinTemperature(10);
         $weather->setMaxTemperature(30);
 

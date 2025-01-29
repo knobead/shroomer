@@ -11,15 +11,24 @@ use Doctrine\Persistence\ObjectManager;
 
 class TreeFixtures extends Fixture
 {
-    public const ZONE_REFERENCE = 'zone';
-    public const EXISTING_TREE = 'tree';
+    public const string ZONE_REFERENCE = 'zone';
+    public const string TREE_REFERENCE = 'tree';
+    public const string USER_REFERENCE = 'user';
+
+    public const string OTHER_USER_REFERENCE =  'other_user';
+    public const string OTHER_ZONE_REFERENCE =  'other_zone';
+
 
     /**
      * @inheritDoc
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
-        $zone = DummiesFactory::newZone(self::ZONE_REFERENCE);
+        $user = DummiesFactory::newUser();
+        $manager->persist($user);
+        $this->addReference(self::USER_REFERENCE, $user);
+
+        $zone = DummiesFactory::newZone($user, self::ZONE_REFERENCE);
         $manager->persist($zone);
         $this->addReference(self::ZONE_REFERENCE, $zone);
 
@@ -28,7 +37,15 @@ class TreeFixtures extends Fixture
         $tree->setAge(150);
         $tree->setSize(200);
         $manager->persist($tree);
-        $this->addReference(self::EXISTING_TREE, $tree);
+        $this->addReference(self::TREE_REFERENCE, $tree);
+
+        $otherUser = DummiesFactory::newUser(email: 'other@other.com');
+        $this->addReference(self::OTHER_USER_REFERENCE, $otherUser);
+        $manager->persist($otherUser);
+
+        $otherZone = DummiesFactory::newZone($otherUser, 'other zone');
+        $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
+        $manager->persist($otherZone);
 
         $manager->flush();
     }

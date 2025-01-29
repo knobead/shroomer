@@ -9,12 +9,33 @@ use App\Entity\MyceliumGenusEnum;
 use App\Entity\Sporocarp;
 use App\Entity\Tree;
 use App\Entity\TreeGenusesEnum;
+use App\Entity\User;
 use App\Entity\Weather;
 use App\Entity\WeatherStateEnum;
 use App\Entity\Zone;
 
 final class DummiesFactory
 {
+    /**
+     * @param string      $role
+     * @param string|null $email
+     *
+     * @return User
+     */
+    public static function newUser(string $role = User::ROLE_USER, ?string $email = null): User
+    {
+        if (User::ROLE_USER === $role) {
+            $email = $email ?? 'user@user.com';
+        }
+
+        $user = new User();
+        $user->setEmail($email);
+        $user->setRoles([$role]);
+        $user->setPassword('password');
+
+        return $user;
+    }
+
     /**
      * @param Zone $zone
      *
@@ -33,13 +54,15 @@ final class DummiesFactory
     }
 
     /**
+     * @param User        $user
      * @param string|null $name
      *
      * @return Zone
      */
-    public static function newZone(?string $name): Zone
+    public static function newZone(User $user, ?string $name): Zone
     {
         $zone = new Zone();
+        $zone->setUser($user);
         $zone->setName($name ?? 'zone');
 
         return $zone;

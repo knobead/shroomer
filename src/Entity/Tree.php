@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints\EqualTo;
 
 #[Entity(repositoryClass: TreeRepository::class)]
-#[ApiResource(operations: [new Post(uriTemplate: 'tree')])]
+#[ApiResource(operations: [new Post(uriTemplate: 'tree', security: "is_granted('tree_add', user)")])]
 class Tree implements DatableInterface
 {
     use DatableTrait;
