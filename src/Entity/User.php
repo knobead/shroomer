@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
 use App\Repository\UserRepository;
+use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -16,27 +20,51 @@ use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[Entity(repositoryClass: UserRepository::class)]
 #[Table(name: 'app_user')]
 #[UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+#[UniqueEntity('email')]
+#[ApiResource(
+    operations: [
+        new Get(),
+        new Post(uriTemplate: '/register', processor: UserPasswordHasher::class),
+    ],
+    normalizationContext: ['groups' => [self::GROUP_READ_USER]],
+    denormalizationContext: ['groups' => [self::GROUP_WRITE_USER]],
+)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const string ROLE_USER = 'ROLE_USER';
     public const string ROLE_ADMIN = 'ROLE_ADMIN';
 
+    public const string GROUP_WRITE_USER = 'write_user';
+    public const string GROUP_READ_USER = 'read_user';
+
+    #[Groups([self::GROUP_READ_USER])]
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
     private ?int $id = null;
 
+    #[Email]
+    #[NotBlank]
+    #[Groups([self::GROUP_READ_USER, self::GROUP_WRITE_USER])]
     #[Column(type: Types::STRING, length: 180, nullable: false)]
     private ?string $email = null;
 
     #[Column(type: Types::STRING, length: 255, nullable: false)]
     private ?string $password = null;
+
+    #[NotBlank]
+    #[Groups([self::GROUP_WRITE_USER])]
+    private ?string $plainPassword = null;
 
     #[OneToMany(targetEntity: Zone::class, mappedBy: 'user')]
     #[OrderBy(['id' => 'DESC'])]
@@ -162,5 +190,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->zones[] = $zone;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(?string $plainPassword): void
+    {
+        $this->plainPassword = $plainPassword;
     }
 }

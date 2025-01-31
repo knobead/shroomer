@@ -38,3 +38,7 @@ services:
     App\ConditionResolver\ChainConditionResolver:
         arguments:
             $conditionResolvers: !tagged app.condition.condition_resolver
+            
+    App\State\UserPasswordHasher:
+        bind:
+            $processor: '@api_platform.doctrine.orm.state.persist_processor'

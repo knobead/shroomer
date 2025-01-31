@@ -20,8 +20,7 @@ onMounted(async () => {
       <RouterLink :to="{name: 'zone', params: {'id': zone.id}}">{{ zone.name }}</RouterLink>
     </p>
   </div>
-  <div v-else>
-    <p>Loading</p>
+  <div>
   </div>
 </template>
 
