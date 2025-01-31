@@ -2,7 +2,6 @@
 import { RouterLink, RouterView } from 'vue-router'
 import MenuZones from "@/components/MenuZones.vue";
 import authService from "@/services/auth.service.ts";
-
 </script>
 
 <template>
