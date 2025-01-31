@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {onMounted, ref, inject} from "vue";
+import {onMounted, ref} from "vue";
 import {RouterLink} from "vue-router";
+import authService from "@/services/auth.service.ts";
 
-const host = inject('host')
 const zones = ref([])
 
 onMounted(async () => {
-  zones.value = await fetch(host + '/api/zones')
-    .then(response => response.json())
+  zones.value = await authService.get('/api/zones')
+    .then(response => response.data)
     .then(data => {
       return data["hydra:member"]
     })

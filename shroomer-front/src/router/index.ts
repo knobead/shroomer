@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import ViewHome from '../views/ViewHome.vue'
-import ViewZone from '../views/ViewZone.vue'
+import ViewHome from '@/views/ViewHome.vue'
+import ViewZone from '@/views/ViewZone.vue'
+import ViewRegister from "@/views/ViewRegister.vue";
+import ViewLogin from "@/views/ViewLogin.vue";
+import authService from "@/services/auth.service.ts";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +18,29 @@ const router = createRouter({
       name: 'zone',
       component: ViewZone,
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: ViewLogin,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: ViewRegister,
+    },
   ],
+})
+
+router.beforeEach(async (to) => {
+  const publicPages : string[] = [
+    '/',
+    '/login',
+    '/register',
+  ]
+
+  if (!publicPages.includes(to.path) && !authService.authenticated()) {
+    return '/login'
+  }
 })
 
 export default router
