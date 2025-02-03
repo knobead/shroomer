@@ -73,6 +73,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(type: Types::JSON)]
     private array $roles = [];
 
+    #[Column(type: Types::INTEGER)]
+    private int $resourceFauna = 0;
+
     public function __construct()
     {
         $this->zones = new ArrayCollection();
