@@ -25,9 +25,8 @@ function login(event: Event){
 
   authService.login(username.value, password.value)
     .then(() => router.push('/'))
-    .catch(() => {
-      errors.value.push('Authentication failure')
-    })
+    .catch(error => errors.value.push(error.response.data.message))
+    .catch(() => errors.value.push('Request went wrong.'))
 }
 </script>
 

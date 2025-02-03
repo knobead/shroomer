@@ -44,6 +44,7 @@ class AuthenticationTest extends ApiTestCase
                 'password' => 'pass',
             ],
         ]);
+
         $json = $response->toArray();
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
         self::assertArrayHasKey('token', $json);
@@ -52,5 +53,22 @@ class AuthenticationTest extends ApiTestCase
         // authorized request
         $response = $this->client->request('GET', $zoneUri, ['auth_bearer' => $token]);
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
+    }
+
+    public function testItDeclinesInvalidLogin(): void
+    {
+        // fail to get a token
+        $response = $this->client->request('POST', '/auth', [
+            'headers' => ['Content-Type' => 'application/json'],
+            'json' => [
+                'email' => 'user@user.com',
+                'password' => 'password_is_invalid',
+            ],
+        ]);
+
+        $json = $response->toArray(false);
+        self::assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+        self::assertArrayHasKey('message', $json);
+        self::assertSame('Invalid credentials.', $json['message']);
     }
 }
