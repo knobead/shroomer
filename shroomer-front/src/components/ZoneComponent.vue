@@ -8,7 +8,7 @@ const route = useRoute()
 const zone = ref({})
 
 onMounted(async () => {
-  zone.value = await authService.get('/api/zone/'+route.params.id)
+  zone.value = await authService.get('/api/zones/'+route.params.id)
     .then(response => response.data)
     .then(data => {return data})
 })

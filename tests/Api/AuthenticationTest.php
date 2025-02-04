@@ -30,7 +30,7 @@ class AuthenticationTest extends ApiTestCase
         // unauthorized request
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( AuthenticationFixtures::ZONE_REFERENCE, Zone::class);
-        $zoneUri = 'api/zone/' . $zone->getId();
+        $zoneUri = 'api/zones/' . $zone->getId();
         $response = $this->client->request('GET', $zoneUri, [
             'headers' => ['Content-Type' => 'application/json'],
         ]);

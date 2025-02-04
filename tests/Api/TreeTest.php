@@ -35,7 +35,7 @@ class TreeTest extends ApiTestCase
     {
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( TreeFixtures::OTHER_ZONE_REFERENCE, Zone::class);
-        $zoneUri = 'api/zone/' . $zone->getId();
+        $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
             'size' => 0,
             'age' => 0,
@@ -63,7 +63,7 @@ class TreeTest extends ApiTestCase
 
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( TreeFixtures::ZONE_REFERENCE, Zone::class);
-        $zoneUri = 'api/zone/' . $zone->getId();
+        $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
             'size' => 0,
             'age' => 0,
