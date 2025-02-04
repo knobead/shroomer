@@ -9,7 +9,7 @@ onMounted(async () => {
   zones.value = await authService.get('/api/zones')
     .then(response => response.data)
     .then(data => {
-      return data["hydra:member"]
+      return data["member"]
     })
 })
 </script>
