@@ -35,17 +35,20 @@ class TreeTest extends ApiTestCase
     {
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( TreeFixtures::OTHER_ZONE_REFERENCE, Zone::class);
-        $zoneUri = 'api/zone/' . $zone->getId();
+        $user = $this->fixturesRepository->getReference(TreeFixtures::USER_REFERENCE, User::class);
+        $this->authenticateRequest($user);
+
+        $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
             'size' => 0,
-            'age' => 0,
+            'age' => 10,
             'genus' => TreeGenusesEnum::GENUS_QUERCUS,
             'zone' => $zoneUri
         ];
 
         $response = $this->client->request(
             Request::METHOD_POST,
-            'api/tree',
+            '/api/trees',
             [
                 'headers' => ['content-type' => 'application/ld+json'],
                 'auth_bearer' => $this->token,
@@ -53,7 +56,7 @@ class TreeTest extends ApiTestCase
             ],
         );
 
-        self::assertSame(Response::HTTP_UNAUTHORIZED, $response->getStatusCode());
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
     public function testItCouldAddATree(): void
@@ -63,7 +66,7 @@ class TreeTest extends ApiTestCase
 
         /** @var Zone $zone */
         $zone = $this->fixturesRepository->getReference( TreeFixtures::ZONE_REFERENCE, Zone::class);
-        $zoneUri = 'api/zone/' . $zone->getId();
+        $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
             'size' => 0,
             'age' => 0,
@@ -73,7 +76,7 @@ class TreeTest extends ApiTestCase
 
         $response = $this->client->request(
             Request::METHOD_POST,
-            'api/tree',
+            '/api/trees',
             [
                 'headers' => ['content-type' => 'application/ld+json'],
                 'auth_bearer' => $this->token,

@@ -39,7 +39,7 @@ class ZoneTest extends ApiTestCase
         $zone = $this->fixturesRepository->getReference(ZoneFixtures::OTHER_ZONE_REFERENCE, Zone::class);
         $response = $this->client->request(
             Request::METHOD_GET,
-            sprintf('/api/zone/%d', $zone->getId()),
+            sprintf('/api/zones/%d', $zone->getId()),
             [
                 'headers' => ['content-type' => 'application/json'],
                 'auth_bearer' => $this->token,
@@ -58,7 +58,7 @@ class ZoneTest extends ApiTestCase
         $zone = $this->fixturesRepository->getReference(ZoneFixtures::FIRST_ZONE_REFERENCE, Zone::class);
         $response = $this->client->request(
             Request::METHOD_GET,
-            sprintf('/api/zone/%d', $zone->getId()),
+            sprintf('/api/zones/%d', $zone->getId()),
             [
                 'headers' => ['content-type' => 'application/ld+json'],
                 'auth_bearer' => $this->token,
@@ -141,7 +141,7 @@ class ZoneTest extends ApiTestCase
         self::assertArrayHasKey('name', $firstJsonZone);
         self::assertSame($firstZone->getName(), $firstJsonZone['name']);
         self::assertSame($firstZone->getId(), $firstJsonZone['id']);
-        self::assertSame(sprintf('/api/zone/%d', $firstZone->getId()), $firstJsonZone['@id']);
+        self::assertSame(sprintf('/api/zones/%d', $firstZone->getId()), $firstJsonZone['@id']);
 
         $secondJsonZone = $jsonZones[1];
         self::assertCount(4, $secondJsonZone);
@@ -150,6 +150,6 @@ class ZoneTest extends ApiTestCase
         self::assertArrayHasKey('name', $secondJsonZone);
         self::assertSame($secondZone->getName(), $secondJsonZone['name']);
         self::assertSame($secondZone->getId(), $secondJsonZone['id']);
-        self::assertSame(sprintf('/api/zone/%d', $secondZone->getId()), $secondJsonZone['@id']);
+        self::assertSame(sprintf('/api/zones/%d', $secondZone->getId()), $secondJsonZone['@id']);
     }
 }

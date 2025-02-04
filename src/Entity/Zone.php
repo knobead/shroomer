@@ -23,7 +23,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: ZoneRepository::class)]
 #[ApiResource(normalizationContext: ['groups' => [Zone::class]])]
-#[Get(uriTemplate: 'zone/{id}', security: "is_granted('zone_get', object)")]
+#[Get(security: "is_granted('zone_get', object)")]
 #[GetCollection(
     uriTemplate: 'zones',
     normalizationContext: ['groups' => [self::GROUP_ZONES]],

@@ -16,6 +16,7 @@ api_platform:
         extra_properties:
             
     use_symfony_listeners: true
+    enable_link_security: true
     
     swagger:
         api_keys:

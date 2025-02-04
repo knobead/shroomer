@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[UniqueEntity('email')]
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(security: "is_granted('user_get', object)"),
         new Post(uriTemplate: '/register', processor: UserPasswordHasher::class),
     ],
     normalizationContext: ['groups' => [self::GROUP_READ_USER]],
@@ -72,6 +72,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Column(type: Types::JSON)]
     private array $roles = [];
+
+    #[Groups([self::GROUP_READ_USER])]
+    #[Column(type: Types::INTEGER)]
+    private int $resourceFlora = 0;
+
+    #[Groups([self::GROUP_READ_USER])]
+    #[Column(type: Types::INTEGER)]
+    private int $resourceFauna = 0;
+
+    #[Groups([self::GROUP_READ_USER])]
+    #[Column(type: Types::INTEGER)]
+    private int $resourceEntomofauna = 0;
 
     public function __construct()
     {
@@ -192,13 +204,75 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->zones[] = $zone;
     }
 
+    /**
+     * @return string|null
+     */
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
     }
 
+    /**
+     * @param string|null $plainPassword
+     *
+     * @return void
+     */
     public function setPlainPassword(?string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResourceFlora(): int
+    {
+        return $this->resourceFlora;
+    }
+
+    /**
+     * @param int $resourceFlora
+     *
+     * @return void
+     */
+    public function setResourceFlora(int $resourceFlora): void
+    {
+        $this->resourceFlora = $resourceFlora;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResourceFauna(): int
+    {
+        return $this->resourceFauna;
+    }
+
+    /**
+     * @param int $resourceFauna
+     *
+     * @return void
+     */
+    public function setResourceFauna(int $resourceFauna): void
+    {
+        $this->resourceFauna = $resourceFauna;
+    }
+
+    /**
+     * @return int
+     */
+    public function getResourceEntomofauna(): int
+    {
+        return $this->resourceEntomofauna;
+    }
+
+    /**
+     * @param int $resourceEntomofauna
+     *
+     * @return void
+     */
+    public function setResourceEntomofauna(int $resourceEntomofauna): void
+    {
+        $this->resourceEntomofauna = $resourceEntomofauna;
     }
 }
