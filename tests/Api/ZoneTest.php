@@ -128,8 +128,8 @@ class ZoneTest extends ApiTestCase
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
 
         $jsonResponse = $response->toArray();
-        self::assertArrayHasKey('hydra:member', $jsonResponse);
-        $jsonZones = $jsonResponse['hydra:member'];
+        self::assertArrayHasKey('member', $jsonResponse);
+        $jsonZones = $jsonResponse['member'];
         self::assertCount(2, $jsonZones, 'it must not exposed other zones');
         $firstZone = $this->fixturesRepository->getReference(ZoneFixtures::FIRST_ZONE_REFERENCE, Zone::class);
         $secondZone = $this->fixturesRepository->getReference(ZoneFixtures::SECOND_ZONE_REFERENCE, Zone::class);
