@@ -33,7 +33,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[UniqueEntity('email')]
 #[ApiResource(
     operations: [
-        new Get(),
+        new Get(security: "is_granted('user_get', object)"),
         new Post(uriTemplate: '/register', processor: UserPasswordHasher::class),
     ],
     normalizationContext: ['groups' => [self::GROUP_READ_USER]],
@@ -73,12 +73,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Column(type: Types::JSON)]
     private array $roles = [];
 
+    #[Groups([self::GROUP_READ_USER])]
     #[Column(type: Types::INTEGER)]
     private int $resourceFlora = 0;
 
+    #[Groups([self::GROUP_READ_USER])]
     #[Column(type: Types::INTEGER)]
     private int $resourceFauna = 0;
 
+    #[Groups([self::GROUP_READ_USER])]
     #[Column(type: Types::INTEGER)]
     private int $resourceEntomofauna = 0;
 

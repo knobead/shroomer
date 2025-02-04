@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class ZoneVoter extends Voter
 {
     public const array ATTRIBUTES =  [
-      self::ZONE_GET_ATTRIBUTE,
+        self::ZONE_GET_ATTRIBUTE,
     ];
 
     public const string ZONE_GET_ATTRIBUTE = 'zone_get';

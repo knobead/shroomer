@@ -12,10 +12,12 @@ class UserVoter extends Voter
     public const array ATTRIBUTES =  [
       self::TREE_ADD_ATTRIBUTE,
       self::ZONE_LIST_ATTRIBUTE,
+      self::USER_GET_ATTRIBUTE,
     ];
 
     public const string TREE_ADD_ATTRIBUTE = 'tree_add';
     public const string ZONE_LIST_ATTRIBUTE = 'zone_list';
+    public const string USER_GET_ATTRIBUTE = 'user_get';
 
     /**
      * @inheritDoc
@@ -34,6 +36,6 @@ class UserVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
-        return true;
+        return $subject->getId() === $token->getUser()->getId();
     }
 }
