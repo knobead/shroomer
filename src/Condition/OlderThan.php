@@ -13,7 +13,8 @@ class OlderThan extends AbstractCondition
      *
      * @param int $age age must be higher than this value
      */
-    public function __construct(int $age) {
+    public function __construct(int $age)
+    {
         $this->age = $age;
     }
 

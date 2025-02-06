@@ -20,27 +20,24 @@ enum TreeGenusesEnum: string
      */
     public static function getMyceliums(TreeGenusesEnum $genus): array
     {
-        switch ($genus) {
-            case self::GENUS_FRAXINUS:
-                return [
-                    MyceliumGenusEnum::GENUS_MORCHELLA,
-                ];
-            case self::GENUS_CASTANEA:
-                return [
-                    MyceliumGenusEnum::GENUS_BOLETUS,
-                    MyceliumGenusEnum::GENUS_AMANITA
-                ];
-            case self::GENUS_PINUS:
-                return [
-                    MyceliumGenusEnum::GENUS_XEROCOMUS,
-                    MyceliumGenusEnum::GENUS_CANTHARELLUS,
-                    MyceliumGenusEnum::GENUS_PLEUROTUS,
-                ];
-            case self::GENUS_QUERCUS:
-                return [
-                    MyceliumGenusEnum::GENUS_BOLETUS,
-                    MyceliumGenusEnum::GENUS_AMANITA,
-                ];
-        }
+        return match ($genus) {
+            self::GENUS_FRAXINUS => [
+                MyceliumGenusEnum::GENUS_MORCHELLA,
+            ],
+            self::GENUS_CASTANEA => [
+                MyceliumGenusEnum::GENUS_BOLETUS,
+                MyceliumGenusEnum::GENUS_AMANITA
+            ],
+            self::GENUS_PINUS => [
+                MyceliumGenusEnum::GENUS_XEROCOMUS,
+                MyceliumGenusEnum::GENUS_CANTHARELLUS,
+                MyceliumGenusEnum::GENUS_PLEUROTUS,
+            ],
+            self::GENUS_QUERCUS => [
+                MyceliumGenusEnum::GENUS_BOLETUS,
+                MyceliumGenusEnum::GENUS_AMANITA,
+            ],
+            default => [],
+        };
     }
 }

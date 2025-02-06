@@ -72,7 +72,6 @@ class GenerateIterationCommand extends Command
             $zones = $this->zoneRepository->findAll();
 
             foreach ($zones as $zone) {
-                /** @var int $zoneId */
                 $zoneId = $zone->getId();
                 $this->messageBus->dispatch(new GenerateZoneMessage($zoneId));
             }

@@ -13,9 +13,9 @@ class ConditionBagBuilder
     private iterable $conditionBagBuilders;
 
     public function __construct(iterable $conditionBagBuilders)
-{
-    $this->conditionBagBuilders = $conditionBagBuilders;
-}
+    {
+        $this->conditionBagBuilders = $conditionBagBuilders;
+    }
 
     /**
      * @param MyceliumGenusEnum $genus
@@ -26,11 +26,13 @@ class ConditionBagBuilder
     {
         foreach ($this->conditionBagBuilders as $conditionBagBuilder) {
             if (!$conditionBagBuilder instanceof ConditionBagBuilderInterface) {
-                throw new RuntimeException(sprintf(
-                    '%s expects a collection of %s',
-                    self::class,
-                    ConditionBagBuilderInterface::class
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        '%s expects a collection of %s',
+                        self::class,
+                        ConditionBagBuilderInterface::class
+                    )
+                );
             }
 
             if ($conditionBagBuilder->supports($genus)) {
@@ -38,10 +40,12 @@ class ConditionBagBuilder
             }
         }
 
-        throw new RuntimeException(sprintf(
-            'no %s found to support %s',
-            ConditionBagBuilderInterface::class,
-            $genus->value
-        ));
+        throw new RuntimeException(
+            sprintf(
+                'no %s found to support %s',
+                ConditionBagBuilderInterface::class,
+                $genus->value
+            )
+        );
     }
 }

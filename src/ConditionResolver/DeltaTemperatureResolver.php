@@ -40,7 +40,6 @@ final class DeltaTemperatureResolver extends AbstractConditionResolver
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        /** @var Zone $zone */
         $zone = $this->getContextKey($context, 'zone', Zone::class);
         $weathers = $this->weatherRepository->findLastWeathers($zone, 1);
 

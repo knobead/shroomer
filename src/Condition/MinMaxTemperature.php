@@ -18,10 +18,12 @@ class MinMaxTemperature extends AbstractCondition
     public function __construct(?int $minimumTemperature = null, ?int $maximumTemperature = null)
     {
         if (null === $maximumTemperature && null === $minimumTemperature) {
-            throw new RuntimeException(sprintf(
-                '%s expect at least a minimum or a maximum temperature, none given',
-                self::class
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    '%s expect at least a minimum or a maximum temperature, none given',
+                    self::class
+                )
+            );
         }
 
         $this->minimumTemperature = $minimumTemperature;

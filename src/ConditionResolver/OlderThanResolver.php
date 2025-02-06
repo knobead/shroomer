@@ -8,6 +8,7 @@ use App\Condition\AbstractCondition;
 use App\Condition\OlderThan;
 use App\Entity\DatableInterface;
 use App\Exception\InvalidContextException;
+use RuntimeException;
 
 final class OlderThanResolver extends AbstractConditionResolver
 {
@@ -25,13 +26,12 @@ final class OlderThanResolver extends AbstractConditionResolver
      * @param OlderThan $abstractCondition
      * @param array     $context
      *
-     * @return bool
-     * @throws InvalidContextException
+     * @return     bool
+     * @throws     InvalidContextException
      * @inheritDoc
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        /** @var DatableInterface $datable */
         $datable = $this->getContextKey($context, 'datable', DatableInterface::class);
 
         return $datable->getAge() > $abstractCondition->getAge();

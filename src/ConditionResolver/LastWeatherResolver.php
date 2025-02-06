@@ -9,6 +9,7 @@ use App\Condition\LastWeather;
 use App\Entity\Zone;
 use App\Exception\InvalidContextException;
 use App\Repository\WeatherRepository;
+use RuntimeException;
 
 final class LastWeatherResolver extends AbstractConditionResolver
 {
@@ -41,7 +42,6 @@ final class LastWeatherResolver extends AbstractConditionResolver
      */
     public function resolve(AbstractCondition $abstractCondition, array $context = []): bool
     {
-        /** @var Zone $zone */
         $zone = $this->getContextKey($context, 'zone', Zone::class);
         $weathers = $this->weatherRepository->findLastWeathers($zone, 1, 1);
 

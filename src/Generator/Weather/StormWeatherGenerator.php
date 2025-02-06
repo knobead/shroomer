@@ -29,8 +29,8 @@ class StormWeatherGenerator implements WeatherGeneratorInterface
         $weather = new Weather();
         $weather->setState(WeatherStateEnum::STATE_STORM);
         $weather->setHumidity(100);
-        $weather->setMaxTemperature(rand(5,15));
-        $weather->setMinTemperature(rand(0,10));
+        $weather->setMaxTemperature(rand(5, 15));
+        $weather->setMinTemperature(rand(0, 10));
 
         return $weather;
     }

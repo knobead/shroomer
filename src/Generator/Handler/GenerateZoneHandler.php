@@ -57,19 +57,16 @@ class GenerateZoneHandler
         $sporocarps = $this->sporocarpRepository->findByZone($generateZoneMessage->getZoneId());
 
         foreach ($trees as $tree) {
-            /** @var int $id */
             $id = $tree->getId();
             $this->messageBus->dispatch(new GenerateTreeMessage($id));
         }
 
         foreach ($myceliums as $mycelium) {
-            /** @var int $id */
             $id = $mycelium->getId();
             $this->messageBus->dispatch(new GenerateMyceliumMessage($id));
         }
 
         foreach ($sporocarps as $sporocarp) {
-            /** @var int $id */
             $id = $sporocarp->getId();
             $this->messageBus->dispatch(new GenerateSporocarpMessage($id));
         }
