@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import MenuZones from "@/components/MenuZones.vue";
+import UserInfos from "@/components/UserInfos.vue";
 import authService from "@/services/auth.service.ts";
+import {ref} from "vue";
+
+const userKey = ref(0)
+setInterval(function () {
+  userKey.value++
+}, 1000)
 </script>
 
 <template>
@@ -11,6 +18,7 @@ import authService from "@/services/auth.service.ts";
         <RouterLink to="/shroomer">Shroomer</RouterLink>
 
         <div v-if="authService.authenticated()">
+          <user-infos :key="userKey"/>
           <menu-zones/>
           <p><RouterLink to="/" @click="authService.logout()">Logout</RouterLink></p>
         </div>

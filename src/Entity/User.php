@@ -7,6 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Provider\UserProvider;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -33,7 +34,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[UniqueEntity('email')]
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('user_get', object)"),
+        new Get(uriTemplate: '/user', provider: UserProvider::class),
         new Post(uriTemplate: '/register', processor: UserPasswordHasher::class),
     ],
     normalizationContext: ['groups' => [self::GROUP_READ_USER]],

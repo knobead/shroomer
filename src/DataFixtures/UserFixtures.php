@@ -15,6 +15,9 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = new User();
+        $user->setResourceFlora(2000);
+        $user->setResourceFauna(500);
+        $user->setResourceEntomofauna(200);
         $user->setPassword('$2y$13$wRp63dWVz0.Yce8s/aeecOmtr4eYWXBmjksYY22Qzn55SPT1YuX.q');
         $user->setRoles(['ROLE_USER']);
         $user->setEmail('email@email.com');
