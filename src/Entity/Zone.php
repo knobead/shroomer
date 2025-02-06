@@ -72,11 +72,9 @@ class Zone
     {
         $return = [];
 
-        /** @var Tree $tree */
         foreach ($this->trees as $tree) {
             $return[] = $tree;
 
-            /** @var Mycelium $mycelium */
             foreach ($tree->getMyceliums() as $mycelium) {
                 foreach ($mycelium->getSporocarps() as $sporocarp) {
                     $return[] = $sporocarp;
@@ -178,4 +176,13 @@ class Zone
     {
         $this->user = $user;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getWeathers(): Collection
+    {
+        return $this->weathers;
+    }
+
 }

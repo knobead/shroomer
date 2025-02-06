@@ -86,9 +86,9 @@ class GenerateSporocarpHandler
         if ($sporocarp->isRotten()) {
             $this->manager->remove($sporocarp);
             $this->manager->flush();
-        } else {
-            $sporocarp->setRotten(true);
         }
+
+        $sporocarp->setRotten(true);
 
         return true;
     }

@@ -11,6 +11,9 @@ class ChainConditionResolver
 {
     private iterable $conditionResolvers;
 
+    /**
+     * @param iterable $conditionResolvers
+     */
     public function __construct(iterable $conditionResolvers)
     {
         $this->conditionResolvers = $conditionResolvers;
@@ -26,11 +29,13 @@ class ChainConditionResolver
     {
         foreach ($this->conditionResolvers as $conditionResolver) {
             if (!$conditionResolver instanceof ConditionResolverInterface) {
-                throw new RuntimeException(sprintf(
-                    '%s expects a collection of %s',
-                    self::class,
-                    ConditionResolverInterface::class
-                ));
+                throw new RuntimeException(
+                    sprintf(
+                        '%s expects a collection of %s',
+                        self::class,
+                        ConditionResolverInterface::class
+                    )
+                );
             }
 
             if ($conditionResolver->supports($abstractCondition)) {
@@ -38,10 +43,12 @@ class ChainConditionResolver
             }
         }
 
-        throw new RuntimeException(sprintf(
-            'no %s found to support %s',
-            ConditionResolverInterface::class,
-            $abstractCondition::class
-        ));
+        throw new RuntimeException(
+            sprintf(
+                'no %s found to support %s',
+                ConditionResolverInterface::class,
+                $abstractCondition::class
+            )
+        );
     }
 }

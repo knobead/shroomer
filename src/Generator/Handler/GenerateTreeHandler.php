@@ -30,8 +30,7 @@ class GenerateTreeHandler
         TreeRepository $treeRepository,
         MyceliumRepository $myceliumRepository,
         EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         $this->treeRepository = $treeRepository;
         $this->entityManager = $entityManager;
         $this->myceliumRepository = $myceliumRepository;

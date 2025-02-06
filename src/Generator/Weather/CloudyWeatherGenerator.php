@@ -29,8 +29,8 @@ class CloudyWeatherGenerator implements WeatherGeneratorInterface
         $weather = new Weather();
         $weather->setState(WeatherStateEnum::STATE_CLOUDY);
         $weather->setHumidity(50);
-        $weather->setMaxTemperature(rand(10,15));
-        $weather->setMinTemperature(rand(5,10));
+        $weather->setMaxTemperature(rand(10, 15));
+        $weather->setMinTemperature(rand(5, 10));
 
         return $weather;
     }

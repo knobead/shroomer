@@ -33,8 +33,7 @@ class GenerateMyceliumHandler
         MyceliumRepository $myceliumRepository,
         ConditionBagBuilder $conditionBagBuilder,
         ChainConditionResolver $conditionResolver
-    )
-    {
+    ) {
         $this->myceliumRepository = $myceliumRepository;
         $this->conditionBagBuilder = $conditionBagBuilder;
         $this->conditionResolver = $conditionResolver;
@@ -52,11 +51,13 @@ class GenerateMyceliumHandler
         $mycelium = $this->myceliumRepository->find($id);
 
         if (!$mycelium instanceof Mycelium) {
-            throw new RuntimeException(sprintf(
-                'the %s with id %d was not found',
-                Mycelium::class,
-                $id
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'the %s with id %d was not found',
+                    Mycelium::class,
+                    $id
+                )
+            );
         }
 
         $conditions = $this->conditionBagBuilder->build($mycelium->getGenus());

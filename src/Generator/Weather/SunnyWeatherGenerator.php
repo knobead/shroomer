@@ -29,8 +29,8 @@ class SunnyWeatherGenerator implements WeatherGeneratorInterface
         $weather = new Weather();
         $weather->setState(WeatherStateEnum::STATE_SUNNY);
         $weather->setHumidity(0);
-        $weather->setMaxTemperature(rand(15,25));
-        $weather->setMinTemperature(rand(5,15));
+        $weather->setMaxTemperature(rand(15, 25));
+        $weather->setMinTemperature(rand(5, 15));
 
         return $weather;
     }

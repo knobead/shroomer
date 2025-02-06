@@ -42,7 +42,7 @@ class GenerateWeatherHandler
     {
         $zone = $this->zoneRepository->find($generateWeatherMessage->getZoneId());
 
-        if(!$zone instanceof Zone){
+        if(!$zone instanceof Zone) {
             throw new RuntimeException('Zone not found');
         }
 

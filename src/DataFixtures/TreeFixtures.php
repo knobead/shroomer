@@ -53,8 +53,8 @@ class TreeFixtures extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i <= $count; $i++) {
             $tree = new Tree();
             $tree->setZone($zone);
-            $tree->setSize(rand(10,100));
-            $tree->setAge(rand(10,200));
+            $tree->setSize(rand(10, 100));
+            $tree->setAge(rand(10, 200));
             $tree->setGenus($genuses[array_rand($genuses)]);
             $this->manager->persist($tree);
         }

@@ -13,7 +13,7 @@ class ChainWeatherGenerator
     private iterable $generators;
 
     /**
-     * @param iterable               $generators
+     * @param iterable $generators
      */
     public function __construct(iterable $generators)
     {
@@ -47,10 +47,12 @@ class ChainWeatherGenerator
             }
         }
 
-        throw new RuntimeException(sprintf(
-            'No %s found to support "%s"',
-            WeatherGeneratorInterface::class,
-            $type->value
-        ));
+        throw new RuntimeException(
+            sprintf(
+                'No %s found to support "%s"',
+                WeatherGeneratorInterface::class,
+                $type->value
+            )
+        );
     }
 }
