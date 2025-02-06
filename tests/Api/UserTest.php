@@ -89,7 +89,7 @@ class UserTest extends ApiTestCase
 
         $response = $this->client->request(
             Request::METHOD_GET,
-            sprintf('/api/users/%d', $user->getId()),
+            '/api/user',
             [
                 'headers' => ['content-type' => 'application/ld+json'],
                 'auth_bearer' => $this->token,
@@ -109,24 +109,5 @@ class UserTest extends ApiTestCase
         self::assertSame(200, $content['resourceEntomofauna']);
         self::assertSame(300, $content['resourceFauna']);
         self::assertSame(500, $content['resourceFlora']);
-    }
-
-    public function testItCouldNotGetAnotherUser()
-    {
-        $otherUser = $this->fixturesRepository->getReference(UserFixtures::OTHER_USER_REFERENCE, User::class);
-        $user = $this->fixturesRepository->getReference(UserFixtures::USER_REFERENCE, User::class);
-
-        $this->authenticateRequest($otherUser);
-
-        $response = $this->client->request(
-            Request::METHOD_GET,
-            sprintf('/api/users/%d', $user->getId()),
-            [
-                'headers' => ['content-type' => 'application/ld+json'],
-                'auth_bearer' => $this->token,
-            ]
-        );
-
-        self::assertSame(Response::HTTP_FORBIDDEN, $response->getStatusCode());
     }
 }

@@ -9,7 +9,7 @@ class AuthService {
       this.getToken()
 
       return true
-    } catch (error) {
+    } catch {
       return false
     }
   }
