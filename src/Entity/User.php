@@ -300,6 +300,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return !($cost->getResourceEntomofauna() > $this->resourceEntomofauna);
     }
 
+    /**
+     * @param Cost $cost
+     *
+     * @return bool
+     */
     public function afford(Cost $cost): bool
     {
         if (!$this->canAfford($cost)) {

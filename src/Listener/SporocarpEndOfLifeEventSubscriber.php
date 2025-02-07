@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Listener;
@@ -8,6 +9,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class SporocarpEndOfLifeEventSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @param SporocarpEndOfLifeEvent $event
+     *
+     * @return void
+     */
     public function onSporocarpEndOfLife(SporocarpEndOfLifeEvent $event)
     {
         $user = $event->getSporocarp()->getZone()->getUser();
@@ -23,6 +29,9 @@ class SporocarpEndOfLifeEventSubscriber implements EventSubscriberInterface
         $user->incrementResourceFlora();
     }
 
+    /**
+     * @return array[]
+     */
     public static function getSubscribedEvents(): array
     {
         return [
