@@ -7,6 +7,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
+use App\Model\Cost;
 use App\Provider\UserProvider;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
@@ -16,9 +17,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OrderBy;
+use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -29,6 +32,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[Entity(repositoryClass: UserRepository::class)]
+#[HasLifecycleCallbacks]
 #[Table(name: 'app_user')]
 #[UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity('email')]
@@ -39,6 +43,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
     ],
     normalizationContext: ['groups' => [self::GROUP_READ_USER]],
     denormalizationContext: ['groups' => [self::GROUP_WRITE_USER]],
+    mercure: ['private' => true]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -67,7 +72,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([self::GROUP_WRITE_USER])]
     private ?string $plainPassword = null;
 
-    #[OneToMany(targetEntity: Zone::class, mappedBy: 'user')]
+    #[OneToMany(targetEntity: Zone::class, mappedBy: 'user', cascade: ['persist'])]
     #[OrderBy(['id' => 'DESC'])]
     private Collection $zones;
 
@@ -76,7 +81,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups([self::GROUP_READ_USER])]
     #[Column(type: Types::INTEGER)]
-    private int $resourceFlora = 0;
+    private int $resourceFlora = 600;
 
     #[Groups([self::GROUP_READ_USER])]
     #[Column(type: Types::INTEGER)]
@@ -202,7 +207,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
-        $this->zones[] = $zone;
+        $this->zones->add($zone);
     }
 
     /**
@@ -275,5 +280,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setResourceEntomofauna(int $resourceEntomofauna): void
     {
         $this->resourceEntomofauna = $resourceEntomofauna;
+    }
+
+    /**
+     * @param Cost $cost
+     *
+     * @return bool
+     */
+    public function canAfford(Cost $cost): bool
+    {
+        if ($cost->getResourceFauna() > $this->resourceFauna) {
+            return false;
+        }
+
+        if ($cost->getResourceFlora() > $this->resourceFlora) {
+            return false;
+        }
+
+        return !($cost->getResourceEntomofauna() > $this->resourceEntomofauna);
+    }
+
+    public function afford(Cost $cost): bool
+    {
+        if (!$this->canAfford($cost)) {
+            return false;
+        }
+
+        $this->resourceFlora -= $cost->getResourceFlora();
+        $this->resourceFauna -= $cost->getResourceFauna();
+        $this->resourceEntomofauna -= $cost->getResourceEntomofauna();
+
+        return true;
+    }
+
+    #[PrePersist]
+    public function onPrePersist(): void
+    {
+        if ($this->zones->count()) {
+            return;
+        }
+
+        $zone = new Zone();
+        $zone->setUser($this);
+        $zone->setName(sprintf('%s starting zone', $this->getEmail()));
+
+        $this->zones->add($zone);
+    }
+
+    public function incrementResourceEntomofauna(): void
+    {
+        $this->resourceEntomofauna+=1;
+    }
+
+    public function incrementResourceFauna(): void
+    {
+        $this->resourceFauna++;
+    }
+
+    public function incrementResourceFlora():void
+    {
+        $this->resourceFlora++;
     }
 }

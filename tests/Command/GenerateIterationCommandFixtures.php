@@ -22,16 +22,19 @@ class GenerateIterationCommandFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = DummiesFactory::newUser();
-        $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
 
         $zone = DummiesFactory::newZone($user, self::ZONE_REFERENCE);
+        $user->addZone($zone);
         $this->addReference(self::ZONE_REFERENCE, $zone);
         $manager->persist($zone);
 
         $otherZone = DummiesFactory::newZone($user, self::OTHER_ZONE_REFERENCE);
+        $user->addZone($otherZone);
         $this->addReference(self::OTHER_ZONE_REFERENCE, $otherZone);
         $manager->persist($otherZone);
+
+        $manager->persist($user);
 
         $treeWithPleurotus = DummiesFactory::newTree($zone);
         $treeWithPleurotus->setAge(250);
