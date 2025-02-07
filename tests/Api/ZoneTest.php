@@ -108,8 +108,11 @@ class ZoneTest extends ApiTestCase
         self::assertCount(6, $firstTree);
         self::assertArrayHasKey('id', $firstTree);
         self::assertArrayHasKey('age', $firstTree);
-        self::assertArrayHasKey('size', $firstTree);
+        self::assertArrayHasKey('slot', $firstTree);
         self::assertArrayHasKey('genus', $firstTree);
+        self::assertSame($firstTree['age'], 1000);
+        self::assertSame($firstTree['slot'], 3);
+        self::assertSame($firstTree['genus'], '/api/tree_genuses_enums/fraxinus');
     }
 
     public function testItListsZones(): void

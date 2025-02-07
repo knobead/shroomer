@@ -16,6 +16,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 #[AsMessageHandler]
 class GenerateSporocarpHandler
 {
+    public const int DEFAULT_CONSUME_CHANCE = 2;
+    public const int DEFAULT_CONSUME_AGE = 5;
+
     private SporocarpRepository $repository;
     private EntityManagerInterface $manager;
     private EventDispatcherInterface $eventDispatcher;
@@ -49,7 +52,6 @@ class GenerateSporocarpHandler
         }
 
         if ($this->handlesEndOfLife($sporocarp)) {
-            $this->eventDispatcher->dispatch(new SporocarpEndOfLifeEvent($sporocarp));
             $this->manager->flush();
 
             return;
@@ -84,6 +86,7 @@ class GenerateSporocarpHandler
         }
 
         if ($sporocarp->isRotten()) {
+            $this->eventDispatcher->dispatch(new SporocarpEndOfLifeEvent($sporocarp));
             $this->manager->remove($sporocarp);
             $this->manager->flush();
         }
@@ -100,13 +103,13 @@ class GenerateSporocarpHandler
      */
     private function handlesWormBehaviour(Sporocarp $sporocarp): bool
     {
-        if ($sporocarp->isYoungerThan(5)) {
+        if ($sporocarp->isYoungerThan(self::DEFAULT_CONSUME_AGE)) {
             return false;
         }
 
         $chance = rand(0, 100);
 
-        if (5 <= $chance) {
+        if (self::DEFAULT_CONSUME_CHANCE <= $chance) {
             return false;
         }
 
@@ -122,13 +125,13 @@ class GenerateSporocarpHandler
      */
     private function handlesEatenBehaviour(Sporocarp $sporocarp): bool
     {
-        if ($sporocarp->isYoungerThan(5)) {
+        if ($sporocarp->isYoungerThan(self::DEFAULT_CONSUME_AGE)) {
             return false;
         }
 
         $chance = rand(0, 100);
 
-        if (5 <= $chance) {
+        if (self::DEFAULT_CONSUME_CHANCE <= $chance) {
             return false;
         }
 

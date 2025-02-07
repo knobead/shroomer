@@ -25,6 +25,9 @@ class TreeFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = DummiesFactory::newUser();
+        $user->setResourceEntomofauna(5000);
+        $user->setResourceFauna(5000);
+        $user->setResourceFlora(5000);
         $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
 
@@ -35,11 +38,13 @@ class TreeFixtures extends Fixture
         $tree = DummiesFactory::newTree($zone);
         $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $tree->setAge(150);
-        $tree->setSize(200);
         $manager->persist($tree);
         $this->addReference(self::TREE_REFERENCE, $tree);
 
         $otherUser = DummiesFactory::newUser(email: 'other@other.com');
+        $otherUser->setResourceEntomofauna(50000);
+        $otherUser->setResourceFlora(50000);
+        $otherUser->setResourceFauna(50000);
         $this->addReference(self::OTHER_USER_REFERENCE, $otherUser);
         $manager->persist($otherUser);
 

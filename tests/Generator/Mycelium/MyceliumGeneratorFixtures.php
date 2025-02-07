@@ -37,7 +37,6 @@ class MyceliumGeneratorFixtures extends Fixture
 
         $tree = DummiesFactory::newTree($zone);
         $tree->setGenus(TreeGenusesEnum::GENUS_PINUS);
-        $tree->setSize(50000);
         $manager->persist($tree);
 
         $myceliumEmpty = DummiesFactory::newMycelium($tree);

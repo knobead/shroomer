@@ -68,7 +68,7 @@ class GenerateTreeHandler
         }
 
         $myceliums = $this->myceliumRepository->findBy(['tree' => $tree]);
-        $myceliumsSlot = Tree::getMyceliumSlot($tree->getAge());
+        $myceliumsSlot = $tree->getMyceliumSlot();
 
         if ($myceliumsSlot <= count($myceliums)) {
             return;

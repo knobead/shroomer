@@ -6,6 +6,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Post;
+use App\Constraint\Affordable;
+use App\Model\Cost;
 use App\Repository\TreeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,17 +15,28 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
+use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\PrePersist;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[Entity(repositoryClass: TreeRepository::class)]
-#[ApiResource(operations: [new Post(security: "is_granted('tree_add', user)")])]
-class Tree implements DatableInterface
+#[ApiResource(operations: [new Post(
+    denormalizationContext: ['groups' => Tree::GROUP_WRITE_TREE],
+    security: "is_granted('tree_add', user)",
+    name: Tree::POST_TREE_ROUTE
+)])]
+#[Affordable]
+#[HasLifecycleCallbacks]
+class Tree implements DatableInterface, PayableInterface
 {
+    public const string POST_TREE_ROUTE = 'app_post_tree';
+    public const string GROUP_WRITE_TREE = 'write_tree';
+
     use DatableTrait;
 
     public const array MYCELIUM_SLOT_PER_AGES = [
@@ -39,17 +52,12 @@ class Tree implements DatableInterface
     #[Groups(Zone::class)]
     private ?int $id = null;
 
-    // size in cm
-    #[Column(name: 'size', type: Types::INTEGER, nullable: false)]
-    #[Groups(Zone::class)]
-    #[EqualTo(value: 0)]
-    private int $size = 0;
-
     #[Column(name: "genus", type: Types::STRING, nullable: false, enumType: TreeGenusesEnum::class)]
-    #[Groups(Zone::class)]
+    #[Groups([Zone::class, Tree::GROUP_WRITE_TREE])]
     private TreeGenusesEnum $genus;
 
     #[ManyToOne(targetEntity: Zone::class, inversedBy: "trees")]
+    #[Groups(Tree::GROUP_WRITE_TREE)]
     #[JoinColumn(nullable: false)]
     private Zone $zone;
 
@@ -62,18 +70,18 @@ class Tree implements DatableInterface
     }
 
     /**
-     * It returns the number of mycelium slot according to the age
-     *
-     * @param int $age
+     * It returns the number of mycelium slot according to the age of the tree
      *
      * @return int
      */
-    public static function getMyceliumSlot(int $age): int
+    #[Groups([Zone::class])]
+    #[SerializedName('slot')]
+    public function getMyceliumSlot(): int
     {
         $keys = array_reverse(array_keys(self::MYCELIUM_SLOT_PER_AGES));
 
         foreach ($keys as $key) {
-            if ($key <= $age) {
+            if ($key <= $this->getAge()) {
                 return self::MYCELIUM_SLOT_PER_AGES[$key];
             }
         }
@@ -97,24 +105,6 @@ class Tree implements DatableInterface
     public function setId(?int $id): void
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSize(): int
-    {
-        return $this->size;
-    }
-
-    /**
-     * @param int $size
-     *
-     * @return void
-     */
-    public function setSize(int $size): void
-    {
-        $this->size = $size;
     }
 
     /**
@@ -175,5 +165,19 @@ class Tree implements DatableInterface
         }
 
         $this->myceliums[] = $mycelium;
+    }
+
+    /**
+     * @return Cost
+     */
+    public function getCost(): Cost
+    {
+        return $this->genus->getCost();
+    }
+
+    #[PrePersist]
+    function onPrePersist(): void
+    {
+        $this->getZone()->getUser()->afford($this->getGenus()->getCost());
     }
 }

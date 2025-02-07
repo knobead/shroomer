@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\GetCollection;
 use App\Provider\WeatherProvider;
 use App\Repository\WeatherRepository;
 use Doctrine\DBAL\Types\Types;
@@ -15,8 +13,6 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[Entity(repositoryClass: WeatherRepository::class)]
 class Weather
@@ -24,7 +20,6 @@ class Weather
     #[Id]
     #[GeneratedValue(strategy: 'SEQUENCE')]
     #[Column(type: Types::INTEGER, nullable: false)]
-    #[Groups(Weather::class)]
     private ?int $id = null;
 
     // humidity percentage

@@ -1,28 +1,22 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
-import authService from "@/services/auth.service.ts";
+import {onMounted, onUnmounted} from "vue";
+import userInfos from "@/services/user.infos";
 
-const user = ref({
-  email: '',
-  resourceFlora: 0,
-  resourceFauna: 0,
-  resourceEntomofauna: 0,
-})
+onUnmounted(() => clearInterval(interval))
+const interval = setInterval(function () {
+  userInfos.refresh()
+}, 10000)
 
 onMounted(async () => {
-  user.value = await authService.get('/api/user')
-    .then(response => response.data)
-    .then(data => {
-      return data
-    })
+  await userInfos. refresh()
 })
 </script>
 
 <template>
-  <div v-if="user.email">
-    <p>Resource Flora: {{ user.resourceFlora }}</p>
-    <p>Resource Fauna: {{ user.resourceFauna }}</p>
-    <p>Resource Entomofauna: {{ user.resourceEntomofauna }}</p>
+  <div v-if="userInfos.user.value['email']">
+    <p>Resource Flora: {{ userInfos.user.value['resourceFlora'] }}</p>
+    <p>Resource Fauna: {{ userInfos.user.value['resourceFauna'] }}</p>
+    <p>Resource Entomofauna: {{ userInfos.user.value['resourceEntomofauna'] }}</p>
   </div>
 </template>
 

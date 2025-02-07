@@ -10,6 +10,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class SporocarpGeneratorFixtures extends Fixture
 {
+    public const string USER_REFERENCE = 'user';
     public const string SPOROCARP_REFERENCE = 'sporocarp';
     public const string SECOND_SPOROCARP_REFERENCE = 'second_sporocarp';
     public const string THIRD_SPOROCARP_REFERENCE = 'third_sporocarp';
@@ -19,9 +20,14 @@ class SporocarpGeneratorFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $user = DummiesFactory::newUser();
+        $user->setResourceFauna(0);
+        $user->setResourceFlora(0);
+        $user->setResourceEntomofauna(0);
         $manager->persist($user);
+        $this->addReference(self::USER_REFERENCE, $user);
 
         $zone = DummiesFactory::newZone($user, 'zone');
+        $user->addZone($zone);
         $manager->persist($zone);
         $tree = DummiesFactory::newTree($zone);
         $manager->persist($tree);
@@ -54,7 +60,7 @@ class SporocarpGeneratorFixtures extends Fixture
         $thirdSporocarp->setSize(110);
         $thirdSporocarp->setRotten(false);
         $thirdSporocarp->setEaten(true);
-        $thirdSporocarp->setWormy(true);
+        $thirdSporocarp->setWormy(false);
         $this->addReference(self::THIRD_SPOROCARP_REFERENCE, $thirdSporocarp);
         $manager->persist($thirdSporocarp);
 
@@ -72,7 +78,7 @@ class SporocarpGeneratorFixtures extends Fixture
         $fifthSporocarp->setZone($zone);
         $fifthSporocarp->setAge(10);
         $fifthSporocarp->setRotten(false);
-        $fifthSporocarp->setEaten(true);
+        $fifthSporocarp->setEaten(false);
         $fifthSporocarp->setWormy(true);
         $this->addReference(self::FIFTH_SPOROCARP_REFERENCE, $fifthSporocarp);
         $manager->persist($fifthSporocarp);

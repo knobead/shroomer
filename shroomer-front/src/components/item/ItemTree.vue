@@ -5,7 +5,7 @@ defineProps({
 </script>
 
 <template>
-<pre v-if="tree.genus=='fraxinus'">
+<pre v-if="tree.genus.includes('fraxinus')">
     .ffFFfFF.
   #FFfFFfffFfFF
  FFFF\FF.FFffF#ff
@@ -19,7 +19,7 @@ defineProps({
       |. |
 _/_\_/ .  \;_.\_
 </pre>
-<pre v-else-if="tree.genus=='castanea'">
+<pre v-else-if="tree.genus.includes('castanea')">
     .CccCcCC.
   CCCCcCCcCCCCC
  CCCC\CC.CccCCCcC
@@ -35,7 +35,7 @@ _/_\_/ .  \;_.\_
       |.  |
 _/_\_/ .   \;_.\_
 </pre>
-<pre v-else-if="tree.genus=='quercus'">
+<pre v-else-if="tree.genus.includes('quercus')">
     .CccGcCC.
   CCGCcCCcGGcCC
  CCCC\CC.CggCCCcC
@@ -48,7 +48,7 @@ _/_\_/ .   \;_.\_
       |.  |
 _/_\_/ .   \;_.\_
 </pre>
-<pre v-else-if="tree.genus=='pinus'">
+<pre v-else-if="tree.genus.includes('pinus')">
        PP
       ppGP
       p/Gp
