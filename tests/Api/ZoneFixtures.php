@@ -36,21 +36,24 @@ class ZoneFixtures extends Fixture
     {
         $user = DummiesFactory::newUser();
         $this->addReference(self::USER_REFERENCE, $user);
-        $manager->persist($user);
 
         $firstZone = DummiesFactory::newZone($user, self::FIRST_ZONE_REFERENCE);
         $this->addReference(self::FIRST_ZONE_REFERENCE, $firstZone);
-        $manager->persist($firstZone);
 
         $secondZone = DummiesFactory::newZone($user, self::SECOND_ZONE_REFERENCE);
         $this->addReference(self::SECOND_ZONE_REFERENCE, $secondZone);
+
+        $manager->persist($firstZone);
         $manager->persist($secondZone);
+        $manager->persist($user);
 
         $firstTree = DummiesFactory::newTree($firstZone);
+        $firstTree->setAge(1000);
         $this->addReference(self::FIRST_TREE_REFERENCE, $firstTree);
         $manager->persist($firstTree);
 
         $secondTree = DummiesFactory::newTree($secondZone);
+        $secondTree->setAge(350);
         $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
         $manager->persist($secondTree);
 

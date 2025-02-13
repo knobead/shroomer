@@ -30,35 +30,30 @@ class TreeGeneratorFixtures extends Fixture
 
         $firstTree = DummiesFactory::newTree($zone);
         $firstTree->setAge(10);
-        $firstTree->setSize(10);
         $firstTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $manager->persist($firstTree);
         $this->addReference(self::FIRST_TREE_REFERENCE, $firstTree);
 
         $secondTree = DummiesFactory::newTree($zone);
         $secondTree->setAge(60);
-        $secondTree->setSize(60);
         $secondTree->setGenus(TreeGenusesEnum::GENUS_PINUS);
         $manager->persist($secondTree);
         $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
 
         $thirdTree = DummiesFactory::newTree($zone);
         $thirdTree->setAge(160);
-        $thirdTree->setSize(160);
         $thirdTree->setGenus(TreeGenusesEnum::GENUS_CASTANEA);
         $manager->persist($thirdTree);
         $this->addReference(self::THIRD_TREE_REFERENCE, $thirdTree);
 
         $fourthTree = DummiesFactory::newTree($zone);
         $fourthTree->setAge(300);
-        $fourthTree->setSize(300);
         $fourthTree->setGenus(TreeGenusesEnum::GENUS_QUERCUS);
         $manager->persist($fourthTree);
         $this->addReference(self::FOURTH_TREE_REFERENCE, $fourthTree);
 
         $fifthTree = DummiesFactory::newTree($zone);
         $fifthTree->setAge(500);
-        $fifthTree->setSize(500);
         $fifthTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $manager->persist($fifthTree);
         $this->addReference(self::FIFTH_TREE_REFERENCE, $fifthTree);

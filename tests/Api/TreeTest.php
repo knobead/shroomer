@@ -14,6 +14,7 @@ use App\Tests\FixtureLoaderCapableTrait;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class TreeTest extends ApiTestCase
 {
@@ -40,9 +41,8 @@ class TreeTest extends ApiTestCase
 
         $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
-            'size' => 0,
             'age' => 10,
-            'genus' => TreeGenusesEnum::GENUS_QUERCUS,
+            'genus' => '/api/tree_genuses_enums/'.TreeGenusesEnum::GENUS_QUERCUS->value,
             'zone' => $zoneUri
         ];
 
@@ -68,9 +68,8 @@ class TreeTest extends ApiTestCase
         $zone = $this->fixturesRepository->getReference( TreeFixtures::ZONE_REFERENCE, Zone::class);
         $zoneUri = 'api/zones/' . $zone->getId();
         $jsonTree = [
-            'size' => 0,
-            'age' => 0,
-            'genus' => TreeGenusesEnum::GENUS_QUERCUS,
+            'age' => 10,
+            'genus' => '/api/tree_genuses_enums/'.TreeGenusesEnum::GENUS_QUERCUS->value,
             'zone' => $zoneUri
         ];
 
@@ -91,7 +90,77 @@ class TreeTest extends ApiTestCase
         self::assertCount(2, $trees, 'no tree were added');
         $tree = $trees[1];
         self::assertSame(TreeGenusesEnum::GENUS_QUERCUS, $tree->getGenus());
-        self::assertSame(0, $tree->getSize());
         self::assertSame(0, $tree->getAge());
+
+        $userRepository = self::getContainer()->get('doctrine')->getRepository(User::class);
+        /** @var User $refreshUser */
+        $refreshUser = $userRepository->find($user->getId());
+
+        self::assertSame(
+            $user->getResourceFauna()-TreeGenusesEnum::GENUS_QUERCUS->getCost()->getResourceFauna(),
+            $refreshUser->getResourceFauna()
+        );
+        self::assertSame(
+            $user->getResourceFlora()-TreeGenusesEnum::GENUS_QUERCUS->getCost()->getResourceFlora(),
+            $refreshUser->getResourceFlora()
+        );
+        self::assertSame(
+            $user->getResourceEntomofauna()-TreeGenusesEnum::GENUS_QUERCUS->getCost()->getResourceEntomofauna(),
+            $refreshUser->getResourceEntomofauna()
+        );
+    }
+
+    /**
+     * @dataProvider providesItCouldNotAddTreeWithoutEnoughResource
+     *
+     * @return void
+     * @throws TransportExceptionInterface
+     */
+    public function testItCouldNotAddTreeWithoutEnoughResource(string $case)
+    {
+        /** @var Zone $zone */
+        $zone = $this->fixturesRepository->getReference( TreeFixtures::OTHER_ZONE_REFERENCE, Zone::class);
+        $user = $this->fixturesRepository->getReference(TreeFixtures::OTHER_USER_REFERENCE, User::class);
+        $this->authenticateRequest($user);
+
+        $manager = $this->getContainer()->get('doctrine')->getManager();
+        switch ($case) {
+            case 'fauna':
+                $user->setResourceFauna(0);
+            case 'flora':
+                $user->setResourceFlora(0);
+            case 'entomofauna':
+                $user->setResourceEntomofauna(0);
+        }
+        $manager->flush();
+
+        $zoneUri = 'api/zones/' . $zone->getId();
+        $jsonTree = [
+            'age' => 10,
+            'genus' => '/api/tree_genuses_enums/'.TreeGenusesEnum::GENUS_QUERCUS->value,
+            'zone' => $zoneUri
+        ];
+
+        $response = $this->client->request(
+            Request::METHOD_POST,
+            '/api/trees',
+            [
+                'headers' => ['content-type' => 'application/ld+json'],
+                'auth_bearer' => $this->token,
+                'json' => $jsonTree
+            ],
+        );
+
+        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        self::assertSame('You do not have enough resources!', $response->toArray(false)['violations'][0]['message']);
+    }
+
+    public function providesItCouldNotAddTreeWithoutEnoughResource(): array
+    {
+        return [
+            ['fauna'],
+            ['entomofauna'],
+            ['flora'],
+        ];
     }
 }

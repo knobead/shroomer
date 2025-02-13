@@ -4,12 +4,38 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-enum TreeGenusesEnum: string
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Model\Cost;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+#[
+    ApiResource(normalizationContext: ['groups' => ['read']], mercure: false),
+    GetCollection()
+]
+enum TreeGenusesEnum: string implements PayableInterface
 {
     case GENUS_FRAXINUS = 'fraxinus';
     case GENUS_CASTANEA = 'castanea';
     case GENUS_QUERCUS = 'quercus';
     case GENUS_PINUS = 'pinus';
+
+    #[Groups('read')]
+    public function getName(): string
+    {
+        return $this->value;
+    }
+
+    #[Groups(['read'])]
+    public function getCost(): Cost
+    {
+        return match($this) {
+          self::GENUS_QUERCUS => new Cost(350,100,75),
+          self::GENUS_CASTANEA => new Cost(300,50,50),
+          self::GENUS_FRAXINUS => new Cost(750,200,200),
+          self::GENUS_PINUS => new Cost(250,0,0),
+        };
+    }
 
     /**
      * it returns available mycelium type by tree genuses
@@ -36,8 +62,7 @@ enum TreeGenusesEnum: string
             self::GENUS_QUERCUS => [
                 MyceliumGenusEnum::GENUS_BOLETUS,
                 MyceliumGenusEnum::GENUS_AMANITA,
-            ],
-            default => [],
+            ]
         };
     }
 }

@@ -63,6 +63,7 @@ final class DummiesFactory
     {
         $zone = new Zone();
         $zone->setUser($user);
+        $user->addZone($zone);
         $zone->setName($name ?? 'zone');
 
         return $zone;
@@ -78,7 +79,6 @@ final class DummiesFactory
         $tree = new Tree();
         $tree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $tree->setAge(0);
-        $tree->setSize(0);
         $tree->setZone($zone);
 
         return $tree;

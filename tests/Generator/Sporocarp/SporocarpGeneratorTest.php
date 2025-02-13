@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Generator\Sporocarp;
 
 use App\Entity\Sporocarp;
+use App\Entity\User;
 use App\Generator\Handler\GenerateSporocarpHandler;
 use App\Generator\Message\GenerateSporocarpMessage;
 use App\Repository\SporocarpRepository;
@@ -64,6 +65,12 @@ class SporocarpGeneratorTest extends WebTestCase
         self::assertSame(10, $sporocarp->getAge());
         self::assertTrue($sporocarp->isRotten());
         self::assertTrue($sporocarp->isEaten());
+
+        $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
+        $user = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::USER_REFERENCE, User::class);
+        self::assertSame(1, $user->getResourceFauna());
+        self::assertSame(0, $user->getResourceEntomofauna());
+        self::assertSame(1, $user->getResourceFlora());
     }
 
     public function testItTurnsWormySporocarpToRotten(): void
@@ -77,6 +84,12 @@ class SporocarpGeneratorTest extends WebTestCase
         self::assertSame(10, $sporocarp->getAge());
         self::assertTrue($sporocarp->isRotten());
         self::assertTrue($sporocarp->isWormy());
+
+        $generator->__invoke(new GenerateSporocarpMessage($sporocarp->getId()));
+        $user = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::USER_REFERENCE, User::class);
+        self::assertSame(0, $user->getResourceFauna());
+        self::assertSame(1, $user->getResourceEntomofauna());
+        self::assertSame(1, $user->getResourceFlora());
     }
 
     public function testItDeletesARottenSporocarp(): void

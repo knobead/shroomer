@@ -57,7 +57,6 @@ class Zone
     private Collection $trees;
 
     #[OneToMany(targetEntity: Weather::class, mappedBy: 'zone')]
-    #[Groups(Zone::class)]
     #[OrderBy(['id' => 'DESC'])]
     private Collection $weathers;
 
