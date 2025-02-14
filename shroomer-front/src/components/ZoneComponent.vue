@@ -15,7 +15,7 @@ onMounted(async () => {
 onUnmounted(() => clearInterval(interval))
 const interval = setInterval(function () {
   refresh()
-}, 5000)
+}, 1000)
 
 async function refresh() {
   zone.value = await authService.get('/api/zones/'+route.params.id)
@@ -25,7 +25,7 @@ async function refresh() {
 </script>
 
 <template>
-  <div v-if="zone">
+  <div v-if="zone" class="text-center">
     <TreeAdd :zone="zone"/>
     <p class="text-center text-gray-600">You are viewing {{zone.name}}</p>
     <div class="zone">

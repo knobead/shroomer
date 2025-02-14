@@ -1,0 +1,1 @@
+pybonsai --width 60 --height 40 -C xX -l 8 -L 6 -c '|/\' -S 23 -f -a 30

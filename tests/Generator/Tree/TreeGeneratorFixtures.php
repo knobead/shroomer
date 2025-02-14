@@ -29,7 +29,7 @@ class TreeGeneratorFixtures extends Fixture
         $manager->persist($zone);
 
         $firstTree = DummiesFactory::newTree($zone);
-        $firstTree->setAge(10);
+        $firstTree->setAge(4);
         $firstTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $manager->persist($firstTree);
         $this->addReference(self::FIRST_TREE_REFERENCE, $firstTree);

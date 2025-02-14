@@ -27,7 +27,6 @@ class Sporocarp implements DatableInterface
 
     // size in cm
     #[Column(name: 'size', type: Types::INTEGER, nullable: false)]
-    #[Groups(Zone::class)]
     private int $size = 0;
 
     // wormy sporocarp ... you may eat it if you want

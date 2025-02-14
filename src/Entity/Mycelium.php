@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: MyceliumRepository::class)]
 class Mycelium
@@ -32,6 +33,7 @@ class Mycelium
     private Tree $tree;
 
     #[OneToMany(targetEntity: Sporocarp::class, mappedBy: 'mycelium')]
+    #[Groups([Zone::class])]
     private Collection $sporocarps;
 
     public function __construct()

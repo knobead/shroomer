@@ -55,11 +55,11 @@ class GenerateIterationCommandTest extends WebTestCase
         self::assertCount(2, $zones);
 
         $myceliums = $myceliumRepository->findAll();
-        self::assertCount(3, $myceliums);
+        self::assertCount(5, $myceliums);
 
         $sporocarps = $sporocarpRepository->findAll();
         $count = count($sporocarps);
         self::assertGreaterThanOrEqual(0, $count);
-        self::assertLessThanOrEqual(3, $count);
+        self::assertLessThanOrEqual(5, $count);
     }
 }

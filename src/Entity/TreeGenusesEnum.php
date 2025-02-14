@@ -37,6 +37,14 @@ enum TreeGenusesEnum: string implements PayableInterface
         };
     }
 
+    public function getType(): TreeTypeEnum
+    {
+        return match($this) {
+            self::GENUS_QUERCUS, self::GENUS_FRAXINUS, self::GENUS_CASTANEA => TreeTypeEnum::TYPE_LEAFY,
+            self::GENUS_PINUS =>  TreeTypeEnum::TYPE_CONIFEROUS
+        };
+    }
+
     /**
      * it returns available mycelium type by tree genuses
      *

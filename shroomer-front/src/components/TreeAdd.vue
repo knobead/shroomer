@@ -30,7 +30,7 @@ async function addATree(genus: string) {
             v-for="genus in genuses"
             :key="genus['@id']"
             :disabled="!userInfos.affordable(genus['cost'])"
-            class="px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer disabled:cursor-default disabled:opacity-75"
+            class="px-3 py-2 text-sm font-medium text-gray-300 hover:not-disabled:bg-gray-700 hover:not-disabled:text-white cursor-pointer disabled:cursor-default disabled:opacity-75"
     >
       Add a {{genus['name']}}
       <CostComponent :cost="genus['cost']" />
