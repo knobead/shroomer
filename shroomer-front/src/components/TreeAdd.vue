@@ -5,7 +5,7 @@ import CostComponent from "@/components/CostComponent.vue";
 import authService from "@/services/auth.service.ts";
 import userInfos from "@/services/user.infos.ts";
 
-const genuses = ref( {})
+const genuses = ref([])
 const route = useRoute()
 
 onMounted(async () => {
@@ -25,11 +25,13 @@ async function addATree(genus: string) {
 </script>
 
 <template>
-  <div v-if="genuses">
+  <div v-if="genuses" class="flex h-16 items-center flex place-content-center">
     <button @click="addATree(genus['@id'])"
             v-for="genus in genuses"
             :key="genus['@id']"
-            :disabled="!userInfos.affordable(genus['cost'])">
+            :disabled="!userInfos.affordable(genus['cost'])"
+            class="px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white cursor-pointer disabled:cursor-default disabled:opacity-75"
+    >
       Add a {{genus['name']}}
       <CostComponent :cost="genus['cost']" />
     </button>

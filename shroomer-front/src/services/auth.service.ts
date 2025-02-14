@@ -1,4 +1,5 @@
 import api from "@/services/api.ts";
+import router from "@/router";
 
 class AuthService {
   // ========================
@@ -36,6 +37,7 @@ class AuthService {
 
   logout() {
     localStorage.removeItem('token')
+    router.push('/login')
   }
 
   // ================

@@ -33,7 +33,7 @@ const router = createRouter({
 
 router.beforeEach(async (to) => {
   const publicPages : string[] = [
-    '/',
+    '/shroomer',
     '/login',
     '/register',
   ]
