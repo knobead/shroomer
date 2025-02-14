@@ -14,4 +14,11 @@ defineProps({
 </template>
 
 <style>
+pre {
+  font-size: 10px;
+  display: inline-block;
+  margin-bottom: 40px;
+  margin-top: 100px;
+  color: white;
+}
 </style>

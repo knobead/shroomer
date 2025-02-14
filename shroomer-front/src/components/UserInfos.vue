@@ -13,10 +13,27 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="userInfos.user.value['email']">
-    <p>Resource Flora: {{ userInfos.user.value['resourceFlora'] }}</p>
-    <p>Resource Fauna: {{ userInfos.user.value['resourceFauna'] }}</p>
-    <p>Resource Entomofauna: {{ userInfos.user.value['resourceEntomofauna'] }}</p>
+  <div class="hidden md:flex h-16 items-center justify-between">
+    <div class="px-3 py-2 text-sm font-medium text-gray-300">
+      Resource Flora {{ userInfos.user.value['resourceFlora'] }}
+    </div>
+    <div class="px-3 py-2 text-sm font-medium text-gray-300">
+      Resource Fauna {{ userInfos.user.value['resourceFauna'] }}
+    </div>
+    <div class="px-3 py-2 text-sm font-medium text-gray-300">
+      Resource Entomofauna {{ userInfos.user.value['resourceEntomofauna'] }}
+    </div>
+  </div>
+  <div class="md:hidden sm:flex">
+    <div class="px-3 py-2 text-sm font-medium text-gray-300">
+      Flora {{ userInfos.user.value['resourceFlora'] }}
+    </div>
+    <div class="px-3 py-2 text-sm font-medium text-gray-300">
+      Fauna {{ userInfos.user.value['resourceFauna'] }}
+    </div>
+    <div class="px-3 py-2 text-sm font-medium text-gray-300">
+      Entomo {{ userInfos.user.value['resourceEntomofauna'] }}
+    </div>
   </div>
 </template>
 

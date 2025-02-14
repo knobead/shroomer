@@ -3,6 +3,7 @@ import {useRoute} from "vue-router";
 import {onMounted, onUnmounted, ref} from "vue";
 import ZoneItem from "@/components/item/ZoneItem.vue";
 import authService from "@/services/auth.service.ts";
+import TreeAdd from "@/components/TreeAdd.vue";
 
 const route = useRoute()
 const zone = ref({name: String, items: {}})
@@ -25,7 +26,8 @@ async function refresh() {
 
 <template>
   <div v-if="zone">
-    <h1>{{zone.name}}</h1>
+    <TreeAdd :zone="zone"/>
+    <p class="text-center text-gray-600">You are viewing {{zone.name}}</p>
     <div class="zone">
       <zone-item v-for="item in zone.items" :item="item" :type="item['@type']" :key="item['@type']+item['id']"/>
     </div>
@@ -33,12 +35,4 @@ async function refresh() {
 </template>
 
 <style>
-.zone {
-  > pre {
-    font-size: 10px;
-    display: inline-block;
-    margin-bottom: 40px;
-    margin-top: 100px;
-  }
-}
 </style>
