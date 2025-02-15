@@ -33,7 +33,7 @@ class TreeGeneratorTest extends WebTestCase
         $generator = self::getContainer()->get(GenerateTreeHandler::class);
         $generator->__invoke(new GenerateTreeMessage($tree->getId()));
 
-        self::assertSame(11, $tree->getAge());
+        self::assertSame(5, $tree->getAge());
     }
 
     /**
@@ -67,10 +67,10 @@ class TreeGeneratorTest extends WebTestCase
     {
         return [
             [TreeGeneratorFixtures::FIRST_TREE_REFERENCE, 0],
-            [TreeGeneratorFixtures::SECOND_TREE_REFERENCE, 1],
+            [TreeGeneratorFixtures::SECOND_TREE_REFERENCE, 2],
             [TreeGeneratorFixtures::THIRD_TREE_REFERENCE, 2],
-            [TreeGeneratorFixtures::FOURTH_TREE_REFERENCE, 2],
-            [TreeGeneratorFixtures::FIFTH_TREE_REFERENCE, 3],
+            [TreeGeneratorFixtures::FOURTH_TREE_REFERENCE, 3],
+            [TreeGeneratorFixtures::FIFTH_TREE_REFERENCE, 4],
         ];
     }
 }

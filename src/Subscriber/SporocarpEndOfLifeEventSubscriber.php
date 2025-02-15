@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Listener;
+namespace App\Subscriber;
 
 use App\Event\Sporocarp\SporocarpEndOfLifeEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

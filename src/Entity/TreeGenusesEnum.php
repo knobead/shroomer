@@ -15,10 +15,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 ]
 enum TreeGenusesEnum: string implements PayableInterface
 {
-    case GENUS_FRAXINUS = 'fraxinus';
-    case GENUS_CASTANEA = 'castanea';
+    case GENUS_PICEA = 'Spruce';
     case GENUS_QUERCUS = 'quercus';
-    case GENUS_PINUS = 'pinus';
+    case GENUS_CASTANEA = 'Chestnut';
+    case GENUS_FRAXINUS = 'fraxinus';
 
     #[Groups('read')]
     public function getName(): string
@@ -30,10 +30,20 @@ enum TreeGenusesEnum: string implements PayableInterface
     public function getCost(): Cost
     {
         return match($this) {
-          self::GENUS_QUERCUS => new Cost(350,100,75),
-          self::GENUS_CASTANEA => new Cost(300,50,50),
-          self::GENUS_FRAXINUS => new Cost(750,200,200),
-          self::GENUS_PINUS => new Cost(250,0,0),
+            self::GENUS_PICEA => new Cost(250,0,0),
+            self::GENUS_CASTANEA => new Cost(300,0,0),
+            self::GENUS_QUERCUS => new Cost(350,0,0),
+            self::GENUS_FRAXINUS => new Cost(750,0,0),
+        };
+    }
+
+    public function getLetter(): string
+    {
+        return match($this) {
+            self::GENUS_PICEA => 's',
+            self::GENUS_CASTANEA => 'c',
+            self::GENUS_QUERCUS => 'q',
+            self::GENUS_FRAXINUS => 'f',
         };
     }
 
@@ -47,22 +57,25 @@ enum TreeGenusesEnum: string implements PayableInterface
     public static function getMyceliums(TreeGenusesEnum $genus): array
     {
         return match ($genus) {
-            self::GENUS_FRAXINUS => [
-                MyceliumGenusEnum::GENUS_MORCHELLA,
+            self::GENUS_PICEA => [
+                MyceliumGenusEnum::GENUS_XEROCOMUS,
+                MyceliumGenusEnum::GENUS_CANTHARELLUS,
             ],
             self::GENUS_CASTANEA => [
                 MyceliumGenusEnum::GENUS_BOLETUS,
-                MyceliumGenusEnum::GENUS_AMANITA
-            ],
-            self::GENUS_PINUS => [
-                MyceliumGenusEnum::GENUS_XEROCOMUS,
-                MyceliumGenusEnum::GENUS_CANTHARELLUS,
-                MyceliumGenusEnum::GENUS_PLEUROTUS,
+                MyceliumGenusEnum::GENUS_XEROCOMUS
             ],
             self::GENUS_QUERCUS => [
-                MyceliumGenusEnum::GENUS_BOLETUS,
                 MyceliumGenusEnum::GENUS_AMANITA,
-            ]
+                MyceliumGenusEnum::GENUS_CANTHARELLUS,
+            ],
+            self::GENUS_FRAXINUS => [
+                MyceliumGenusEnum::GENUS_MORCHELLA,
+                MyceliumGenusEnum::GENUS_AMANITA,
+                MyceliumGenusEnum::GENUS_BOLETUS,
+                MyceliumGenusEnum::GENUS_CANTHARELLUS,
+                MyceliumGenusEnum::GENUS_XEROCOMUS,
+            ],
         };
     }
 }

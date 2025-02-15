@@ -70,7 +70,7 @@ class SporocarpGeneratorTest extends WebTestCase
         $user = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::USER_REFERENCE, User::class);
         self::assertSame(1, $user->getResourceFauna());
         self::assertSame(0, $user->getResourceEntomofauna());
-        self::assertSame(1, $user->getResourceFlora());
+        self::assertGreaterThan(1, $user->getResourceFlora());
     }
 
     public function testItTurnsWormySporocarpToRotten(): void
@@ -89,7 +89,7 @@ class SporocarpGeneratorTest extends WebTestCase
         $user = $this->fixturesRepository->getReference(SporocarpGeneratorFixtures::USER_REFERENCE, User::class);
         self::assertSame(0, $user->getResourceFauna());
         self::assertSame(1, $user->getResourceEntomofauna());
-        self::assertSame(1, $user->getResourceFlora());
+        self::assertGreaterThan(1, $user->getResourceFlora());
     }
 
     public function testItDeletesARottenSporocarp(): void

@@ -41,9 +41,10 @@ class Tree implements DatableInterface, PayableInterface
 
     public const array MYCELIUM_SLOT_PER_AGES = [
         0 => 0,
-        50 => 1,
-        150 => 2,
-        400 => 3
+        15 => 1,
+        50 => 2,
+        200 => 3,
+        400 => 4,
     ];
 
     #[Id]
@@ -89,6 +90,58 @@ class Tree implements DatableInterface, PayableInterface
         return 0;
     }
 
+    private function getSporocarpSlot(int $slot): ?Sporocarp
+    {
+        $mycelium = $this->myceliums->get($slot);
+
+        if (!$mycelium instanceof Mycelium) {
+            return null;
+        }
+
+        $sporocarp = $mycelium->getSporocarps()->first();
+
+        if (!$sporocarp instanceof Sporocarp) {
+            return null;
+        }
+
+        return $sporocarp;
+    }
+
+    #[Groups([Zone::class])]
+    #[SerializedName('slot_1')]
+    public function getFirstPossibleSporocarp(): ?Sporocarp
+    {
+        return $this->getSporocarpSlot(0);
+    }
+
+    #[Groups([Zone::class])]
+    #[SerializedName('slot_2')]
+    public function getSecondPossibleSporocarp(): ?Sporocarp
+    {
+        return $this->getSporocarpSlot(1);
+
+    }
+
+    #[Groups([Zone::class])]
+    #[SerializedName('slot_3')]
+    public function getThirdPossibleSporocarp(): ?Sporocarp
+    {
+        return $this->getSporocarpSlot(2);
+    }
+
+    #[Groups([Zone::class])]
+    #[SerializedName('slot_4')]
+    public function getFourthPossibleSporocarp(): ?Sporocarp
+    {
+        return $this->getSporocarpSlot(3);
+    }
+
+    #[Groups([Zone::class])]
+    #[SerializedName('letter')]
+    public function getLetter(): string
+    {
+        return $this->genus->getLetter();
+    }
     /**
      * @return int|null
      */

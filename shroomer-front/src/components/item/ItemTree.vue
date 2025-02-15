@@ -1,70 +1,77 @@
 <script setup lang="ts">
-defineProps({
-  tree: Object,
+import {onBeforeMount, onUnmounted, ref, watch} from "vue";
+import ItemSporocarp from "@/components/item/ItemSporocarp.vue";
+import treeAsciinator from "@/asciinator/tree.asciinator.ts";
+
+const props = defineProps({
+  tree: {
+    genus: {type: String, required: true},
+    id: {type: Number, required: true},
+    slot: {type: Number, required: true},
+    letter: {type: String, required: true},
+  }
 })
+
+const empty = { genus: 'empty'}
+const pied = { genus: 'pied'}
+const template = ref('')
+
+watch(() => props.tree, () => {
+  refresh()
+})
+
+function refresh() {
+  let used_template = treeAsciinator.prepareTemplate(props.tree.slot, props.tree.id)
+  used_template = treeAsciinator.prepareTrunk(used_template)
+  used_template = treeAsciinator.prepareLeaf(used_template, props.tree.letter)
+
+  template.value = used_template
+}
+
+onBeforeMount(() => {
+  refresh()
+})
+
+onUnmounted(() => clearInterval(interval))
+const interval = setInterval(function () {
+  refresh()
+}, 1000)
+
 </script>
 
 <template>
-<pre v-if="tree.genus.includes('fraxinus')">
-    .ffFFfFF.
-  #FFfFFfffFfFF
- FFFF\FF.FFffF#ff
-  FfFFfFfFYFF/FFF
-   fFf\ \/`/FfF
-    FF\  /FF
-      | ;|
-      |  |
-      | ;|
-      |  |
-      |. |
-_/_\_/ .  \;_.\_
-</pre>
-<pre v-else-if="tree.genus.includes('castanea')">
-    .CccCcCC.
-  CCCCcCCcCCCCC
- CCCC\CC.CccCCCcC
- CCCCcCC.CccCcCCC
-  CCcCCcCcYCC/CCC
-   CcC\ \/`/CCC
-    CC\   /CC
-      |  ;|
-      |   |
-      |  ;|
-      |   |
-      |   |
-      |.  |
-_/_\_/ .   \;_.\_
-</pre>
-<pre v-else-if="tree.genus.includes('quercus')">
-    .CccGcCC.
-  CCGCcCCcGGcCC
- CCCC\CC.CggCCCcC
- CCC\ \C.\c/ /Ccc
-  CGc\ \CcY  /CcC
-   CcC\ \/`/GCG
-    CC\   /CC
-      |   |
-      |   |
-      |.  |
-_/_\_/ .   \;_.\_
-</pre>
-<pre v-else-if="tree.genus.includes('pinus')">
-       PP
-      ppGP
-      p/Gp
-    .PppGpP
-    GP;P;pGG
-   pGPpPP/P;
-   P;P| |GG;
-  PPGP|.|ppp
-  ppGP| |GGpp
- PPPP\P\  \gPPPpP
- pp   | . |    ``P
-      | | |
-      |. ;|
-_/_\_/ .   \;_.\_
-</pre>
+  <div class="inline-block" v-if="props.tree.slot == 0" >
+    <pre class="text-gray-200" v-html="template"></pre>
+    <item-sporocarp :sporocarp="props.tree.slot_3"/>
+    <item-sporocarp :sporocarp="props.tree.slot_1"/>
+    <item-sporocarp :sporocarp="pied"/>
+    <item-sporocarp :sporocarp="props.tree.slot_2"/>
+    <item-sporocarp :sporocarp="props.tree.slot_4"/>
+  </div>
+
+  <div class="inline-block" v-else-if="props.tree.slot <= 2" >
+    <pre class="text-gray-200" v-html="template"></pre>
+    <item-sporocarp :sporocarp="empty"/>
+    <item-sporocarp :sporocarp="props.tree.slot_1"/>
+    <item-sporocarp :sporocarp="pied"/>
+    <item-sporocarp :sporocarp="props.tree.slot_2"/>
+    <item-sporocarp :sporocarp="empty"/>
+  </div>
+
+  <div class="box-content inline-block" v-else >
+    <pre class="text-gray-200" v-html="template"></pre>
+    <item-sporocarp :sporocarp="empty"/>
+    <item-sporocarp :sporocarp="props.tree.slot_3"/>
+    <item-sporocarp :sporocarp="props.tree.slot_1"/>
+    <item-sporocarp :sporocarp="pied"/>
+    <item-sporocarp :sporocarp="props.tree.slot_2"/>
+    <item-sporocarp :sporocarp="props.tree.slot_4"/>
+    <item-sporocarp :sporocarp="empty"/>
+  </div>
 </template>
 
 <style>
+pre {
+  font-size: 9px;
+}
 </style>

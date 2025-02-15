@@ -29,14 +29,14 @@ class TreeGeneratorFixtures extends Fixture
         $manager->persist($zone);
 
         $firstTree = DummiesFactory::newTree($zone);
-        $firstTree->setAge(10);
+        $firstTree->setAge(4);
         $firstTree->setGenus(TreeGenusesEnum::GENUS_FRAXINUS);
         $manager->persist($firstTree);
         $this->addReference(self::FIRST_TREE_REFERENCE, $firstTree);
 
         $secondTree = DummiesFactory::newTree($zone);
         $secondTree->setAge(60);
-        $secondTree->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $secondTree->setGenus(TreeGenusesEnum::GENUS_PICEA);
         $manager->persist($secondTree);
         $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
 

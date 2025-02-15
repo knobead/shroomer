@@ -72,47 +72,40 @@ class ZoneTest extends ApiTestCase
         self::assertSame(ZoneFixtures::FIRST_ZONE_REFERENCE, $jsonResponse['name']);
 
         self::assertArrayNotHasKey('myceliums', $jsonResponse, 'it must not exposed mycelium!');
-        self::assertArrayHasKey('sporocarps', $jsonResponse, 'it must exposed sporocarp');
         self::assertArrayHasKey('trees', $jsonResponse, 'it must exposed tree');
-
-        $sporocarps = $jsonResponse['sporocarps'];
-        self::assertCount(2, $sporocarps);
-
-        $firstSporocarp = $sporocarps[0];
-        $secondSporocarp = $sporocarps[1];
-        self::assertCount(9, $firstSporocarp);
-        self::assertArrayHasKey('id', $firstSporocarp);
-        self::assertArrayHasKey('age', $firstSporocarp);
-        self::assertArrayHasKey('size', $firstSporocarp);
-        self::assertArrayHasKey('wormy', $firstSporocarp);
-        self::assertArrayHasKey('eaten', $firstSporocarp);
-        self::assertArrayHasKey('rotten', $firstSporocarp);
-        self::assertArrayHasKey('genus', $firstSporocarp);
-        self::assertSame(15, $firstSporocarp['size']);
-        self::assertSame(10, $firstSporocarp['age']);
-        self::assertSame(false, $firstSporocarp['wormy']);
-        self::assertSame(false, $firstSporocarp['eaten']);
-        self::assertSame(false, $firstSporocarp['rotten']);
-        self::assertSame(MyceliumGenusEnum::GENUS_MORCHELLA->value, $firstSporocarp['genus']);
-        self::assertSame(25, $secondSporocarp['size']);
-        self::assertSame(20, $secondSporocarp['age']);
-        self::assertSame(true, $secondSporocarp['wormy']);
-        self::assertSame(true, $secondSporocarp['eaten']);
-        self::assertSame(true, $secondSporocarp['rotten']);
-        self::assertSame(MyceliumGenusEnum::GENUS_MORCHELLA->value, $secondSporocarp['genus']);
 
         $trees = $jsonResponse['trees'];
         self::assertCount(1, $trees);
 
         $firstTree = $trees[0];
-        self::assertCount(6, $firstTree);
+        self::assertCount(9, $firstTree);
         self::assertArrayHasKey('id', $firstTree);
         self::assertArrayHasKey('age', $firstTree);
         self::assertArrayHasKey('slot', $firstTree);
+        self::assertArrayHasKey('letter', $firstTree);
         self::assertArrayHasKey('genus', $firstTree);
-        self::assertSame($firstTree['age'], 1000);
-        self::assertSame($firstTree['slot'], 3);
-        self::assertSame($firstTree['genus'], '/api/tree_genuses_enums/fraxinus');
+        self::assertArrayHasKey('slot_1', $firstTree);
+        self::assertArrayHasKey('slot_3', $firstTree);
+        self::assertSame(1000, $firstTree['age']);
+        self::assertSame(4, $firstTree['slot']);
+        self::assertSame('/api/tree_genuses_enums/fraxinus', $firstTree['genus']);
+        self::assertSame('f', $firstTree['letter']);
+
+        self::assertIsArray($firstTree['slot_1']);
+        $slotOne = $firstTree['slot_1'];
+        self::assertArrayHasKey('genus', $slotOne);
+        self::assertArrayHasKey('wormy', $slotOne);
+        self::assertArrayHasKey('eaten', $slotOne);
+        self::assertArrayHasKey('rotten', $slotOne);
+        self::assertSame('morchella', $slotOne['genus']);
+
+        self::assertIsArray($firstTree['slot_3']);
+        $slotOne = $firstTree['slot_3'];
+        self::assertArrayHasKey('genus', $slotOne);
+        self::assertArrayHasKey('wormy', $slotOne);
+        self::assertArrayHasKey('eaten', $slotOne);
+        self::assertArrayHasKey('rotten', $slotOne);
+        self::assertSame('boletus', $slotOne['genus']);
     }
 
     public function testItListsZones(): void

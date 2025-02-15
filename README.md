@@ -22,3 +22,12 @@ phpqa phpstan analyse src
 phpqa phpcs src
 phpqa phpcbf src
 ```
+
+## ASCII arts
+
+Most of ascii art are generated using pyBonsai:
+```
+pybonsai --width 84 --height 40 -C zZ -l 8 -L 8 -c '|' -S 18 -f -a 330  
+pybonsai --width 84 --height 40 -C zZ -l 8 -L 8 -c '|' -S 18 -f -a 30  
+```
+

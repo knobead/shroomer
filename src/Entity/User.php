@@ -344,6 +344,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function incrementResourceFlora():void
     {
-        $this->resourceFlora++;
+        $this->resourceFlora+=5;
     }
 }
