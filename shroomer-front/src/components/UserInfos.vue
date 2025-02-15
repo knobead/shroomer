@@ -8,7 +8,7 @@ const interval = setInterval(function () {
 }, 10000)
 
 onMounted(async () => {
-  await userInfos. refresh()
+  await userInfos.refresh()
 })
 </script>
 
