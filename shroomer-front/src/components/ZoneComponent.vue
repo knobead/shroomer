@@ -6,7 +6,7 @@ import TreeAdd from "@/components/TreeAdd.vue";
 import ItemTree from "@/components/item/ItemTree.vue";
 
 const route = useRoute()
-const zone = ref({name: String, items: {}})
+const zone = ref({name: String, trees: {}})
 
 onMounted(async () => {
   await refresh()
@@ -15,7 +15,7 @@ onMounted(async () => {
 onUnmounted(() => clearInterval(interval))
 const interval = setInterval(function () {
   refresh()
-}, 10000)
+}, 5000)
 
 async function refresh() {
   zone.value = await authService.get('/api/zones/'+route.params.id)
