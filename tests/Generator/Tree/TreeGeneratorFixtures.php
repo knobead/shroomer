@@ -36,7 +36,7 @@ class TreeGeneratorFixtures extends Fixture
 
         $secondTree = DummiesFactory::newTree($zone);
         $secondTree->setAge(60);
-        $secondTree->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $secondTree->setGenus(TreeGenusesEnum::GENUS_PICEA);
         $manager->persist($secondTree);
         $this->addReference(self::SECOND_TREE_REFERENCE, $secondTree);
 

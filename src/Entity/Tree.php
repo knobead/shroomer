@@ -136,6 +136,12 @@ class Tree implements DatableInterface, PayableInterface
         return $this->getSporocarpSlot(3);
     }
 
+    #[Groups([Zone::class])]
+    #[SerializedName('letter')]
+    public function getLetter(): string
+    {
+        return $this->genus->getLetter();
+    }
     /**
      * @return int|null
      */
@@ -160,13 +166,6 @@ class Tree implements DatableInterface, PayableInterface
     public function getGenus(): TreeGenusesEnum
     {
         return $this->genus;
-    }
-
-    #[Groups([Zone::class])]
-    #[SerializedName('type')]
-    public function getType(): TreeTypeEnum
-    {
-        return $this->genus->getType();
     }
 
     /**

@@ -82,14 +82,14 @@ class ZoneTest extends ApiTestCase
         self::assertArrayHasKey('id', $firstTree);
         self::assertArrayHasKey('age', $firstTree);
         self::assertArrayHasKey('slot', $firstTree);
-        self::assertArrayHasKey('type', $firstTree);
+        self::assertArrayHasKey('letter', $firstTree);
         self::assertArrayHasKey('genus', $firstTree);
         self::assertArrayHasKey('slot_1', $firstTree);
         self::assertArrayHasKey('slot_3', $firstTree);
-        self::assertSame($firstTree['age'], 1000);
-        self::assertSame($firstTree['slot'], 4);
-        self::assertSame($firstTree['type'], 'leafy');
-        self::assertSame($firstTree['genus'], '/api/tree_genuses_enums/fraxinus');
+        self::assertSame(1000, $firstTree['age']);
+        self::assertSame(4, $firstTree['slot']);
+        self::assertSame('/api/tree_genuses_enums/fraxinus', $firstTree['genus']);
+        self::assertSame('f', $firstTree['letter']);
 
         self::assertIsArray($firstTree['slot_1']);
         $slotOne = $firstTree['slot_1'];

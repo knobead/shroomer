@@ -10,7 +10,7 @@ defineProps({
 
 <template>
   <div>
-    [Flora: {{ cost.resourceFlora }} / Fauna {{ cost.resourceFauna }} / Entomofauna {{ cost.resourceEntomofauna }}]
+    [Flora {{ cost.resourceFlora }} / Fauna {{ cost.resourceFauna }} / Entomofauna {{ cost.resourceEntomofauna }}]
   </div>
 </template>
 

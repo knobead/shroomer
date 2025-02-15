@@ -27,7 +27,7 @@ class ZoneGeneratorFixtures extends Fixture
         $manager->persist($zone);
 
         $tree = DummiesFactory::newTree($zone);
-        $tree->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $tree->setGenus(TreeGenusesEnum::GENUS_PICEA);
         $tree->setAge(300);
         $manager->persist($tree);
 

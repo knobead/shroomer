@@ -38,7 +38,7 @@ class GenerateIterationCommandFixtures extends Fixture
 
         $treeWithPleurotus = DummiesFactory::newTree($zone);
         $treeWithPleurotus->setAge(250);
-        $treeWithPleurotus->setGenus(TreeGenusesEnum::GENUS_PINUS);
+        $treeWithPleurotus->setGenus(TreeGenusesEnum::GENUS_PICEA);
         $manager->persist($treeWithPleurotus);
 
         $mycelium = DummiesFactory::newMycelium($treeWithPleurotus);

@@ -5,7 +5,7 @@ const props = defineProps({
   sporocarp: Object,
 })
 
-let used_template = ref('')
+const used_template = ref('')
 
 const templates = {
   'boletus':
@@ -50,9 +50,9 @@ const templates = {
     '            \n' +
     '<span class="text-green-800">__.__.__.___</span>',
   'pied':
-    '    |\\|\\    \n' +
-    '    |/||    \n' +
-    '    ||\\|    \n' +
+    '    ||||    \n' +
+    '    ||||    \n' +
+    '    ||||    \n' +
     '__./|||/\\.._',
 }
 
